@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Mapa Vivo de Aprendizaje CST212</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">CST212 ES_A190</p>
+        <h1>Mapa Vivo de Aprendizaje</h1>
+        <div class="progress-pill" aria-label="Progreso del curso">CST212 · Week 1 of 7</div>
+      </div>
+      <div class="topbar-actions" aria-label="Controles principales">
+        <button class="view-tab is-active" data-view="learn" type="button"><strong>LEARN</strong><span>guided journey</span></button>
+        <button class="view-tab" data-view="system" type="button"><strong>SYSTEM</strong><span>containment</span></button>
+        <button class="view-tab" data-view="explore" type="button"><strong>EXPLORE</strong><span>relationships</span></button>
+        <button class="view-tab" data-view="universe" type="button" disabled><strong>3D</strong><span>future</span></button>
+        <button id="centerMap" type="button" title="Centrar mapa">Centrar</button>
+        <button id="resetView" type="button" title="Reiniciar vista">Reset</button>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <aside class="control-panel" aria-label="Filtros y navegacion">
+        <label class="search-box">
+          <span>Buscar concepto</span>
+          <input id="searchInput" type="search" placeholder="Ej. viabilidad, SDLC...">
+        </label>
+
+        <div class="control-group">
+          <p>Semana activa</p>
+          <div id="weekFilters" class="chip-row"></div>
+        </div>
+
+        <div class="control-group">
+          <p>Capas</p>
+          <div id="layerFilters" class="legend-list"></div>
+        </div>
+
+        <div class="control-group">
+          <p>Estados</p>
+          <div id="statusFilters" class="legend-list"></div>
+        </div>
+
+        <div class="control-group">
+          <p>Relaciones</p>
+          <div id="edgeFilters" class="legend-list"></div>
+        </div>
+      </aside>
+
+      <section class="main-stage" aria-label="Mapa de aprendizaje CST212">
+        <section id="learnView" class="learning-view view-pane is-active" aria-label="Vista Learn"></section>
+        <section id="systemView" class="system-view view-pane" aria-label="Vista System"></section>
+        <section id="universeView" class="universe-view view-pane" aria-label="Vista 3D futura">
+          <div class="placeholder-3d">
+            <p class="eyebrow">Future View</p>
+            <h2>3D Knowledge Universe</h2>
+            <p>Coming as the map grows across Weeks 2-7. Week 1 stays focused on clear learning architecture.</p>
+          </div>
+        </section>
+        <section id="exploreView" class="map-stage view-pane" aria-label="Vista Explore">
+          <svg id="knowledgeMap" role="img" aria-labelledby="mapTitle mapDesc">
+            <title id="mapTitle">Mapa Vivo de Aprendizaje CST212</title>
+            <desc id="mapDesc">Mapa interactivo de conceptos de Analisis y Diseno de Sistemas para inicio del curso y Semana 1.</desc>
+            <defs>
+              <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="4" result="blur"></feGaussianBlur>
+                <feMerge>
+                  <feMergeNode in="blur"></feMergeNode>
+                  <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+              </filter>
+              <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z"></path>
+              </marker>
+            </defs>
+            <g id="viewport">
+              <g id="edgesLayer"></g>
+              <g id="nodesLayer"></g>
+            </g>
+          </svg>
+          <div id="tooltip" class="tooltip" hidden></div>
+        </section>
+      </section>
+
+      <aside class="detail-panel" aria-live="polite">
+        <p class="eyebrow">Detalle</p>
+        <h2 id="detailTitle">Sistemas de informacion</h2>
+        <dl id="detailContent"></dl>
+      </aside>
+    </section>
+  </main>
+
+  <script src="./app.js"></script>
+</body>
+</html>

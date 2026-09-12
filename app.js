@@ -1,10 +1,147 @@
+const makeWeek2Node = ({ id, title, definition, question, metaphor, example, category, x, y, size = 48, layer = "canonical", status = "nuevo", tags = [] }) => ({
+  id,
+  title,
+  shortDefinition: definition,
+  question,
+  metaphor,
+  example,
+  weekIntroduced: 2,
+  status,
+  category,
+  layer,
+  x,
+  y,
+  size,
+  tags: ["week2", ...tags]
+});
+
+const week2Nodes = [
+  makeWeek2Node({ id: "project-management", title: "Project Management", definition: "Organizes how an approved project will be delivered within scope, time, cost and quality constraints.", question: "How do we organize delivery?", metaphor: "The navigation plan after deciding the journey is worthwhile.", example: "Define deliverables, work packages, tasks, responsibilities and dependencies.", category: "sdlc", x: 2050, y: 130, size: 66, tags: ["project"] }),
+  makeWeek2Node({ id: "project", title: "Project", definition: "Temporary effort with defined scope, beginning, end, sponsor and constraints for time, cost and quality.", question: "What temporary outcome are we organizing?", metaphor: "A bounded expedition with a destination and finish line.", example: "Implementing a new reservation capability for HKA.", category: "business", x: 1870, y: 70, size: 54, tags: ["scope"] }),
+  makeWeek2Node({ id: "ongoing-operation", title: "Ongoing Operation", definition: "Continuous work that sustains regular organizational activity rather than producing a temporary project outcome.", question: "Is this temporary project work or continuing operations?", metaphor: "Running the restaurant every day rather than redesigning how it works.", example: "Daily kayak rental service after the project has ended.", category: "business", x: 2240, y: 70, size: 50, tags: ["distinction"] }),
+  makeWeek2Node({ id: "project-decomposition", title: "Project Decomposition", definition: "Progressively divides an approved project into manageable deliverables, work packages and tasks.", question: "How do we organize an approved project?", metaphor: "Turning a mountain into a climbable sequence of stages.", example: "Break a reservation-system project into training, data migration, configuration and rollout work.", category: "modeling", x: 2050, y: 290, size: 62, tags: ["wbs"] }),
+  makeWeek2Node({ id: "wbs", title: "Work Breakdown Structure (WBS / EDT)", definition: "Hierarchical decomposition of project work into deliverables, work packages and tasks.", question: "What work must be completed?", metaphor: "A project tree whose leaves are manageable work.", example: "Project -> Reservation capability -> Booking work package -> Configure booking rules.", category: "modeling", x: 2050, y: 450, size: 68, tags: ["decomposition"] }),
+  makeWeek2Node({ id: "deliverable", title: "Deliverable", definition: "A verifiable project output produced to satisfy part of the approved scope.", question: "What tangible or verifiable result must exist?", metaphor: "A completed destination on the project route.", example: "Approved reservation workflow or deployed booking module.", category: "modeling", x: 1880, y: 590, size: 48, tags: ["wbs"] }),
+  makeWeek2Node({ id: "work-package", title: "Work Package", definition: "A manageable unit of project work that can be estimated, assigned and controlled.", question: "What work can one owner plan and manage?", metaphor: "A labeled box of related work inside a deliverable.", example: "Data migration preparation for the reservation capability.", category: "modeling", x: 2050, y: 650, size: 50, tags: ["wbs"] }),
+  makeWeek2Node({ id: "task", title: "Task", definition: "A specific piece of work with duration, effort, resources, responsibility, dependencies and cost.", question: "What action must be performed?", metaphor: "The smallest scheduled move that advances the project.", example: "Clean customer records before migration.", category: "modeling", x: 2220, y: 590, size: 48, tags: ["wbs"] }),
+  makeWeek2Node({ id: "task-attributes", title: "Task Attributes", definition: "Duration, effort, resources, responsibility, dependencies and cost used to plan and control a task.", question: "What must we know to schedule and assign this task?", metaphor: "The task's project identity card.", example: "Eight hours of effort, two calendar days, one analyst and one prerequisite.", category: "business", x: 2380, y: 690, size: 47, tags: ["task"] }),
+  makeWeek2Node({ id: "dependencies", title: "Dependencies", definition: "Logical relationships that determine which tasks must precede or follow others.", question: "What must happen before this work can begin?", metaphor: "Links in a chain where order changes the finish date.", example: "Data must be cleaned before it can be migrated.", category: "sdlc", x: 1870, y: 840, size: 52, tags: ["schedule"] }),
+  makeWeek2Node({ id: "schedule", title: "Schedule", definition: "Time-based arrangement of project tasks, dependencies, milestones and resources.", question: "When can the work occur?", metaphor: "The project route placed on a calendar.", example: "Sequence analysis, configuration, migration, testing and rollout.", category: "sdlc", x: 2050, y: 860, size: 52, tags: ["time"] }),
+  makeWeek2Node({ id: "critical-path", title: "Critical Path", definition: "Sequence of dependent tasks that determines the minimum possible project duration.", question: "Which dependent sequence controls the earliest finish?", metaphor: "The path with no schedule slack, not the path with the hardest work.", example: "Requirements approval -> configuration -> integration test -> launch.", category: "sdlc", x: 2230, y: 840, size: 56, tags: ["schedule"] }),
+  makeWeek2Node({ id: "milestone", title: "Milestone", definition: "A significant checkpoint or event with no project work duration of its own.", question: "What meaningful event signals progress?", metaphor: "A road marker, not the driving itself.", example: "Requirements approved.", category: "business", x: 2400, y: 860, size: 45, tags: ["task-distinction"] }),
+  makeWeek2Node({ id: "effort-duration", title: "Effort != Calendar Duration", definition: "Effort measures work consumed; duration measures elapsed calendar time.", question: "How much work and how much elapsed time are different?", metaphor: "Eight hours of work may span one day or an entire week.", example: "Two specialists each contribute four hours across three calendar days.", category: "business", x: 2050, y: 1040, size: 58, tags: ["resources", "cost"] }),
+  makeWeek2Node({ id: "requirements-discovery", title: "Requirements Discovery", definition: "Evidence-based process for discovering, classifying and validating what the system must provide or constrain.", question: "What does the system need?", metaphor: "Turning stakeholder reality into a shared model of need.", example: "Interviews and observation reveal reservation inputs, rules, outputs, performance and security needs.", category: "sdlc", x: 2700, y: 150, size: 68, tags: ["analysis"] }),
+  makeWeek2Node({ id: "fact-finding", title: "Fact Finding", definition: "Systematic collection of evidence about stakeholders, current work, information and needs.", question: "What facts must we gather before stating requirements?", metaphor: "Fieldwork before drawing the map.", example: "Interview staff, observe rentals and review current records.", category: "people", x: 2520, y: 350, size: 58, tags: ["discovery"] }),
+  makeWeek2Node({ id: "candidate-requirements", title: "Candidate Requirements", definition: "Potential statements of need that remain provisional until classified and validated.", question: "What might the system need to provide or constrain?", metaphor: "Draft evidence cards awaiting confirmation.", example: "The system should show real-time kayak availability.", category: "sdlc", x: 2700, y: 500, size: 55, tags: ["candidate"] }),
+  makeWeek2Node({ id: "requirement-classification", title: "Requirement Classification", definition: "Organizes candidate requirements into input, process, output, performance and security categories.", question: "What kind of requirement is this?", metaphor: "Sorting evidence into five useful lenses.", example: "Response time belongs to performance; access control belongs to security.", category: "modeling", x: 2880, y: 620, size: 52, tags: ["requirements"] }),
+  makeWeek2Node({ id: "requirement-validation", title: "Requirement Validation", definition: "Checks requirements against evidence, stakeholder confirmation and acceptance criteria.", question: "Is this requirement correct, necessary, clear and testable?", metaphor: "A checkpoint between a plausible statement and an agreed need.", example: "Staff confirm the reservation conflict rule and its exceptions.", category: "people", x: 2700, y: 760, size: 55, tags: ["requirements"] }),
+  makeWeek2Node({ id: "requirements-model", title: "Requirements Model", definition: "Structured representation of validated system needs and constraints.", question: "How do validated requirements fit together?", metaphor: "The shared blueprint of what, before deciding how.", example: "A connected model of reservation functions, data, performance and security needs.", category: "modeling", x: 2700, y: 910, size: 58, tags: ["requirements"] }),
+  makeWeek2Node({ id: "what-vs-how", title: "WHAT != HOW", definition: "Requirements describe what the system must provide or constrain; implementation describes how a chosen solution will do it.", question: "Are we stating the need or prematurely choosing the implementation?", metaphor: "Specify the destination before selecting the vehicle.", example: "WHAT: prevent double booking. HOW: not necessarily a particular database or framework.", category: "system", x: 2900, y: 330, size: 58, tags: ["distinction"] }),
+  makeWeek2Node({ id: "requirement-input", title: "Input Requirement", definition: "Defines information or events that enter the system.", question: "What enters?", metaphor: "Ingredients entering a process.", example: "Customer, date, kayak type and contact details.", category: "modeling", x: 2480, y: 1080, size: 48, tags: ["requirement-category"] }),
+  makeWeek2Node({ id: "requirement-process", title: "Process Requirement", definition: "Defines transformations, rules or activities the system must perform.", question: "What happens?", metaphor: "The work done to transform input.", example: "Check availability and prevent conflicting reservations.", category: "modeling", x: 2700, y: 1080, size: 48, tags: ["requirement-category"] }),
+  makeWeek2Node({ id: "requirement-output", title: "Output Requirement", definition: "Defines information or results the system must produce.", question: "What comes out?", metaphor: "The result delivered after processing.", example: "Reservation confirmation and updated availability.", category: "modeling", x: 2920, y: 1080, size: 48, tags: ["requirement-category"] }),
+  makeWeek2Node({ id: "requirement-performance", title: "Performance Requirement", definition: "Defines how well or how quickly the system must operate.", question: "How well?", metaphor: "The service level across the whole flow.", example: "Availability results must appear within two seconds.", category: "business", x: 2580, y: 1250, size: 50, tags: ["cross-cutting"] }),
+  makeWeek2Node({ id: "requirement-security", title: "Security Requirement", definition: "Defines how information, actions and access must be protected.", question: "How protected?", metaphor: "Guardrails surrounding the entire flow.", example: "Only authorized staff may change rental history.", category: "business", x: 2820, y: 1250, size: 50, tags: ["cross-cutting"] }),
+  makeWeek2Node({ id: "interview", title: "Interview", definition: "Direct conversation used to explore experience, needs, rules and exceptions.", question: "What can stakeholders explain in depth?", metaphor: "A guided window into lived work.", example: "Interview Linda about reservation conflicts.", category: "people", x: 2320, y: 360, size: 38, tags: ["fact-finding"] }),
+  makeWeek2Node({ id: "questionnaire", title: "Questionnaire", definition: "Structured questions used to gather comparable information from many people.", question: "What can we collect consistently at scale?", metaphor: "The same measuring stick across many voices.", example: "Survey customers about booking preferences.", category: "people", x: 2370, y: 450, size: 38, tags: ["fact-finding"] }),
+  makeWeek2Node({ id: "observation", title: "Observation", definition: "Watching work as it actually occurs to detect behaviors, delays and exceptions.", question: "What happens in practice?", metaphor: "Seeing the process rather than only hearing its description.", example: "Observe how the whiteboard is updated during peak hours.", category: "people", x: 2400, y: 550, size: 38, tags: ["fact-finding"] }),
+  makeWeek2Node({ id: "focus-group", title: "Focus Group", definition: "Facilitated group discussion used to compare viewpoints and discover shared concerns.", question: "Where do stakeholder perspectives agree or conflict?", metaphor: "Several lenses focused on the same process.", example: "Discuss reservation needs with instructors and rental staff.", category: "people", x: 2440, y: 650, size: 38, tags: ["fact-finding"] }),
+  makeWeek2Node({ id: "current-system-review", title: "Current-System Review", definition: "Review of existing records, forms, software and procedures to understand the present system.", question: "What does the current system reveal?", metaphor: "Reading the footprints left by current work.", example: "Review Access tables, loose-leaf records and the availability board.", category: "people", x: 2990, y: 450, size: 40, tags: ["fact-finding"] }),
+  makeWeek2Node({ id: "process-mapping", title: "Process Mapping", definition: "Visual representation of current activities, decisions, handoffs and flows.", question: "How does work move today?", metaphor: "A route map for organizational work.", example: "Map inquiry through booking, payment and equipment handoff.", category: "modeling", x: 3020, y: 550, size: 40, tags: ["fact-finding"] }),
+  makeWeek2Node({ id: "research-technique", title: "Research", definition: "Study of relevant external practices, standards, technologies or evidence.", question: "What can outside evidence teach us?", metaphor: "Looking beyond the current walls for tested knowledge.", example: "Review reservation practices and security guidance.", category: "people", x: 3050, y: 650, size: 38, tags: ["fact-finding"] }),
+  makeWeek2Node({ id: "fdd", title: "Functional Decomposition Diagram (FDD)", definition: "Hierarchical decomposition of business or system functions into smaller functions.", question: "What functions does the business or system perform?", metaphor: "A function tree, not a project work plan.", example: "Manage Reservations -> Create, Check availability, Modify, Cancel.", category: "modeling", x: 3120, y: 900, size: 66, tags: ["decomposition"] }),
+  makeWeek2Node({ id: "wbs-vs-fdd", title: "WBS != FDD", definition: "Both use decomposition, but WBS decomposes project work while FDD decomposes business or system functions.", question: "Are we decomposing delivery work or system behavior?", metaphor: "One tree builds the project; the other explains the system.", example: "WBS: conduct migration. FDD: manage reservations.", category: "system", x: 3100, y: 1080, size: 58, tags: ["critical-distinction"] }),
+  makeWeek2Node({ id: "development-approaches", title: "Development Approaches", definition: "Week 2 cluster that positions SDLC, JAD, RAD and Agile without treating them as identical categories.", question: "How do these approaches support systems development differently?", metaphor: "Different lenses and working patterns around development.", example: "JAD intensifies collaboration while RAD accelerates prototyping.", category: "sdlc", x: 3350, y: 180, size: 62, tags: ["forum-2-1"] }),
+  makeWeek2Node({ id: "jad", title: "JAD", definition: "Collaborative facilitated approach for intensive stakeholder and user participation, especially during requirements work.", question: "How can stakeholders discover requirements together?", metaphor: "A focused workshop that replaces scattered conversations.", example: "Facilitated reservation requirements session with staff and sponsor.", category: "people", x: 3250, y: 350, size: 46, tags: ["forum-2-1"] }),
+  makeWeek2Node({ id: "rad", title: "RAD", definition: "Rapid development approach emphasizing prototyping and accelerated feedback.", question: "How can prototypes shorten the learning cycle?", metaphor: "Build a testable sketch quickly, then refine from feedback.", example: "Prototype the booking flow before full implementation.", category: "sdlc", x: 3420, y: 350, size: 46, tags: ["forum-2-1"] }),
+  makeWeek2Node({ id: "forum-2-1", title: "Forum 2.1", definition: "Prepared discussion expansion for comparing SDLC, JAD, RAD and Agile accurately.", question: "Where do these approaches overlap and differ?", metaphor: "A comparison table waiting for evidence and discussion.", example: "Discuss lifecycle structure, stakeholder collaboration, prototyping and iteration.", category: "people", x: 3340, y: 500, size: 44, tags: ["ready-for-expansion"] }),
+  makeWeek2Node({ id: "human-governance-layer", title: "Human / Governance Layer", definition: "Humans define intent, frame problems, approve boundaries, validate evidence, authorize decisions, accept risk and validate requirements.", question: "Which judgments remain accountable human decisions?", metaphor: "The steering layer that sets direction and accepts consequences.", example: "A sponsor approves scope while stakeholders validate requirements.", category: "ai", layer: "ai-first-overlay", x: 3500, y: 720, size: 62, tags: ["governance"] }),
+  makeWeek2Node({ id: "agent-execution-layer", title: "Agent Execution Layer", definition: "Agents may draft decompositions, analyze evidence, generate plans and requirements, implement, test, document and monitor within defined boundaries.", question: "What execution can agents perform under explicit constraints?", metaphor: "A capable engine operating inside a human-defined route and guardrails.", example: "An agent proposes a WBS and dependency hypothesis for review.", category: "ai", layer: "ai-first-overlay", x: 3500, y: 900, size: 62, tags: ["execution"] }),
+  makeWeek2Node({ id: "humans-steer-agents-execute", title: "Humans Steer / Agents Execute", definition: "Human governance directs intent and accountability while agents execute candidate work; AI may also assist human steering.", question: "Who steers, who executes and who validates?", metaphor: "Human navigation with agent propulsion and instrument assistance.", example: "Humans approve acceptance criteria; agents implement and test against them.", category: "ai", layer: "ai-first-overlay", x: 3500, y: 1080, size: 58, tags: ["principle"] }),
+  makeWeek2Node({ id: "ai-output-candidate", title: "AI Output = Candidate / Hypothesis", definition: "AI output does not become truth until validated through evidence, tests, stakeholder confirmation, human decision or acceptance criteria.", question: "What evidence converts this output from plausible to accepted?", metaphor: "A draft submitted for proof, not a verdict.", example: "An AI-generated requirement is reviewed with stakeholders before adoption.", category: "ai", layer: "ai-first-overlay", x: 3320, y: 1230, size: 56, tags: ["validation"] }),
+  makeWeek2Node({ id: "good-ai-wrong-problem", title: "Good AI + Wrong Problem", definition: "Strong AI applied to a wrongly framed problem produces an efficient solution to the wrong problem.", question: "Are we accelerating the correct problem?", metaphor: "A fast train on the wrong track.", example: "Automating a broken approval process without correcting its rules.", category: "ai", layer: "ai-first-overlay", x: 3500, y: 1270, size: 54, tags: ["week1-connection"] }),
+  makeWeek2Node({ id: "ai-iterative-loop", title: "AI-First Iterative Loop", definition: "Intent -> Plan -> Execute -> Test/Evaluate -> Evidence -> Review -> Iterate.", question: "How does evidence continuously reshape AI-assisted execution?", metaphor: "A learning loop with explicit review gates.", example: "Generate a candidate FDD, test it against interviews, review gaps and iterate.", category: "ai", layer: "ai-first-overlay", x: 3680, y: 1230, size: 58, tags: ["extension"] }),
+  makeWeek2Node({ id: "industry-reference-evidence", title: "Industry Reference / Evidence", definition: "External 2026 references from OpenAI, Microsoft and Google used as evidence for AI-First interpretation, not as CST212 canonical content.", question: "What current industry evidence supports or challenges this interpretation?", metaphor: "A bridge from academic foundations to contemporary practice.", example: "Agent-first engineering, agent lifecycle and execution-boundary references.", category: "ai", layer: "industry-reference", x: 3850, y: 430, size: 60, status: "transversal", tags: ["industry-reference"] }),
+  makeWeek2Node({ id: "human-review", title: "Human Review", definition: "Explicit review that decides whether a learning-derived candidate is supported, safe and useful enough to progress.", question: "Should this candidate move forward?", metaphor: "A bridge gate that does not open automatically.", example: "Review course provenance, evidence and risk before promotion.", category: "people", layer: "quantum-candidate", x: 3850, y: 620, size: 52, status: "experimental", tags: ["transfer"] }),
+  makeWeek2Node({ id: "possible-future-promotion", title: "Possible Future Promotion", definition: "Potential manual promotion after human review; no candidate automatically becomes Quantum canonical.", question: "Has a human governance process approved promotion?", metaphor: "Graduation after evidence and review, never automatic elevation.", example: "A candidate gate may be adopted later after explicit review.", category: "quantum", layer: "quantum-candidate", x: 3850, y: 790, size: 54, status: "experimental", tags: ["not-promoted"] }),
+  makeWeek2Node({ id: "qaif-project-decomposition-gate", title: "Quantum Candidate: Project Decomposition Gate", definition: "Learning-derived candidate flow from approved problem through scope, deliverables, work packages, tasks, dependencies, resources and schedule.", question: "Is the approved project decomposed well enough to organize delivery?", metaphor: "A candidate gate between project approval and executable work.", example: "Approved Problem -> Scope -> Deliverables -> Work Packages -> Tasks -> Dependencies -> Resources -> Schedule/Critical Path.", category: "quantum", layer: "quantum-candidate", x: 3850, y: 1030, size: 64, status: "experimental", tags: ["candidate-gate"] }),
+  makeWeek2Node({ id: "qaif-requirements-discovery-gate", title: "Quantum Candidate: Requirements Discovery Gate", definition: "Learning-derived candidate flow from understood problem through stakeholders, fact finding, functional decomposition, candidate requirements, classification and validation.", question: "Are requirements evidence-based and validated before implementation?", metaphor: "A candidate checkpoint between understanding and building.", example: "Understood Problem -> Stakeholders -> Fact Finding -> FDD -> Candidate Requirements -> Classification -> Validation.", category: "quantum", layer: "quantum-candidate", x: 3850, y: 1240, size: 64, status: "experimental", tags: ["candidate-gate"] })
+];
+
+const week2Edges = [
+  ["decision", "project-management", "sequence", "GO organizes delivery"],
+  ["project", "project-management", "contains", "temporary effort"],
+  ["project", "ongoing-operation", "interaction", "not the same"],
+  ["project-management", "project-decomposition", "sequence", "organizes"],
+  ["project-decomposition", "wbs", "sequence", "uses"],
+  ["wbs", "deliverable", "contains", "decomposes"],
+  ["deliverable", "work-package", "contains", "decomposes"],
+  ["work-package", "task", "contains", "decomposes"],
+  ["task", "task-attributes", "contains", "planned by"],
+  ["task", "dependencies", "sequence", "linked by"],
+  ["dependencies", "schedule", "sequence", "shape"],
+  ["schedule", "critical-path", "produces", "reveals"],
+  ["milestone", "schedule", "influence", "checkpoint"],
+  ["effort-duration", "physical-resources", "influence", "resources"],
+  ["physical-resources", "cronograma", "influence", "time"],
+  ["cronograma", "economica", "influence", "cost"],
+  ["economica", "viabilidad", "influence", "feasibility"],
+  ["project-management", "analisis", "sequence", "enables"],
+  ["underlying-problem", "requirements-discovery", "sequence", "understood problem"],
+  ["stakeholders", "fact-finding", "sequence", "engage"],
+  ["requirements-discovery", "fact-finding", "contains", "step"],
+  ["fact-finding", "candidate-requirements", "produces", "evidence"],
+  ["candidate-requirements", "requirement-classification", "sequence", "classify"],
+  ["requirement-classification", "requirement-validation", "sequence", "validate"],
+  ["requirement-validation", "requirements-model", "produces", "model"],
+  ["what-vs-how", "requirements-discovery", "influence", "principle"],
+  ["requirements-model", "requirement-input", "contains", "category"],
+  ["requirement-input", "requirement-process", "sequence", "flow"],
+  ["requirement-process", "requirement-output", "sequence", "flow"],
+  ["requirement-performance", "requirements-model", "influence", "cross-cutting"],
+  ["requirement-security", "requirements-model", "influence", "cross-cutting"],
+  ["fact-finding", "interview", "contains", "technique"],
+  ["fact-finding", "questionnaire", "contains", "technique"],
+  ["fact-finding", "observation", "contains", "technique"],
+  ["fact-finding", "focus-group", "contains", "technique"],
+  ["fact-finding", "current-system-review", "contains", "technique"],
+  ["fact-finding", "process-mapping", "contains", "technique"],
+  ["fact-finding", "research-technique", "contains", "technique"],
+  ["requirements-model", "fdd", "contains", "functional view"],
+  ["wbs", "wbs-vs-fdd", "interaction", "project view"],
+  ["fdd", "wbs-vs-fdd", "interaction", "system view"],
+  ["development-approaches", "sdlc", "interaction", "lifecycle"],
+  ["development-approaches", "jad", "contains", "collaboration"],
+  ["development-approaches", "rad", "contains", "rapid prototyping"],
+  ["development-approaches", "agile", "interaction", "iterative family"],
+  ["forum-2-1", "development-approaches", "sequence", "ready to expand"],
+  ["human-governance-layer", "agent-execution-layer", "interaction", "steer / execute"],
+  ["humans-steer-agents-execute", "human-governance-layer", "contains", "principle"],
+  ["humans-steer-agents-execute", "agent-execution-layer", "contains", "principle"],
+  ["agent-execution-layer", "ai-output-candidate", "produces", "candidate"],
+  ["ai-output-candidate", "requirement-validation", "sequence", "must validate"],
+  ["good-ai-wrong-problem", "problem-framing-gate", "feedback", "return to problem"],
+  ["ai-iterative-loop", "evidence", "feedback", "evaluate"],
+  ["cst212-knowledge", "systemic-understanding", "sequence", "interpret"],
+  ["systemic-understanding", "ai-first-interpretation", "sequence", "extend"],
+  ["ai-first-interpretation", "industry-reference-evidence", "sequence", "compare"],
+  ["industry-reference-evidence", "quantum-application-candidate", "sequence", "support candidate"],
+  ["quantum-application-candidate", "human-review", "sequence", "requires"],
+  ["human-review", "possible-future-promotion", "sequence", "may approve"],
+  ["possible-future-promotion", "quantum-application-candidate", "feedback", "never automatic"],
+  ["quantum-application-candidate", "qaif-project-decomposition-gate", "contains", "week 2 candidate"],
+  ["quantum-application-candidate", "qaif-requirements-discovery-gate", "contains", "week 2 candidate"],
+  ["qaif-project-decomposition-gate", "wbs", "contains", "academic source"],
+  ["qaif-requirements-discovery-gate", "requirements-discovery", "contains", "academic source"]
+];
+
 const mapData = {
-  version: "Week-1-Visual-Pedagogy-v2",
-  currentWeek: 1,
+  version: "Week-2-Project-and-Requirements",
+  currentWeek: 2,
   weeks: [
     { id: "all", label: "All", enabled: true },
     { id: 1, label: "Week 1", enabled: true },
-    { id: 2, label: "Week 2", enabled: false },
+    { id: 2, label: "Week 2", enabled: true },
     { id: 3, label: "Week 3", enabled: false },
     { id: 4, label: "Week 4", enabled: false },
     { id: 5, label: "Week 5", enabled: false },
@@ -17,8 +154,6 @@ const mapData = {
     conectado: { label: "CONECTADO", color: "var(--connected)" },
     consolidado: { label: "CONSOLIDADO", color: "var(--consolidated)" },
     transversal: { label: "TRANSVERSAL", color: "var(--transversal)" },
-    experimental: { label: "EXPERIMENTAL / CANDIDATE", color: "var(--quantum)" }
-    ,
     experimental: { label: "EXPERIMENTAL / CANDIDATE", color: "var(--quantum)" }
   },
   relationshipTypes: {
@@ -34,7 +169,8 @@ const mapData = {
     systemic: { label: "SYSTEMIC VIEW", color: "var(--system)" },
     ai: { label: "AI-FIRST", color: "var(--new)" },
     quantum: { label: "QUANTUM AI FIRST", color: "var(--quantum)" },
-    case: { label: "CASE STUDIES", color: "var(--people)" }
+    case: { label: "CASE STUDIES", color: "var(--people)" },
+    industry: { label: "INDUSTRY REFERENCE", color: "var(--transversal)" }
   },
   nodes: [
     {
@@ -1504,7 +1640,8 @@ const mapData = {
       y: 1185,
       size: 64,
       tags: ["week1", "quantum-ai-first", "candidate", "problem-framing"]
-    }
+    },
+    ...week2Nodes
   ],
   edges: [
     ["personas", "sis-info", "contains", "componente"],
@@ -1668,7 +1805,14 @@ const mapData = {
     relationshipType,
     label,
     weekIntroduced: 1
-  }))
+  })).concat(week2Edges.map(([source, target, relationshipType, label], index) => ({
+    id: `edge-w2-${index + 1}`,
+    source,
+    target,
+    relationshipType,
+    label,
+    weekIntroduced: 2
+  })))
 };
 
 const categoryColors = {
@@ -1689,7 +1833,7 @@ const state = {
   selected: "sis-info",
   currentView: "learn",
   hkaOverlay: false,
-  activeWeeks: new Set([0, 1]),
+  activeWeeks: new Set([0, 1, 2]),
   activeStatuses: new Set(Object.keys(mapData.statuses)),
   activeEdges: new Set(Object.keys(mapData.relationshipTypes)),
   activeLayers: new Set(Object.keys(mapData.layers)),
@@ -1846,12 +1990,178 @@ function renderStaticViews() {
         </div>
       </section>
 
-      ${journeyArrow("Planning points toward analysis", "La planeacion conduce al analisis")}
+      ${journeyArrow("An approved project must become organized work", "Un proyecto aprobado debe convertirse en trabajo organizado")}
 
-      <section class="analysis-horizon">
-        <p class="lesson-kicker">NEXT / SIGUIENTE</p>
-        <button type="button" data-concept="analisis"><strong>ANALYSIS</strong><span>Analisis</span><small>What does the system need? / Que necesita el sistema?</small></button>
-        <p>Prepared for future learning. Week 2 is not expanded.</p>
+      <section class="course-question-bridge" aria-label="Course learning journey">
+        <button type="button" data-concept="problem-framing-gate"><small>WEEK 1</small><strong>WHY?</strong><span>Problem / Need<br>Problema / Necesidad</span></button>
+        <span>&rarr;</span>
+        <button type="button" data-concept="viabilidad"><small>WEEK 1</small><strong>SHOULD WE?</strong><span>Business Case / Feasibility<br>Caso / Viabilidad</span></button>
+        <span>&rarr;</span>
+        <button class="is-current" type="button" data-concept="project-management"><small>WEEK 2</small><strong>HOW DO WE ORGANIZE?</strong><span>Project Management / WBS<br>Gestion / EDT</span></button>
+        <span>&rarr;</span>
+        <button class="is-current" type="button" data-concept="requirements-discovery"><small>WEEK 2</small><strong>WHAT DOES IT NEED?</strong><span>Analysis / Requirements / FDD<br>Analisis / Requisitos / FDD</span></button>
+        <span>&rarr;</span>
+        <div class="future-question"><small>FUTURE</small><strong>HOW WILL WE DESIGN IT?</strong><span>Not expanded yet</span></div>
+      </section>
+
+      <header class="week-divider">
+        <div><p class="lesson-kicker">WEEK 2 / SEMANA 2</p><h2>From project approval to validated system needs</h2><p>De la aprobacion del proyecto a necesidades validadas del sistema.</p></div>
+        <span>02 / 07</span>
+      </header>
+
+      <section class="canvas-region week2-project-region" aria-labelledby="projectHeading">
+        <div class="region-number">07</div>
+        <div class="region-heading"><p class="lesson-kicker">DELIVERY / EJECUCION</p><h2 id="projectHeading">Project Management<span>Gestion del proyecto</span></h2><p>How do we organize an approved project?<span>Como organizamos un proyecto aprobado?</span></p></div>
+        <div class="project-distinction">
+          ${canvasNode("PROJECT", "PROYECTO", "project", "project-sun")}
+          <div class="not-equal-mark">&ne;</div>
+          ${canvasNode("ONGOING OPERATION", "OPERACION CONTINUA", "ongoing-operation", "operation-ring")}
+        </div>
+        <div class="project-characteristics" aria-label="Project characteristics">
+          ${["defined scope", "beginning", "end", "sponsor", "time", "cost", "quality"].map(item => `<span>${item}</span>`).join("")}
+        </div>
+
+        <div class="wbs-landscape">
+          <button class="wbs-title" type="button" data-concept="wbs"><strong>WORK BREAKDOWN STRUCTURE</strong><span>Estructura de Desglose del Trabajo</span><small>What project work must be completed?<br>Que trabajo del proyecto debe completarse?</small></button>
+          <div class="decomposition-tree">
+            ${canvasNode("PROJECT", "Proyecto", "project", "tree-node tree-root")}
+            <span class="tree-line"></span>
+            ${canvasNode("DELIVERABLE", "Entregable", "deliverable", "tree-node")}
+            <span class="tree-line"></span>
+            ${canvasNode("WORK PACKAGE", "Paquete de trabajo", "work-package", "tree-node")}
+            <span class="tree-line"></span>
+            ${canvasNode("TASK", "Tarea", "task", "tree-node tree-leaf")}
+          </div>
+          <div class="task-orbit">
+            <p>TASK ATTRIBUTES<span>Atributos de la tarea</span></p>
+            ${["duration", "effort", "resources", "responsibility", "dependencies", "cost"].map(item => `<span>${item}</span>`).join("")}
+          </div>
+        </div>
+
+        <div class="schedule-track">
+          ${pathNode("Dependencies", "Dependencias", "dependencies", "schedule-node")}
+          ${pathArrow()}
+          ${pathNode("Schedule", "Cronograma", "schedule", "schedule-node")}
+          ${pathArrow()}
+          ${pathNode("Critical Path", "Ruta critica", "critical-path", "schedule-node critical-node")}
+          <button class="milestone-marker" type="button" data-concept="milestone"><strong>MILESTONE</strong><span>Hito = checkpoint, not work</span></button>
+        </div>
+        <p class="critical-note">Critical path = dependent sequence that determines minimum project duration. It is not "the most difficult work."</p>
+
+        <button class="effort-duration-principle" type="button" data-concept="effort-duration"><strong>EFFORT &ne; CALENDAR DURATION</strong><span>ESFUERZO &ne; DURACION CALENDARIO</span><small>Effort &rarr; Resources &rarr; Time &rarr; Cost &rarr; Feasibility</small></button>
+      </section>
+
+      ${journeyArrow("Organized delivery creates space for disciplined analysis", "La ejecucion organizada abre paso a un analisis disciplinado")}
+
+      <section class="canvas-region requirements-region" aria-labelledby="requirementsHeading">
+        <div class="region-number">08</div>
+        <div class="region-heading"><p class="lesson-kicker">DISCOVERY / DESCUBRIMIENTO</p><h2 id="requirementsHeading">Requirements Discovery<span>Descubrimiento de requisitos</span></h2><p>What does the system need?<span>Que necesita el sistema?</span></p></div>
+        <div class="requirements-flow">
+          ${pathNode("Understood Problem", "Problema comprendido", "underlying-problem", "requirement-step")}
+          ${pathArrow()}
+          ${pathNode("Stakeholders", "Interesados", "stakeholders", "requirement-step")}
+          ${pathArrow()}
+          ${pathNode("Fact Finding", "Recopilacion de hechos", "fact-finding", "requirement-step")}
+          ${pathArrow()}
+          ${pathNode("Candidate Requirements", "Requisitos candidatos", "candidate-requirements", "requirement-step")}
+          ${pathArrow()}
+          ${pathNode("Classification", "Clasificacion", "requirement-classification", "requirement-step")}
+          ${pathArrow()}
+          ${pathNode("Validation", "Validacion", "requirement-validation", "requirement-step")}
+          ${pathArrow()}
+          ${pathNode("Requirements Model", "Modelo de requisitos", "requirements-model", "requirement-step")}
+        </div>
+
+        <button class="what-how-principle" type="button" data-concept="what-vs-how"><strong>WHAT &ne; HOW</strong><span>QUE &ne; COMO</span><small>Requirement = what the system must provide or constrain.<br>Implementation = how a selected solution provides it.</small></button>
+
+        <div class="fact-finding-field">
+          <button class="fact-core" type="button" data-concept="fact-finding"><strong>FACT FINDING</strong><span>Recopilacion de hechos</span><small>WHO? WHAT? WHEN? WHERE? HOW? WHY?</small></button>
+          ${canvasNode("Interview", "Entrevista", "interview", "fact-node fact-1")}
+          ${canvasNode("Questionnaire", "Cuestionario", "questionnaire", "fact-node fact-2")}
+          ${canvasNode("Observation", "Observacion", "observation", "fact-node fact-3")}
+          ${canvasNode("Focus group", "Grupo focal", "focus-group", "fact-node fact-4")}
+          ${canvasNode("Current-system review", "Revision del sistema actual", "current-system-review", "fact-node fact-5")}
+          ${canvasNode("Process mapping", "Mapeo de procesos", "process-mapping", "fact-node fact-6")}
+          ${canvasNode("Research", "Investigacion", "research-technique", "fact-node fact-7")}
+        </div>
+
+        <div class="requirement-model-stage">
+          <div class="ipo-flow">
+            ${pathNode("INPUT", "Entrada", "requirement-input", "requirement-category input-category")}
+            ${pathArrow()}
+            ${pathNode("PROCESS", "Proceso", "requirement-process", "requirement-category process-category")}
+            ${pathArrow()}
+            ${pathNode("OUTPUT", "Salida", "requirement-output", "requirement-category output-category")}
+          </div>
+          <div class="cross-cutting-band performance-band"><button type="button" data-concept="requirement-performance"><strong>PERFORMANCE</strong><span>Desempeno · How well? / Que tan bien?</span></button></div>
+          <div class="cross-cutting-band security-band"><button type="button" data-concept="requirement-security"><strong>SECURITY</strong><span>Seguridad · How protected? / Que tan protegido?</span></button></div>
+        </div>
+      </section>
+
+      ${journeyArrow("Decomposition appears twice, but answers different questions", "La descomposicion aparece dos veces, pero responde preguntas distintas")}
+
+      <section class="canvas-region decomposition-comparison" aria-labelledby="comparisonHeading">
+        <div class="region-number">09</div>
+        <div class="region-heading"><p class="lesson-kicker">CRITICAL DISTINCTION / DISTINCION CLAVE</p><h2 id="comparisonHeading">WBS &ne; FDD</h2></div>
+        <div class="comparison-domains">
+          <button class="comparison-circle wbs-circle" type="button" data-concept="wbs"><small>PROJECT VIEW</small><strong>WBS / EDT</strong><span>What work must we perform to deliver the project?</span><em>Project &rarr; Deliverable &rarr; Work Package &rarr; Task</em></button>
+          <div class="comparison-center"><strong>&ne;</strong><span>Both decompose.<br>Different things.</span></div>
+          <button class="comparison-circle fdd-circle" type="button" data-concept="fdd"><small>SYSTEM VIEW</small><strong>FDD</strong><span>What functions does the business or system perform?</span><em>Manage Reservations &rarr; Create · Check · Modify · Cancel</em></button>
+        </div>
+      </section>
+
+      <section class="canvas-region approaches-region" aria-labelledby="approachesHeading">
+        <div class="region-number">10</div>
+        <div class="region-heading"><p class="lesson-kicker">FORUM 2.1 / READY FOR EXPANSION</p><h2 id="approachesHeading">Development Approaches<span>Enfoques de desarrollo</span></h2><p>Related, but not necessarily identical categories.<span>Relacionados, pero no necesariamente categorias identicas.</span></p></div>
+        <div class="approach-constellation">
+          ${canvasNode("SDLC", "Lifecycle framework", "sdlc", "approach-node approach-sdlc")}
+          ${canvasNode("JAD", "Collaborative requirements", "jad", "approach-node approach-jad")}
+          ${canvasNode("RAD", "Rapid prototyping", "rad", "approach-node approach-rad")}
+          ${canvasNode("AGILE", "Iterative and adaptive family", "agile", "approach-node approach-agile")}
+          ${canvasNode("FORUM 2.1", "Ready for expansion", "forum-2-1", "approach-core")}
+        </div>
+      </section>
+
+      ${journeyArrow("AI can accelerate the work, but validation remains essential", "La IA puede acelerar el trabajo, pero la validacion sigue siendo esencial")}
+
+      <section class="canvas-region ai-development-region" aria-labelledby="aiDevelopmentHeading">
+        <div class="region-number">11</div>
+        <div class="region-heading"><p class="lesson-kicker">AI-FIRST EXTENSION / NOT CST212 CANONICAL</p><h2 id="aiDevelopmentHeading">Human Steering + Agent Execution<span>Direccion humana + ejecucion por agentes</span></h2></div>
+        <div class="ai-swimlanes">
+          <button class="human-lane" type="button" data-concept="human-governance-layer"><strong>HUMAN / GOVERNANCE LAYER</strong><span>Intent · Problem · Boundary · Evidence · Authorization · Risk · Validation</span></button>
+          <div class="steering-bridge"><strong>HUMANS STEER</strong><span>AI may assist steering</span><strong>AGENTS EXECUTE</strong></div>
+          <button class="agent-lane" type="button" data-concept="agent-execution-layer"><strong>AGENT EXECUTION LAYER</strong><span>Draft · Analyze · Decompose · Plan · Implement · Test · Document · Monitor</span></button>
+        </div>
+        <div class="ai-validation-equation">
+          <button type="button" data-concept="ai-output-candidate"><strong>AI OUTPUT</strong><span>candidate / hypothesis</span></button>
+          <b>+</b>
+          <div><strong>evidence · tests · stakeholder confirmation · acceptance criteria</strong><span>validation</span></div>
+          <b>&rarr;</b>
+          <div><strong>REVIEWED RESULT</strong><span>never automatic truth</span></div>
+        </div>
+        <button class="wrong-problem-equation" type="button" data-concept="good-ai-wrong-problem"><strong>GOOD AI + WRONG PROBLEM = EFFICIENT SOLUTION TO THE WRONG PROBLEM</strong><span>Connects back to the Week 1 Problem Framing Gate.</span></button>
+        <div class="iterative-loop" aria-label="AI-First iterative loop">
+          ${["INTENT", "PLAN", "EXECUTE", "TEST / EVALUATE", "EVIDENCE", "REVIEW", "ITERATE"].map((item, index) => `<span>${item}</span>${index < 6 ? "<b>&rarr;</b>" : ""}`).join("")}
+        </div>
+      </section>
+
+      <section class="learning-transfer-pipeline" aria-labelledby="transferHeading">
+        <div><p class="lesson-kicker">LEARNING TRANSFER / TRANSFERENCIA</p><h2 id="transferHeading">Knowledge may become a candidate, never automatically canonical.</h2></div>
+        <div class="pipeline-flow">
+          ${pipelineStep("CST212 CANONICAL", "Academic source", "cst212-knowledge")}
+          ${pathArrow()}
+          ${pipelineStep("SYSTEMIC", "Interpretation", "systemic-understanding")}
+          ${pathArrow()}
+          ${pipelineStep("AI-FIRST", "Interpretation", "ai-first-interpretation")}
+          ${pathArrow()}
+          ${pipelineStep("INDUSTRY", "Reference / evidence", "industry-reference-evidence")}
+          ${pathArrow()}
+          ${pipelineStep("QUANTUM CANDIDATE", "Not canonical", "quantum-application-candidate")}
+          ${pathArrow()}
+          ${pipelineStep("HUMAN REVIEW", "Required gate", "human-review")}
+          ${pathArrow()}
+          ${pipelineStep("POSSIBLE PROMOTION", "Future only", "possible-future-promotion")}
+        </div>
       </section>
     </div>
   `;
@@ -1918,6 +2228,10 @@ function feasibilityNode(english, spanish, question, translation, id, position) 
   return `<button class="feasibility-node ${position}" type="button" data-concept="${id}"><strong>${english}</strong><span>${spanish}</span><small>${question}<br>${translation}</small></button>`;
 }
 
+function pipelineStep(title, subtitle, id) {
+  return `<button class="pipeline-step" type="button" data-concept="${id}"><strong>${title}</strong><span>${subtitle}</span></button>`;
+}
+
 function visibleNodes() {
   const query = state.query.trim().toLowerCase();
   return mapData.nodes.filter((node) => {
@@ -1962,7 +2276,7 @@ function draw() {
 
   nodes.forEach((node) => {
     const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
-    group.setAttribute("class", `node ${node.status === "nuevo" ? "is-new" : ""} ${getLayerKey(node) === "ai" ? "is-ai-overlay" : ""} ${getLayerKey(node) === "quantum" ? "is-quantum-layer" : ""} ${getLayerKey(node) === "case" ? "is-case-study" : ""} ${state.selected === node.id ? "is-selected" : ""}`);
+    group.setAttribute("class", `node ${node.status === "nuevo" ? "is-new" : ""} ${getLayerKey(node) === "ai" ? "is-ai-overlay" : ""} ${getLayerKey(node) === "quantum" ? "is-quantum-layer" : ""} ${getLayerKey(node) === "case" ? "is-case-study" : ""} ${getLayerKey(node) === "industry" ? "is-industry-layer" : ""} ${state.selected === node.id ? "is-selected" : ""}`);
     group.setAttribute("transform", `translate(${node.x}, ${node.y})`);
     group.setAttribute("tabindex", "0");
     group.setAttribute("role", "button");
@@ -2059,6 +2373,23 @@ function draw() {
       group.appendChild(caseText);
     }
 
+    if (getLayerKey(node) === "industry") {
+      const referenceBadge = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      referenceBadge.setAttribute("class", "reference-badge");
+      referenceBadge.setAttribute("x", -34);
+      referenceBadge.setAttribute("y", node.size + 7);
+      referenceBadge.setAttribute("width", 68);
+      referenceBadge.setAttribute("height", 15);
+      referenceBadge.setAttribute("rx", 7);
+      group.appendChild(referenceBadge);
+
+      const referenceText = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      referenceText.setAttribute("class", "reference-badge-text");
+      referenceText.setAttribute("y", node.size + 18);
+      referenceText.textContent = "REFERENCE";
+      group.appendChild(referenceText);
+    }
+
     group.addEventListener("click", () => selectNode(node.id));
     group.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") selectNode(node.id);
@@ -2122,6 +2453,7 @@ function layerLabel(node) {
   if (getLayerKey(node) === "quantum") return "QUANTUM AI FIRST CANDIDATE (learning-derived, not canonical)";
   if (getLayerKey(node) === "systemic") return "SYSTEMIC VIEW";
   if (getLayerKey(node) === "case") return "CASE STUDY LAYER";
+  if (getLayerKey(node) === "industry") return "INDUSTRY REFERENCE / NOT CST212 CANONICAL";
   return "COURSE / CANONICAL KNOWLEDGE";
 }
 
@@ -2130,6 +2462,7 @@ function getLayerKey(node) {
   if (node.layer === "quantum-candidate" || node.layer === "quantum") return "quantum";
   if (node.layer === "systemic" || node.layer === "bridge") return "systemic";
   if (node.layer === "case") return "case";
+  if (node.layer === "industry-reference") return "industry";
   return "canonical";
 }
 
@@ -2157,13 +2490,13 @@ function setupFilters() {
   mapData.weeks.forEach((week) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = week.id === 1 || week.id === "all" ? "is-active" : "";
+    button.className = week.id === 1 || week.id === 2 || week.id === "all" ? "is-active" : "";
     button.textContent = week.label;
     button.disabled = !week.enabled;
     button.addEventListener("click", () => {
       if (week.id === "all") {
-        state.activeWeeks = new Set([0, 1]);
-        document.querySelectorAll("#weekFilters button").forEach((item) => item.classList.toggle("is-active", item.textContent === "All" || item.textContent === "Week 1"));
+        state.activeWeeks = new Set([0, 1, 2]);
+        document.querySelectorAll("#weekFilters button").forEach((item) => item.classList.toggle("is-active", item.textContent === "All" || item.textContent === "Week 1" || item.textContent === "Week 2"));
       } else if (state.activeWeeks.has(week.id)) {
         state.activeWeeks.delete(week.id);
         button.classList.remove("is-active");
@@ -2292,7 +2625,7 @@ function centerMap() {
 function resetView() {
   state.query = "";
   document.getElementById("searchInput").value = "";
-  state.activeWeeks = new Set([0, 1]);
+  state.activeWeeks = new Set([0, 1, 2]);
   state.activeStatuses = new Set(Object.keys(mapData.statuses));
   state.activeEdges = new Set(Object.keys(mapData.relationshipTypes));
   state.activeLayers = new Set(Object.keys(mapData.layers));

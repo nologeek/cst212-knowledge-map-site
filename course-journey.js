@@ -50,6 +50,7 @@
     tab.onclick=()=>{views.forEach(x=>x.hidden=true);if(native)native.hidden=true;[...controls.querySelectorAll("button")].forEach(x=>{x.classList.remove("active");x.setAttribute("aria-selected","false")});tab.classList.add("active");tab.setAttribute("aria-selected","true");v.hidden=false;v.scrollTo({top:0,behavior:"smooth"})};
   }
   function nativeDetails(learn){const title=document.querySelector("#detailTitle"),content=document.querySelector("#detailContent");if(!title||!content)return;learn.onclick=e=>{const el=e.target.closest("[data-concept]");if(!el||!details[el.dataset.concept])return;const d=details[el.dataset.concept];learn.querySelectorAll(".week3-node,.week3-distinction").forEach(x=>x.classList.remove("is-focused"));el.classList.add("is-focused");title.textContent=d[1];content.innerHTML=`<dt>BREADCRUMB / RUTA</dt><dd>${d[0]}</dd><dt>DEFINITION / DEFINICION</dt><dd>${d[2]}</dd><dt>CONNECTIONS / CONEXIONES</dt><dd>${d[3].join(" · ")}</dd><dt>SOURCE / PROCEDENCIA</dt><dd>CST212 WEEK 3</dd>`;el.scrollIntoView({behavior:"smooth",block:"center"})}}
-  function init(){const learn=document.querySelector("#learnView");if(!learn||document.querySelector("#courseJourneyView"))return;const w3=week3(learn);selector(learn,w3);nativeDetails(learn);journey(learn)}
+  function init(){const learn=document.querySelector("#learnView");if(document.querySelector("#courseJourneyView"))return;if(!learn||!learn.textContent.includes("WEEK 2 / SEMANA 2")){setTimeout(init,60);return}const w3=week3(learn);selector(learn,w3);nativeDetails(learn);journey(learn)}
   if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
 })();
+

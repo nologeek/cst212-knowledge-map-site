@@ -136,8 +136,8 @@ const week2Edges = [
 ];
 
 const mapData = {
-  version: "Week-2-Project-and-Requirements",
-  currentWeek: 2,
+  version: "Week-3-Logical-Modeling-and-Course-Journey",
+  currentWeek: 3,
   weeks: [
     { id: "all", label: "All", enabled: true },
     { id: 1, label: "Week 1", enabled: true },

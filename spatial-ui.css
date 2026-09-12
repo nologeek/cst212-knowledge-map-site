@@ -25,3 +25,6 @@ body:after{position:fixed;inset:0;z-index:-1;content:"";pointer-events:none;opac
 
 #learnView button[data-concept]::after,#systemView button[data-concept]::after,.journey-ref-node::after,.week3-node::after,.week3-distinction::after{width:22px!important;height:22px!important;padding:0!important;border-radius:50%!important;content:""!important;background-color:rgba(3,11,19,.92)!important;background-image:url("data:image/svg+xml,%3Csvg xmlns=''http://www.w3.org/2000/svg'' viewBox=''0 0 24 24'' fill=''none'' stroke=''%23bdd7da'' stroke-width=''1.7''%3E%3Ccircle cx=''10.5'' cy=''10.5'' r=''5.5''/%3E%3Cpath d=''m15 15 4 4''/%3E%3C/svg%3E")!important;background-position:center!important;background-repeat:no-repeat!important;background-size:12px!important}
 #learnView button[data-concept]::after,#systemView button[data-concept]::after,.journey-ref-node::after,.week3-node::after,.week3-distinction::after{background-image:url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%20fill=%22none%22%20stroke=%22%23bdd7da%22%20stroke-width=%221.7%22%3E%3Ccircle%20cx=%2210.5%22%20cy=%2210.5%22%20r=%225.5%22/%3E%3Cpath%20d=%22m15%2015%204%204%22/%3E%3C/svg%3E")!important}
+
+.course-journey-tab>span{color:inherit!important}
+

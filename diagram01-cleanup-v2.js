@@ -36,9 +36,11 @@
 
   const masterQuestion = root => {
     let box = root.querySelector(".d1c-master-question");
+    const legacyMarker = [...root.querySelectorAll("*")].find(el => !el.children.length && /WEEK 1\s*·\s*MASTER QUESTION/i.test(el.textContent || ""));
+    const legacyBox = legacyMarker?.parentElement;
+    if (box && legacyBox && box !== legacyBox) legacyBox.remove();
     if (!box) {
-      const marker = [...root.querySelectorAll("*")].find(el => !el.children.length && /WEEK 1\s*·\s*MASTER QUESTION/i.test(el.textContent || ""));
-      box = marker?.parentElement;
+      box = legacyBox;
       if (!box) { box=document.createElement("section"); root.querySelector(".w1i-intro")?.after(box); }
       box.className = "d1c-master-question";
     }
@@ -58,9 +60,9 @@
     const figure=root?.querySelector(".lesson-diagram");
     if(!root||!figure)return;
     const aiOn=root.classList.contains("is-ai-lens"), signature=`${isEn()?"en":"es"}-${aiOn?"ai":"base"}`;
+    masterQuestion(root);
     if(figure.dataset.d1Cleanup===signature)return;
     figure.dataset.d1Cleanup=signature;
-    masterQuestion(root);
     cleanLegacy(figure);
     const heading=figure.querySelector(".diagram-heading"),stage=figure.querySelector(".diagram-stage"),caption=figure.querySelector("figcaption");
     heading.innerHTML=`<small>${isEn()?"DIAGRAM 01":"DIAGRAMA 01"}</small><h3>${isEn()?"WHAT IS A SYSTEM?":"¿QUÉ ES UN SISTEMA?"}</h3>`;

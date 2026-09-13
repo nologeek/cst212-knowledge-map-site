@@ -181,16 +181,16 @@
 
   function transitionInMarkup() {
     var en = isEnglish();
-    return '<section class="d2-transition-in" data-d2-transition="in"><div class="d2-transition-inner"><div class="d2-transition-flow"><div class="d2-transition-node">' + (en ? 'SYSTEM' : 'SISTEMA') + '</div><span class="d2-transition-arrow">→</span><div class="d2-transition-node is-technology">' + (en ? 'TECHNOLOGY' : 'TECNOLOGÍA') + '</div><span class="d2-transition-arrow">→</span><div class="d2-transition-node is-software">SOFTWARE</div></div><p>' + (en ? 'If we use software within the system, do software and system mean the same thing?' : 'Si utilizamos software dentro del sistema, ¿software y sistema significan lo mismo?') + '</p><strong>' + (en ? 'NO.' : 'NO.') + '</strong></div></section>';
+    return '<section class="d2is-transition-in" data-d2is-transition="in"><div class="d2is-transition-inner"><div class="d2is-transition-flow"><div class="d2is-transition-node">' + (en ? 'SYSTEM' : 'SISTEMA') + '</div><span class="d2is-transition-arrow">→</span><div class="d2is-transition-node is-technology">' + (en ? 'TECHNOLOGY' : 'TECNOLOGÍA') + '</div><span class="d2is-transition-arrow">→</span><div class="d2is-transition-node is-software">SOFTWARE</div></div><p>' + (en ? 'If we use software within the system, do software and system mean the same thing?' : 'Si utilizamos software dentro del sistema, ¿software y sistema significan lo mismo?') + '</p><strong>' + (en ? 'NO.' : 'NO.') + '</strong></div></section>';
   }
 
   function transitionOutMarkup() {
     var en = isEnglish();
-    return '<section class="d2-transition-out" data-d2-transition="out"><div class="d2-transition-inner"><small>' + (en ? 'FROM COMPONENTS TO WORK' : 'DE LOS COMPONENTES AL TRABAJO') + '</small><h4>' + (en ? 'We now know which elements make up an information system. But how does the work actually happen inside it?' : 'Ya sabemos qué elementos componen un sistema de información. Pero ¿cómo ocurre realmente el trabajo dentro de él?') + '</h4><p>' + (en ? 'The next diagram focuses on the activities and relationships through which the organization performs its work.' : 'El siguiente diagrama se concentra en las actividades y relaciones mediante las cuales la organización realiza su trabajo.') + '</p><span class="d2-transition-next">' + (en ? 'DIAGRAM 03 · BUSINESS PROCESSES' : 'DIAGRAMA 03 · PROCESOS DE NEGOCIO') + '</span></div></section>';
+    return '<section class="d2is-transition-out" data-d2is-transition="out"><div class="d2is-transition-inner"><small>' + (en ? 'FROM COMPONENTS TO WORK' : 'DE LOS COMPONENTES AL TRABAJO') + '</small><h4>' + (en ? 'We now know which elements make up an information system. But how does the work actually happen inside it?' : 'Ya sabemos qué elementos componen un sistema de información. Pero ¿cómo ocurre realmente el trabajo dentro de él?') + '</h4><p>' + (en ? 'The next diagram focuses on the activities and relationships through which the organization performs its work.' : 'El siguiente diagrama se concentra en las actividades y relaciones mediante las cuales la organización realiza su trabajo.') + '</p><span class="d2is-transition-next">' + (en ? 'DIAGRAM 03 · BUSINESS PROCESSES' : 'DIAGRAMA 03 · PROCESOS DE NEGOCIO') + '</span></div></section>';
   }
 
   function componentButton(key, label, question) {
-    return '<button type="button" class="d2-component d2-open" data-d2-detail="' + key + '"><small>CST212 FOUNDATION</small><strong>' + label + '</strong><span>' + question + '</span></button>';
+    return '<button type="button" class="d2is-component d2is-open" data-d2is-detail="' + key + '"><small>CST212 FOUNDATION</small><strong>' + label + '</strong><span>' + question + '</span></button>';
   }
 
   function stageMarkup() {
@@ -200,20 +200,20 @@
     var information = componentButton('information', en ? 'Information' : 'Información', en ? 'What must the system know?' : '¿Qué necesita saber?');
     var resources = componentButton('resources', en ? 'Resources' : 'Recursos', en ? 'What does the system need?' : '¿Qué necesita para operar?');
     var relations = diagramConfig.aiRelationships.filter(function (item) { return item.level === 2; }).map(function (item) {
-      return '<button type="button" class="d2-ai-relation d2-open" data-d2-detail="' + item.key + '"><strong>' + T(details[item.key].title) + '</strong><span>' + T(item.action) + '</span></button>';
+      return '<button type="button" class="d2is-ai-relation d2is-open" data-d2is-detail="' + item.key + '"><strong>' + T(details[item.key].title) + '</strong><span>' + T(item.action) + '</span></button>';
     }).join('');
-    return '<div class="d2-stage" data-diagram02="true"><button type="button" class="d2-purpose d2-open" data-d2-detail="purpose"><small>' + (en ? 'ORGANIZATIONAL PURPOSE' : 'PROPÓSITO ORGANIZACIONAL') + '</small><strong>' + (en ? 'Why does this information system exist?' : '¿Para qué existe este sistema de información?') + '</strong></button>' +
-      '<button type="button" class="d2-system d2-open" data-d2-detail="system"><small>CST212 / TIFFIN FOUNDATION</small><strong>' + (en ? 'INFORMATION SYSTEM' : 'SISTEMA DE INFORMACIÓN') + '</strong><span>' + (en ? 'COMPONENTS + RELATIONSHIPS + PURPOSE' : 'COMPONENTES + RELACIONES + PROPÓSITO') + '</span></button>' +
-      '<div class="d2-components">' + people + processes + information + resources + '<div class="d2-component d2-technology"><button type="button" class="d2-component d2-open" data-d2-detail="technology"><small>CST212 FOUNDATION</small><strong>' + (en ? 'Technology' : 'Tecnología') + '</strong><span>' + (en ? 'Technical capabilities that support the system' : 'Capacidades técnicas que apoyan el sistema') + '</span></button><b class="d2-technology-label">' + (en ? 'CONTAINS / PART OF' : 'CONTIENE / ES PARTE DE') + '</b><button type="button" class="d2-software d2-open" data-d2-detail="software"><strong>SOFTWARE</strong><span>' + (en ? 'PART OF TECHNOLOGY' : 'PARTE DE TECNOLOGÍA') + '</span></button><button type="button" class="d2-ai-entry d2-open d2-ai-only" data-d2-detail="technology-ai"><strong>' + (en ? 'ARTIFICIAL INTELLIGENCE' : 'INTELIGENCIA ARTIFICIAL') + '</strong><span>' + (en ? 'TECHNOLOGY → MAY INCORPORATE → AI' : 'TECNOLOGÍA → PUEDE INCORPORAR → IA') + '</span></button></div></div>' +
-      '<button type="button" class="d2-rules d2-open" data-d2-detail="rules"><small>' + (en ? 'CROSS-CUTTING CONSTRAINT' : 'RESTRICCIÓN TRANSVERSAL') + '</small><strong>' + (en ? 'RULES · What is allowed, required or prohibited?' : 'REGLAS · ¿Qué está permitido, requerido o prohibido?') + '</strong></button>' +
-      '<button type="button" class="d2-outcome d2-open" data-d2-detail="outcome"><small>' + (en ? 'SYSTEM OUTCOME' : 'RESULTADO DEL SISTEMA') + '</small><strong>' + (en ? 'Coordinated components produce the outcome' : 'Los componentes coordinados producen el resultado') + '</strong><span>' + (en ? 'A working component does not guarantee system success.' : 'Un componente que funciona no garantiza el éxito del sistema.') + '</span></button>' +
-      '<button type="button" class="d2-deepening d2-open" data-d2-detail="sociotechnical"><span><small>' + (en ? 'ACADEMIC DEEPENING' : 'PROFUNDIZACIÓN ACADÉMICA') + '</small><strong>' + (en ? 'Sociotechnical perspective' : 'Perspectiva sociotécnica') + '</strong></span><span>→</span></button>' +
-      '<section class="d2-ai-layer d2-ai-only" aria-label="' + (en ? 'Diagram 02 AI Lens' : 'Capa IA del Diagrama 02') + '"><p class="d2-ai-question">' + (en ? 'What changes when an information system incorporates AI as a technological capability?' : '¿Qué cambia cuando uno de los componentes tecnológicos incorpora inteligencia artificial?') + '</p><p class="d2-ai-level">' + (en ? 'LEVEL 2 · WHAT AI MAY CHANGE' : 'NIVEL 2 · QUÉ PUEDE CAMBIAR LA IA') + '</p><div class="d2-ai-relations">' + relations + '</div></section></div>';
+    return '<div class="d2is-stage" data-diagram02="true"><button type="button" class="d2is-purpose d2is-open" data-d2is-detail="purpose"><small>' + (en ? 'ORGANIZATIONAL PURPOSE' : 'PROPÓSITO ORGANIZACIONAL') + '</small><strong>' + (en ? 'Why does this information system exist?' : '¿Para qué existe este sistema de información?') + '</strong></button>' +
+      '<button type="button" class="d2is-system d2is-open" data-d2is-detail="system"><small>CST212 / TIFFIN FOUNDATION</small><strong>' + (en ? 'INFORMATION SYSTEM' : 'SISTEMA DE INFORMACIÓN') + '</strong><span>' + (en ? 'COMPONENTS + RELATIONSHIPS + PURPOSE' : 'COMPONENTES + RELACIONES + PROPÓSITO') + '</span></button>' +
+      '<div class="d2is-components">' + people + processes + information + resources + '<div class="d2is-component d2is-technology"><button type="button" class="d2is-component d2is-open" data-d2is-detail="technology"><small>CST212 FOUNDATION</small><strong>' + (en ? 'Technology' : 'Tecnología') + '</strong><span>' + (en ? 'Technical capabilities that support the system' : 'Capacidades técnicas que apoyan el sistema') + '</span></button><b class="d2is-technology-label">' + (en ? 'CONTAINS / PART OF' : 'CONTIENE / ES PARTE DE') + '</b><button type="button" class="d2is-software d2is-open" data-d2is-detail="software"><strong>SOFTWARE</strong><span>' + (en ? 'PART OF TECHNOLOGY' : 'PARTE DE TECNOLOGÍA') + '</span></button><button type="button" class="d2is-ai-entry d2is-open d2is-ai-only" data-d2is-detail="technology-ai"><strong>' + (en ? 'ARTIFICIAL INTELLIGENCE' : 'INTELIGENCIA ARTIFICIAL') + '</strong><span>' + (en ? 'TECHNOLOGY → MAY INCORPORATE → AI' : 'TECNOLOGÍA → PUEDE INCORPORAR → IA') + '</span></button></div></div>' +
+      '<button type="button" class="d2is-rules d2is-open" data-d2is-detail="rules"><small>' + (en ? 'CROSS-CUTTING CONSTRAINT' : 'RESTRICCIÓN TRANSVERSAL') + '</small><strong>' + (en ? 'RULES · What is allowed, required or prohibited?' : 'REGLAS · ¿Qué está permitido, requerido o prohibido?') + '</strong></button>' +
+      '<button type="button" class="d2is-outcome d2is-open" data-d2is-detail="outcome"><small>' + (en ? 'SYSTEM OUTCOME' : 'RESULTADO DEL SISTEMA') + '</small><strong>' + (en ? 'Coordinated components produce the outcome' : 'Los componentes coordinados producen el resultado') + '</strong><span>' + (en ? 'A working component does not guarantee system success.' : 'Un componente que funciona no garantiza el éxito del sistema.') + '</span></button>' +
+      '<button type="button" class="d2is-deepening d2is-open" data-d2is-detail="sociotechnical"><span><small>' + (en ? 'ACADEMIC DEEPENING' : 'PROFUNDIZACIÓN ACADÉMICA') + '</small><strong>' + (en ? 'Sociotechnical perspective' : 'Perspectiva sociotécnica') + '</strong></span><span>→</span></button>' +
+      '<section class="d2is-ai-layer d2is-ai-only" aria-label="' + (en ? 'Diagram 02 AI Lens' : 'Capa IA del Diagrama 02') + '"><p class="d2is-ai-question">' + (en ? 'What changes when an information system incorporates AI as a technological capability?' : '¿Qué cambia cuando uno de los componentes tecnológicos incorpora inteligencia artificial?') + '</p><p class="d2is-ai-level">' + (en ? 'LEVEL 2 · WHAT AI MAY CHANGE' : 'NIVEL 2 · QUÉ PUEDE CAMBIAR LA IA') + '</p><div class="d2is-ai-relations">' + relations + '</div></section></div>';
   }
 
   function headingMarkup() {
     var en = isEnglish();
-    return '<div class="d2-meta-row"><span class="d2-kicker">' + (en ? 'DIAGRAM 02 · WEEK 1' : 'DIAGRAMA 02 · SEMANA 1') + '</span><div class="d2-lens-control" role="group" aria-label="' + (en ? 'Diagram 02 view' : 'Vista del Diagrama 02') + '"><button type="button" data-d2-lens="base" aria-pressed="true">BASE</button><button type="button" class="d2-lens-ai" data-d2-lens="ai" aria-pressed="false">' + T(diagramConfig.aiLensState.inactive) + '</button></div></div><h3>' + (en ? 'COMPONENTS OF AN INFORMATION SYSTEM' : 'COMPONENTES DE UN SISTEMA DE INFORMACIÓN') + '</h3><strong class="d2-primary">' + (en ? 'AN INFORMATION SYSTEM IS NOT JUST SOFTWARE.' : 'UN SISTEMA NO ES SOLO SOFTWARE.') + '</strong><p class="d2-intro">' + T(details.system.what) + '</p><p class="d2-question">' + (en ? 'What needs to work together for the system to produce the expected outcome?' : '¿Qué necesita funcionar en conjunto para que el sistema produzca el resultado esperado?') + '</p>';
+    return '<div class="d2is-meta-row"><span class="d2is-kicker">' + (en ? 'DIAGRAM 02 · WEEK 1' : 'DIAGRAMA 02 · SEMANA 1') + '</span><div class="d2is-lens-control" role="group" aria-label="' + (en ? 'Diagram 02 view' : 'Vista del Diagrama 02') + '"><button type="button" data-d2is-lens="base" aria-pressed="true">BASE</button><button type="button" class="d2is-lens-ai" data-d2is-lens="ai" aria-pressed="false">' + T(diagramConfig.aiLensState.inactive) + '</button></div></div><h3>' + (en ? 'COMPONENTS OF AN INFORMATION SYSTEM' : 'COMPONENTES DE UN SISTEMA DE INFORMACIÓN') + '</h3><strong class="d2is-primary">' + (en ? 'AN INFORMATION SYSTEM IS NOT JUST SOFTWARE.' : 'UN SISTEMA NO ES SOLO SOFTWARE.') + '</strong><p class="d2is-intro">' + T(details.system.what) + '</p><p class="d2is-question">' + (en ? 'What needs to work together for the system to produce the expected outcome?' : '¿Qué necesita funcionar en conjunto para que el sistema produzca el resultado esperado?') + '</p>';
   }
 
   function getFigure() {
@@ -228,14 +228,14 @@
   }
 
   function prepareTransitions(figure) {
-    if (!document.querySelector('[data-d2-transition="in"]')) {
+    if (!document.querySelector('[data-d2is-transition="in"]')) {
       var oldBefore = figure.previousElementSibling;
       if (oldBefore && !oldBefore.classList.contains('lesson-diagram') && /SISTEMA|SYSTEM/.test(oldBefore.textContent || '') && /SOFTWARE/.test(oldBefore.textContent || '')) oldBefore.style.display = 'none';
       var holderIn = document.createElement('div');
       holderIn.innerHTML = transitionInMarkup();
       figure.insertAdjacentElement('beforebegin', holderIn.firstElementChild);
     }
-    if (!document.querySelector('[data-d2-transition="out"]')) {
+    if (!document.querySelector('[data-d2is-transition="out"]')) {
       var oldAfter = figure.nextElementSibling;
       if (oldAfter && !oldAfter.classList.contains('lesson-diagram') && /SISTEMA|SYSTEM/.test(oldAfter.textContent || '')) oldAfter.style.display = 'none';
       var holderOut = document.createElement('div');
@@ -245,13 +245,13 @@
   }
 
   function setLens(active) {
-    var stage = document.querySelector('.d2-stage');
+    var stage = document.querySelector('.d2is-stage');
     var figure = getFigure();
     if (!stage || !figure) return;
     stage.classList.toggle('is-ai-lens', !!active);
     figure.dataset.d2Lens = active ? 'ai' : 'base';
-    var base = figure.querySelector('[data-d2-lens="base"]');
-    var ai = figure.querySelector('[data-d2-lens="ai"]');
+    var base = figure.querySelector('[data-d2is-lens="base"]');
+    var ai = figure.querySelector('[data-d2is-lens="ai"]');
     if (base) base.setAttribute('aria-pressed', active ? 'false' : 'true');
     if (ai) {
       ai.setAttribute('aria-pressed', active ? 'true' : 'false');
@@ -263,21 +263,21 @@
   function mount() {
     var figure = getFigure();
     if (!figure) return false;
-    if (figure.querySelector('.d2-stage')) return true;
+    if (figure.querySelector('.d2is-stage')) return true;
     figure.dataset.diagram02Owner = 'true';
-    figure.classList.add('d2-figure');
-    var heading = figure.querySelector('.diagram-heading, .d2-heading');
+    figure.classList.add('d2is-figure');
+    var heading = figure.querySelector('.diagram-heading, .d2is-heading');
     if (!heading) { heading = document.createElement('header'); figure.prepend(heading); }
-    heading.className = 'd2-heading';
+    heading.className = 'd2is-heading';
     heading.innerHTML = headingMarkup();
     var oldStage = figure.querySelector('.diagram-stage');
     var holder = document.createElement('div');
     holder.innerHTML = stageMarkup();
     if (oldStage) oldStage.replaceWith(holder.firstElementChild);
     else heading.insertAdjacentElement('afterend', holder.firstElementChild);
-    var caption = figure.querySelector('figcaption, .diagram-caption, .d2-caption');
+    var caption = figure.querySelector('figcaption, .diagram-caption, .d2is-caption');
     if (!caption) { caption = document.createElement('figcaption'); figure.appendChild(caption); }
-    caption.className = 'd2-caption';
+    caption.className = 'd2is-caption';
     caption.innerHTML = '<span>' + (isEnglish() ? 'Software is part of technology. Technology is part of the information system.' : 'El software es parte de la tecnología. La tecnología es parte del sistema de información.') + '</span><span><b>' + (isEnglish() ? 'SOURCE' : 'FUENTE') + '</b> ' + FOUNDATION_SOURCE + '</span>';
     prepareTransitions(figure);
     setLens(false);
@@ -286,13 +286,13 @@
 
   function section(label, content, className) {
     if (!content) return '';
-    return '<section class="d2-modal-section' + (className ? ' ' + className : '') + '"><h5>' + label + '</h5>' + content + '</section>';
+    return '<section class="d2is-modal-section' + (className ? ' ' + className : '') + '"><h5>' + label + '</h5>' + content + '</section>';
   }
   function paragraph(value) { return value ? '<p>' + T(value) + '</p>' : ''; }
   function list(items) { return items && items.length ? '<ul>' + items.map(function (item) { return '<li>' + T(item) + '</li>'; }).join('') + '</ul>' : ''; }
   function examples(items) {
     if (!items || !items.length) return '';
-    return '<div class="d2-modal-examples">' + items.map(function (item) { return '<div class="d2-modal-example"><b>' + T(item[0]) + '</b><p>' + T(item[1]) + '</p></div>'; }).join('') + '</div>';
+    return '<div class="d2is-modal-examples">' + items.map(function (item) { return '<div class="d2is-modal-example"><b>' + T(item[0]) + '</b><p>' + T(item[1]) + '</p></div>'; }).join('') + '</div>';
   }
 
   function modalMarkup(key) {
@@ -309,14 +309,14 @@
     grid += section(en ? 'CONTROL QUESTIONS' : 'PREGUNTAS DE CONTROL', list(d.questions), d.questions ? 'is-wide' : '');
     grid += section(en ? 'RELATED CONCEPTS' : 'CONCEPTOS RELACIONADOS', paragraph(d.related));
     grid += section(en ? 'DO NOT CONFUSE' : 'NO CONFUNDIR', paragraph(d.confuse));
-    grid += section(en ? 'IMPORTANT' : 'IMPORTANTE', paragraph(d.important), d.layer === 'ai' ? 'd2-modal-ai' : '');
-    if (d.aiLens && document.querySelector('.d2-stage.is-ai-lens')) grid += section(en ? 'AI LENS' : 'CAPA IA', paragraph(d.aiLens), 'd2-modal-ai');
+    grid += section(en ? 'IMPORTANT' : 'IMPORTANTE', paragraph(d.important), d.layer === 'ai' ? 'd2is-modal-ai' : '');
+    if (d.aiLens && document.querySelector('.d2is-stage.is-ai-lens')) grid += section(en ? 'AI LENS' : 'CAPA IA', paragraph(d.aiLens), 'd2is-modal-ai');
     grid += section(en ? 'SOURCE / LAYER' : 'FUENTE / CAPA', '<p>' + layerSource(d.layer) + '</p>');
-    return '<div class="d2-backdrop" data-d2-close="true"></div><article class="d2-modal" role="dialog" aria-modal="true" aria-labelledby="d2-modal-title"><button type="button" class="d2-modal-close" data-d2-close="true" aria-label="' + (en ? 'Close' : 'Cerrar') + '">×</button><header class="d2-modal-head"><span class="d2-badge' + badgeClass + '">' + T(layerBadge(d.layer)) + '</span><h4 id="d2-modal-title">' + T(d.title) + '</h4></header><div class="d2-modal-grid">' + grid + '</div></article>';
+    return '<div class="d2is-backdrop" data-d2is-close="true"></div><article class="d2is-modal" role="dialog" aria-modal="true" aria-labelledby="d2is-modal-title"><button type="button" class="d2is-modal-close" data-d2is-close="true" aria-label="' + (en ? 'Close' : 'Cerrar') + '">×</button><header class="d2is-modal-head"><span class="d2is-badge' + badgeClass + '">' + T(layerBadge(d.layer)) + '</span><h4 id="d2is-modal-title">' + T(d.title) + '</h4></header><div class="d2is-modal-grid">' + grid + '</div></article>';
   }
 
   function closeModal() {
-    document.querySelectorAll('.d2-backdrop, .d2-modal').forEach(function (node) { node.remove(); });
+    document.querySelectorAll('.d2is-backdrop, .d2is-modal').forEach(function (node) { node.remove(); });
     currentDetail = null;
   }
 
@@ -326,26 +326,26 @@
     var holder = document.createElement('div');
     holder.innerHTML = modalMarkup(key);
     while (holder.firstChild) document.body.appendChild(holder.firstChild);
-    var close = document.querySelector('.d2-modal-close');
+    var close = document.querySelector('.d2is-modal-close');
     if (close) close.focus({ preventScroll: true });
   }
 
   document.addEventListener('click', function (event) {
-    var lens = event.target.closest('[data-d2-lens]');
+    var lens = event.target.closest('[data-d2is-lens]');
     if (lens) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      setLens(lens.getAttribute('data-d2-lens') === 'ai');
+      setLens(lens.getAttribute('data-d2is-lens') === 'ai');
       return;
     }
-    var open = event.target.closest('.d2-open[data-d2-detail]');
+    var open = event.target.closest('.d2is-open[data-d2is-detail]');
     if (open) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      renderModal(open.getAttribute('data-d2-detail'));
+      renderModal(open.getAttribute('data-d2is-detail'));
       return;
     }
-    if (event.target.closest('[data-d2-close="true"]')) {
+    if (event.target.closest('[data-d2is-close="true"]')) {
       event.preventDefault();
       event.stopImmediatePropagation();
       closeModal();
@@ -353,11 +353,11 @@
   }, true);
 
   document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape' && document.querySelector('.d2-modal')) closeModal();
+    if (event.key === 'Escape' && document.querySelector('.d2is-modal')) closeModal();
   });
 
   var observer = new MutationObserver(function () {
-    if (!document.querySelector('.d2-stage') && getFigure()) mount();
+    if (!document.querySelector('.d2is-stage') && getFigure()) mount();
   });
 
   function start() {

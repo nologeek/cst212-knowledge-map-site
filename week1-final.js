@@ -266,7 +266,7 @@
 
   const boot = () => { ensureUI(); renderWeek(); };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded",boot,{once:true}); else boot();
-  const finalDiagramSelector = ".d1c-stage, .d1c-drawer, .d1c-backdrop, .w1i-lens-slot, .d1a-ai-node, .d1a-paths, .d1a-state-message, .d1a-drawer, .d1a-backdrop";
+  const finalDiagramSelector = ".d1c-stage, .d1c-drawer, .d1c-backdrop, .w1i-lens-slot, .d1a-ai-node, .d1a-paths, .d1a-state-message, .d1a-drawer, .d1a-backdrop, .d1l-stage, .d1l-modal, .d1l-backdrop";
   const isFinalDiagramMutation = mutation => {
     if (mutation.target.closest?.(finalDiagramSelector)) return true;
     const changedElements = [...mutation.addedNodes, ...mutation.removedNodes]

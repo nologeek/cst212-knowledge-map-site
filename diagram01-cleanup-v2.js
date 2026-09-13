@@ -46,7 +46,7 @@
       if (!box) { box=document.createElement("section"); root.querySelector(".w1i-intro")?.after(box); }
       box.className = "d1c-master-question";
     }
-    const content = `<small>01 / 07 · ${isEn()?"WEEK 1":"SEMANA 1"}</small><h2>${isEn()?"BEFORE DESIGNING A SOLUTION,<br>IS THERE REALLY A PROBLEM OR OPPORTUNITY THAT JUSTIFIES STARTING A PROJECT?":"¿Existe realmente un problema o una oportunidad que justifique iniciar un proyecto??"}</h2><p>${isEn()?"To answer that, we first need to understand the system, identify the need, investigate the problem and evaluate alternatives.":"Para responderlo, primero debemos entender el sistema, identificar la necesidad, investigar el problema y evaluar alternativas."}</p><strong>${isEn()?"UNDERSTAND → INVESTIGATE → EVALUATE → DECIDE":"COMPRENDER → INVESTIGAR → EVALUAR → DECIDIR"}</strong>`;
+    const content = `<small>01 / 07 · ${isEn()?"WEEK 1":"SEMANA 1"}</small><h2>${isEn()?"BEFORE DESIGNING A SOLUTION,<br>IS THERE REALLY A PROBLEM OR OPPORTUNITY THAT JUSTIFIES STARTING A PROJECT?":"¿Existe realmente un problema o una oportunidad que justifique iniciar un proyecto para crear, mejorar o transformar un sistema?"}</h2><p>${isEn()?"To answer that, we first need to understand the system, identify the need, investigate the problem and evaluate alternatives.":"Para responderlo, primero debemos entender el sistema, identificar la necesidad, investigar el problema y evaluar alternativas."}</p><strong>${isEn()?"UNDERSTAND → INVESTIGATE → EVALUATE → DECIDE":"COMPRENDER → INVESTIGAR → EVALUAR → DECIDIR"}</strong>`;
     if (box.innerHTML !== content) box.innerHTML = content;
   };
 

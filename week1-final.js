@@ -237,6 +237,7 @@
     e.target.closest(".w1f-stage")?.querySelectorAll(".is-related").forEach(n=>n.classList.remove("is-related"));
   });
   document.addEventListener("click", e => {
+    if (e.target.closest?.(".d1c-stage")) return;
     const lens = e.target.closest?.("[data-w1f-lens]");
     if (lens) {
       aiOn = lens.dataset.w1fLens === "ai";

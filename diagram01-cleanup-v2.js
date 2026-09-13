@@ -89,10 +89,9 @@
   document.addEventListener("pointerout",event=>{const stage=event.target.closest?.(".d1c-stage");if(stage)stage.querySelectorAll(".is-muted,.is-active").forEach(el=>el.classList.remove("is-muted","is-active"));});
   document.addEventListener("click",event=>{if(event.target.closest?.("[data-d1c-close]")){document.querySelector(".d1c-drawer").hidden=true;document.querySelector(".d1c-backdrop").hidden=true;document.body.classList.remove("d1c-drawer-open");return}const node=event.target.closest?.("[data-d1c-key]");if(node&&concepts[node.dataset.d1cKey]){event.preventDefault();event.stopPropagation();openDrawer(concepts[node.dataset.d1cKey]);}},true);
   document.addEventListener("keydown",event=>{if(event.key==="Escape"){const d=document.querySelector(".d1c-drawer"),b=document.querySelector(".d1c-backdrop");if(d)d.hidden=true;if(b)b.hidden=true;document.body.classList.remove("d1c-drawer-open")}});
-  const boot=()=>{ensureDrawer();render()};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
-  const weekRoot=document.querySelector("#week-1");
-  if(weekRoot)new MutationObserver(records=>{
+  const observeWeek=()=>{const weekRoot=document.querySelector("#week-1");if(!weekRoot||weekRoot.dataset.d1cObserved)return;weekRoot.dataset.d1cObserved="true";new MutationObserver(records=>{
     if(weekRoot.querySelector(".week-master-question"))requestAnimationFrame(()=>masterQuestion(weekRoot));
     if(records.some(record=>record.type==="attributes"&&record.target===weekRoot)){const figure=weekRoot.querySelector(".lesson-diagram");if(figure)delete figure.dataset.d1Cleanup;requestAnimationFrame(render)}
-  }).observe(weekRoot,{childList:true,subtree:true,attributes:true,attributeFilter:["class"]});
+  }).observe(weekRoot,{childList:true,subtree:true,attributes:true,attributeFilter:["class"]})};
+  const boot=()=>{ensureDrawer();render();observeWeek()};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
 })();

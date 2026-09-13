@@ -27,13 +27,20 @@
 }
 
 .d1l-definition strong {
+  box-sizing: border-box;
+  width: 100%;
   max-width: 1120px;
+  padding-inline: 12px;
   color: #edf7f6;
   font: 430 clamp(20px, 1.75vw, 31px)/1.18 sans-serif;
   letter-spacing: -.025em;
 }
 
 .d1l-definition span {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 980px;
+  padding-inline: 12px;
   color: rgba(192, 216, 217, .62);
   font: 400 clamp(12px, .82vw, 15px)/1.45 sans-serif;
 }

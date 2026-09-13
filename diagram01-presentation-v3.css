@@ -1,5 +1,5 @@
 +/* Week 1 Diagram 01 presentation refinements */
-.week-master-question:has(+ .d1c-master-question) {
+#week-1:has(.d1c-master-question) .week-master-question {
   display: none !important;
 }
 
@@ -109,4 +109,3 @@ figure[data-d1-cleanup] .diagram-heading h3 {
     text-wrap: pretty;
   }
 }
-

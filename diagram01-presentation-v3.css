@@ -377,3 +377,221 @@ figure[data-d1-cleanup] .diagram-heading h3 {
     animation: none !important;
   }
 }
+
+/* Diagram 01 final two-state AI Lens. */
+#week-1 {
+  --d1c-ai-accent: #ff7657;
+  --d1c-ai-accent-soft: rgba(255, 118, 87, 0.16);
+}
+
+#week-1 .d1c-ai-expansion,
+#week-1 .d1c-ai-lines,
+#week-1 .d1c-ai-layer {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+#week-1 .d1c-ai-expansion,
+#week-1 .d1c-ai-lines {
+  transition: opacity 240ms ease, visibility 0s linear 320ms;
+}
+
+#week-1 .d1c-ai-layer {
+  transform: translateX(-50%) translateY(12px) scale(0.985);
+  transition: opacity 280ms ease, transform 360ms cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 360ms;
+}
+
+#week-1 .d1c-ai-expansion path {
+  fill: none;
+  stroke: rgba(105, 221, 212, 0.36);
+  stroke-width: 1.25px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+#week-1 .d1c-ai-lines path {
+  fill: none !important;
+  stroke: var(--d1c-ai-accent) !important;
+  stroke-width: 2.35px !important;
+  stroke-opacity: 0.92 !important;
+  stroke-linecap: round;
+  stroke-dasharray: 8 10 !important;
+  vector-effect: non-scaling-stroke;
+  animation: none !important;
+}
+
+#week-1 .d1c-ai-marker path {
+  fill: var(--d1c-ai-accent);
+}
+
+#week-1.is-ai-lens .d1c-canvas > svg > line {
+  opacity: 1 !important;
+}
+
+#week-1.is-ai-lens .d1c-ai-expansion {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transition-delay: 120ms, 0s;
+}
+
+#week-1.is-ai-lens .d1c-ai-lines {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: stroke !important;
+  filter: drop-shadow(0 0 4px rgba(255, 118, 87, 0.42));
+  transition-delay: 430ms, 0s;
+}
+
+#week-1.is-ai-lens .d1c-ai-lines path {
+  animation: d1c-final-ai-flow 3s linear 430ms infinite !important;
+  animation-direction: normal !important;
+}
+
+#week-1.is-ai-lens .d1c-technology {
+  border-color: var(--d1c-ai-accent) !important;
+  background: rgba(4, 25, 33, 0.94) !important;
+  color: #e8f3f2 !important;
+  box-shadow: 0 0 0 3px rgba(255, 118, 87, 0.1), 0 0 28px rgba(255, 118, 87, 0.18) !important;
+}
+
+#week-1.is-ai-lens :is(.d1c-purpose, .d1c-people, .d1c-processes, .d1c-information, .d1c-rules, .d1c-resources) {
+  animation: none !important;
+  box-shadow: none !important;
+}
+
+#week-1.is-ai-lens :is(.d1c-people, .d1c-processes, .d1c-information, .d1c-rules, .d1c-resources) {
+  border-color: rgba(105, 221, 212, 0.24) !important;
+  color: #e8f3f2 !important;
+}
+
+#week-1.is-ai-lens .d1c-purpose {
+  border-color: rgba(237, 180, 53, 0.65) !important;
+  color: #ffe09a !important;
+}
+
+#week-1.is-ai-lens .d1c-ai-layer {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: translateX(-50%) translateY(0) scale(1);
+  transition-delay: 220ms, 220ms, 0s;
+}
+
+#week-1.is-ai-lens .d1c-ai-layer > small {
+  color: rgba(105, 221, 212, 0.78) !important;
+}
+
+#week-1.is-ai-lens .d1c-ai-layer > div .d1c-node {
+  border-color: rgba(105, 221, 212, 0.34) !important;
+  background: rgba(4, 25, 33, 0.94) !important;
+  color: rgba(232, 243, 242, 0.72) !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+#week-1.is-ai-lens .d1c-ai-layer > div .d1c-ai {
+  border-color: var(--d1c-ai-accent) !important;
+  background: var(--d1c-ai-accent-soft) !important;
+  color: #fff0eb !important;
+  box-shadow: 0 0 0 2px rgba(255, 118, 87, 0.1), 0 0 24px rgba(255, 118, 87, 0.2) !important;
+}
+
+#week-1.is-ai-lens .d1c-ai-layer > .d1c-ai-relation-label {
+  display: block;
+  width: auto !important;
+  height: auto !important;
+  padding: 2px 5px;
+  border: 1px solid rgba(255, 118, 87, 0.26);
+  border-radius: 999px;
+  background: rgba(5, 22, 27, 0.9);
+  color: var(--d1c-ai-accent) !important;
+  font-size: clamp(7px, 0.54vw, 9px) !important;
+  font-weight: 700;
+  line-height: 1.1 !important;
+  letter-spacing: 0.07em;
+  white-space: nowrap;
+  text-shadow: none;
+  pointer-events: auto !important;
+  cursor: help;
+}
+
+#week-1 .d1c-ai-relation-label::after {
+  content: attr(data-d1c-tip);
+  position: absolute;
+  z-index: 12;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  width: max-content;
+  max-width: 190px;
+  padding: 7px 9px;
+  border: 1px solid rgba(255, 118, 87, 0.3);
+  border-radius: 8px;
+  color: #f3f7f7;
+  background: rgba(2, 16, 22, 0.97);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: 0;
+  text-transform: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 4px);
+  transition: opacity 160ms ease, transform 160ms ease, visibility 0s linear 160ms;
+  pointer-events: none;
+}
+
+#week-1 .d1c-ai-relation-label:is(:hover, :focus-visible)::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+  transition-delay: 0s;
+}
+
+#week-1 .d1c-teaching [hidden] {
+  display: none !important;
+}
+
+#week-1.is-ai-lens .d1c-teaching {
+  color: rgba(255, 160, 137, 0.86);
+}
+
+.d1c-drawer.is-ai-concept .d1c-ai-key strong {
+  color: var(--d1c-ai-accent, #ff7657);
+  font-size: 1.05em;
+}
+
+@media (min-width: 1100px) {
+  body .d1c-drawer.is-ai-concept .d1c-drawer-body {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-template-rows: auto repeat(2, minmax(0, 1fr)) !important;
+    grid-template-areas:
+      "head head head"
+      "ai-what ai-why ai-question"
+      "ai-key ai-limit ai-source" !important;
+  }
+
+  body .d1c-drawer.is-ai-concept .d1c-drawer-body > header { grid-area: head !important; }
+  body .d1c-drawer.is-ai-concept .d1c-drawer-body > section:nth-of-type(1) { grid-area: ai-what !important; }
+  body .d1c-drawer.is-ai-concept .d1c-drawer-body > section:nth-of-type(2) { grid-area: ai-why !important; }
+  body .d1c-drawer.is-ai-concept .d1c-drawer-body > section:nth-of-type(3) { grid-area: ai-question !important; }
+  body .d1c-drawer.is-ai-concept .d1c-drawer-body > section:nth-of-type(4) { grid-area: ai-key !important; }
+  body .d1c-drawer.is-ai-concept .d1c-drawer-body > section:nth-of-type(5) { grid-area: ai-limit !important; }
+  body .d1c-drawer.is-ai-concept .d1c-drawer-body > section:nth-of-type(6) { grid-area: ai-source !important; }
+}
+
+@keyframes d1c-final-ai-flow {
+  to { stroke-dashoffset: -36; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #week-1 .d1c-ai-expansion,
+  #week-1 .d1c-ai-lines,
+  #week-1 .d1c-ai-layer,
+  #week-1.is-ai-lens .d1c-ai-lines path {
+    animation: none !important;
+    transition: none !important;
+  }
+}

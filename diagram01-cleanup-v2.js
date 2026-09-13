@@ -37,6 +37,7 @@
   const masterQuestion = root => {
     let box = root.querySelector(".d1c-master-question");
     const legacyBox = root.querySelector(".week-master-question");
+    if(box&&legacyBox&&box!==legacyBox){legacyBox.hidden=true;legacyBox.setAttribute("aria-hidden","true");legacyBox.style.setProperty("display","none","important")}
     if (!box) {
       box = legacyBox;
       if (!box) { box=document.createElement("section"); root.querySelector(".w1i-intro")?.after(box); }
@@ -87,6 +88,6 @@
   document.addEventListener("pointerout",event=>{const stage=event.target.closest?.(".d1c-stage");if(stage)stage.querySelectorAll(".is-muted,.is-active").forEach(el=>el.classList.remove("is-muted","is-active"));});
   document.addEventListener("click",event=>{if(event.target.closest?.("[data-d1c-close]")){document.querySelector(".d1c-drawer").hidden=true;document.querySelector(".d1c-backdrop").hidden=true;document.body.classList.remove("d1c-drawer-open");return}const node=event.target.closest?.("[data-d1c-key]");if(node&&concepts[node.dataset.d1cKey]){event.preventDefault();event.stopPropagation();openDrawer(concepts[node.dataset.d1cKey]);}},true);
   document.addEventListener("keydown",event=>{if(event.key==="Escape"){const d=document.querySelector(".d1c-drawer"),b=document.querySelector(".d1c-backdrop");if(d)d.hidden=true;if(b)b.hidden=true;document.body.classList.remove("d1c-drawer-open")}});
-  const observeWeek=()=>{const weekRoot=document.querySelector("#week-1");if(!weekRoot||weekRoot.dataset.d1cObserved)return;weekRoot.dataset.d1cObserved="true";new MutationObserver(()=>{const figure=weekRoot.querySelector(".lesson-diagram");if(figure)delete figure.dataset.d1Cleanup;requestAnimationFrame(render)}).observe(weekRoot,{attributes:true,attributeFilter:["class"]})};
+  const observeWeek=()=>{const weekRoot=document.querySelector("#week-1");if(!weekRoot||weekRoot.dataset.d1cObserved)return;weekRoot.dataset.d1cObserved="true";new MutationObserver(()=>masterQuestion(weekRoot)).observe(weekRoot,{childList:true,subtree:true});new MutationObserver(()=>{const figure=weekRoot.querySelector(".lesson-diagram");if(figure)delete figure.dataset.d1Cleanup;requestAnimationFrame(render)}).observe(weekRoot,{attributes:true,attributeFilter:["class"]})};
   const boot=()=>{ensureDrawer();render();observeWeek()};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
 })();

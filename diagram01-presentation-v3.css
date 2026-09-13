@@ -790,3 +790,16 @@ body.w1f-drawer-open #week-1 > .w1i-lens-slot.d1c-lens-dock {
   margin: 0 !important;
   pointer-events: auto !important;
 }
+/* Remove the unused global header and give its space back to the learning canvas. */
+body > .app-shell > .topbar {
+  display: none !important;
+}
+
+body > .app-shell .view-pane,
+body > .app-shell .course-journey-view {
+  height: 100vh !important;
+}
+
+#week-1 > .w1i-lens-slot.d1c-lens-dock {
+  top: 26px !important;
+}

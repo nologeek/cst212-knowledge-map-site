@@ -697,6 +697,7 @@ body.w1f-drawer-open #week-1 > .w1i-lens-slot.d1c-lens-dock {
 
 #week-1 .system-figure-v2 > .d1c-stage {
   padding-top: 18px !important;
+  justify-content: flex-start !important;
 }
 
 /* Let the master-question section end with the question itself. */

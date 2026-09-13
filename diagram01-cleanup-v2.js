@@ -140,7 +140,13 @@
 
     var first = diagrams[0].getBoundingClientRect();
     var last = diagrams[diagrams.length - 1].getBoundingClientRect();
-    var inDiagramRange = first.top < window.innerHeight * 0.78 && last.bottom > window.innerHeight * 0.18;
+    var scroller = document.querySelector("#learnView");
+    var viewport = scroller
+      ? scroller.getBoundingClientRect()
+      : { top: 0, bottom: window.innerHeight, height: window.innerHeight };
+    var inDiagramRange =
+      first.top < viewport.top + viewport.height * 0.78 &&
+      last.bottom > viewport.top + viewport.height * 0.18;
     slot.classList.toggle("is-diagram-visible", inDiagramRange);
   }
 
@@ -155,6 +161,8 @@
     if (!root || root.dataset.d1cLensDockBound === "true") return;
     root.dataset.d1cLensDockBound = "true";
     window.addEventListener("scroll", scheduleDock, { passive: true });
+    var scroller = document.querySelector("#learnView");
+    if (scroller) scroller.addEventListener("scroll", scheduleDock, { passive: true });
     window.addEventListener("resize", scheduleDock);
     root.addEventListener("cst212:lenschange", scheduleDock);
     scheduleDock();

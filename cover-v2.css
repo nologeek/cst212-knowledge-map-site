@@ -88,11 +88,34 @@
 }
 
 .cover-v2__promise {
-  margin: .15rem 0 .35rem;
+  margin: .1rem 0 0;
+  max-width: 1060px;
   color: rgba(225, 237, 238, .75);
   font-size: clamp(.86rem, 1.22vw, 1.12rem);
   line-height: 1.45;
   white-space: nowrap;
+}
+
+.cover-v2__ai {
+  max-width: 980px;
+  margin: 0;
+  color: rgba(209, 229, 230, .62);
+  font-size: clamp(.74rem, .96vw, .92rem);
+  line-height: 1.48;
+  text-wrap: balance;
+}
+
+.cover-v2__ai strong {
+  color: #70ddd4;
+  font-weight: 650;
+}
+
+.cover-v2__people {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: .7rem;
 }
 
 .cover-v2__student {
@@ -109,6 +132,18 @@
   white-space: nowrap;
 }
 
+.cover-v2__person {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: .45rem 1.1rem;
+  border: 1px solid rgba(128, 224, 216, .14);
+  border-radius: 999px;
+  background: rgba(4, 25, 33, .5);
+  white-space: nowrap;
+}
+
 .cover-v2__photo {
   width: clamp(48px, 5vw, 62px);
   aspect-ratio: 1;
@@ -120,9 +155,9 @@
 }
 
 .cover-v2__identity {
-  display: flex;
-  align-items: baseline;
-  gap: .45rem;
+  display: grid;
+  justify-items: start;
+  gap: .12rem;
   color: #f3f8f7;
   font-size: clamp(.76rem, 1vw, .95rem);
 }
@@ -144,7 +179,7 @@
   color: rgba(220, 235, 236, .65);
   font-size: clamp(.7rem, .9vw, .82rem);
   letter-spacing: .11em;
-  text-transform: uppercase;
+  text-transform: none;
   white-space: nowrap;
 }
 
@@ -168,6 +203,10 @@
   #home.cover-v2 .cover-v2__title { font-size: clamp(1.08rem, 5.5vw, 1.65rem); letter-spacing: -.045em; }
   #home.cover-v2 .cover-v2__subtitle { font-size: clamp(.68rem, 2.9vw, .9rem); }
   .cover-v2__promise { font-size: clamp(.65rem, 2.8vw, .83rem); letter-spacing: -.018em; }
+  .cover-v2__ai { max-width: 94vw; font-size: clamp(.62rem, 2.55vw, .76rem); line-height: 1.36; }
+  .cover-v2__people { gap: .45rem; }
+  .cover-v2__person { min-height: 42px; padding: .35rem .8rem; }
+  .cover-v2__progress { gap: .45rem; font-size: clamp(.58rem, 2.35vw, .72rem); }
   .cover-v2__student { gap: .6rem; padding-right: .85rem; }
   .cover-v2__identity { font-size: clamp(.66rem, 2.75vw, .82rem); }
 }

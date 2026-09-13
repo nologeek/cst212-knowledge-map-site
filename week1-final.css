@@ -1,3 +1,4 @@
+html,body,body * { font-family:sans-serif!important; }
 #week-1.week1-final { --w1f-aqua:#69ddd4; --w1f-gold:#edb435; --w1f-ink:#06131a; position:relative; background:linear-gradient(180deg,rgba(1,15,22,.98),rgba(3,22,29,.98) 48%,rgba(1,15,22,.98)); }
 #week-1.week1-final .week-intro { min-height:68vh; align-items:center; }
 #week-1.week1-final .week-question { max-width:980px; color:#f3f8f7; font-size:clamp(1.5rem,3.2vw,3.4rem); line-height:1.02; letter-spacing:-.035em; }

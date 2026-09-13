@@ -1,6 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap");
-
-body,button,input,.atlas-hero h1,.week-intro h2,.diagram-heading h3,.native-week-marker h2,.atlas-closing h2,.knowledge-drawer h2{font-family:"PP Neue Montreal","Neue Montreal","Manrope","Aptos",sans-serif!important}
+body,button,input,.atlas-hero h1,.week-intro h2,.diagram-heading h3,.native-week-marker h2,.atlas-closing h2,.knowledge-drawer h2{font-family:sans-serif!important}
 .atlas-hero h1,.week-intro h2,.diagram-heading h3,.native-week-marker h2,.atlas-closing h2{font-weight:500!important;letter-spacing:-.055em!important}
 .system-figure-v2{margin-bottom:clamp(110px,15vw,190px)}
 .system-diagram-v2{position:relative;min-height:clamp(580px,68vw,760px);overflow:hidden;padding:0!important;border-color:rgba(134,183,220,.2)!important;background:radial-gradient(circle at 50% 50%,rgba(99,207,198,.12),transparent 28%),linear-gradient(145deg,rgba(8,28,37,.92),rgba(3,13,20,.78))!important;isolation:isolate}

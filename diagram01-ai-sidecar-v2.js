@@ -300,6 +300,17 @@
     if (!root.dataset.d1aEventsBound) {
       root.dataset.d1aEventsBound = "true";
       root.addEventListener("click", function (event) {
+        var mobileRelation = event.target.closest("[data-mobile-relation]");
+        var aiNode = event.target.closest(".d1a-ai-node");
+        var pathHit = event.target.closest(".d1a-hit");
+        if (!mobileRelation && !aiNode && !pathHit) return;
+        event.preventDefault();
+        event.stopPropagation();
+        if (mobileRelation) openDrawer(mobileRelation.dataset.mobileRelation);
+        else if (aiNode) openDrawer("ai");
+        else openDrawer(pathHit.closest(".d1a-relation").dataset.relation);
+      }, true);
+      root.addEventListener("click", function (event) {
         var button = event.target.closest(".w1f-lens-toggle button");
         if (!button) return;
         window.setTimeout(function () {

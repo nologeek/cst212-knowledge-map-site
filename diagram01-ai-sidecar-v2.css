@@ -8,9 +8,11 @@
 #week-1 .d1c-ai-lines,
 #week-1 .d1c-ai-edge,
 #week-1 .d1c-ai-relation-label,
+#week-1 .d1c-ai-message,
 #week-1 .d1-ai-edges,
 #week-1 .d1-tech-expansion,
 #week-1 .d1-ai-label,
+#week-1 .d1-ai-message,
 #week-1 .d1-human-gate,
 #week-1 [data-ai-connection]:not(.d1a-relation),
 #week-1 [class*="human-gate"] {

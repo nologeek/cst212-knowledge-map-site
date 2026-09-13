@@ -11,8 +11,8 @@
         <img class="cover-v2__logo" src="assets/tiffin-university-logo.png" alt="Tiffin University">
         <p class="cover-v2__course">CST212 ES_A190</p>
         <h1 class="cover-v2__heading">
-          <span class="cover-v2__title">Análisis y diseño de sistemas</span>
-          <span class="cover-v2__subtitle">atlas interactivo de aprendizaje</span>
+          <span class="cover-v2__title">ANÁLISIS Y DISEÑO DE SISTEMAS</span>
+          <span class="cover-v2__subtitle">Atlas interactivo de aprendizaje</span>
         </h1>
         <p class="cover-v2__promise">Aprende a investigar necesidades, definir sistemas y justificar decisiones antes de diseñar una solución.</p>
         <div class="cover-v2__student" aria-label="Estudiante Víctor Manuel Ayala Vargas">

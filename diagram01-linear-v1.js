@@ -1,244 +1,202 @@
-(function installDiagram01LinearModel() {
+(function () {
   "use strict";
-
-  var ROOT = "#week-1";
+  var SOURCE = "CST212 Week 1 learning materials · SOURCE_METADATA_PENDING";
+  var currentDetail = null;
+  function B(es, en) { return { es: es, en: en }; }
+  function englishMode() {
+    var lang = (document.documentElement.lang || "").toLowerCase();
+    if (lang.indexOf("en") === 0) return true;
+    return !!document.querySelector('[data-lang="en"].is-active, [data-lang="en"][aria-pressed="true"], [data-language="en"].is-active');
+  }
+  function T(value) {
+    if (value == null) return "";
+    if (typeof value === "string") return value;
+    return englishMode() ? (value.en || value.es || "") : (value.es || value.en || "");
+  }
+  var labels = {
+    system: B("Sistema", "System"), people: B("Personas", "People"), processes: B("Procesos", "Processes"), information: B("Información", "Information"),
+    rules: B("Reglas", "Rules"), resources: B("Recursos", "Resources"), technology: B("Tecnología", "Technology"), software: B("Software", "Software"),
+    sociotechnical: B("Sistema sociotécnico", "Sociotechnical system"), business_process: B("Proceso de negocio", "Business process"), evidence: B("Evidencia", "Evidence"), feasibility: B("Viabilidad", "Feasibility")
+  };
   var details = {
-    system: ["SISTEMA", "COURSE / ACADEMIC FOUNDATION", [
-      ["QUÉ ES", "Un conjunto de elementos relacionados que interactúan para lograr un propósito."],
-      ["POR QUÉ IMPORTA", "Porque cambiar una parte puede afectar a otras. Analizar un sistema significa comprender tanto sus componentes como sus relaciones."],
-      ["METÁFORA", "Una orquesta: un violín no es la orquesta. El resultado aparece cuando músicos, instrumentos, partitura y dirección trabajan juntos."],
-      ["PREGUNTA GUÍA", "¿Qué elementos participan y qué propósito intentan lograr juntos?"],
-      ["IDEA CLAVE", "Las partes importan. Las relaciones también.", "key"]
-    ]],
-    purpose: ["PROPÓSITO", "COURSE / ACADEMIC FOUNDATION", [
-      ["QUÉ ES", "El resultado o finalidad que da sentido a la interacción entre los componentes."],
-      ["PREGUNTA GUÍA", "¿Para qué existe este sistema?"],
-      ["EJEMPLO DE NEGOCIO", "Para un sistema de reservas: asignar correctamente recursos disponibles a clientes en determinados momentos."],
-      ["METÁFORA", "El destino de un viaje. Sin un destino, podemos tener automóvil, conductor y combustible, pero no sabemos cómo organizar el recorrido."]
-    ]],
-    people: ["PERSONAS", "COURSE / ACADEMIC FOUNDATION", [
-      ["QUÉ ES", "Quienes participan, utilizan, administran, toman decisiones o reciben resultados del sistema."],
-      ["PREGUNTA GUÍA", "¿Quién participa y quién es afectado?"],
-      ["EJEMPLOS", "Negocios: cliente, empleado, gerente y proveedor. Educación: estudiantes, docentes, coordinadores y familias."],
-      ["METÁFORA", "Los actores de una obra."]
-    ]],
-    processes: ["PROCESOS", "COURSE / ACADEMIC FOUNDATION", [
-      ["QUÉ ES", "Actividades relacionadas que transforman entradas en resultados."],
-      ["PREGUNTA GUÍA", "¿Qué trabajo ocurre y en qué secuencia?"],
-      ["EJEMPLO", "Solicitud → verificación → decisión → resultado."],
-      ["METÁFORA", "Una receta: importan los elementos, pero también qué hacemos con ellos y en qué orden."]
-    ]],
-    information: ["INFORMACIÓN", "COURSE / ACADEMIC FOUNDATION", [
-      ["QUÉ ES", "Datos que adquieren significado y permiten operar, comunicar o tomar decisiones."],
-      ["PREGUNTA GUÍA", "¿Qué necesita saber el sistema?"],
-      ["EJEMPLO", "Una fecha aislada es un dato. Kayak disponible el 15 de septiembre es información útil para tomar una decisión."],
-      ["METÁFORA", "La memoria compartida del sistema."]
-    ]],
-    rules: ["REGLAS", "COURSE / ACADEMIC FOUNDATION", [
-      ["QUÉ ES", "Condiciones que orientan o limitan el comportamiento y las decisiones del sistema."],
-      ["PREGUNTA GUÍA", "¿Qué está permitido, requerido o prohibido?"],
-      ["EJEMPLO", "Un kayak no puede reservarse dos veces en el mismo horario."],
-      ["METÁFORA", "Las reglas de tránsito: permiten que múltiples elementos interactúen sin caos."]
-    ]],
-    resources: ["RECURSOS", "COURSE / ACADEMIC FOUNDATION", [
-      ["QUÉ ES", "Medios que el sistema utiliza para funcionar."],
-      ["CATEGORÍAS POSIBLES", "Humanos, físicos, financieros, informativos y tecnológicos."],
-      ["PREGUNTA GUÍA", "¿Qué necesita el sistema para operar?"]
-    ]],
-    technology: ["TECNOLOGÍA", "COURSE / ACADEMIC FOUNDATION", [
-      ["QUÉ ES", "Herramientas técnicas que apoyan determinadas funciones del sistema."],
-      ["PUEDE INCLUIR", "Hardware, software, redes, automatización e inteligencia artificial."],
-      ["PREGUNTA GUÍA", "¿Qué tecnología apoya el propósito del sistema?"],
-      ["IDEA CLAVE", "La tecnología puede formar parte del sistema. No es necesariamente el sistema completo.", "key"]
-    ]],
-    ai: ["INTELIGENCIA ARTIFICIAL", "AI-FIRST EXTENSION", [
-      ["QUÉ ES EN ESTE MODELO", "Una capacidad tecnológica que puede analizar información, reconocer patrones, generar resultados, recomendar acciones o ejecutar tareas acotadas."],
-      ["POR QUÉ IMPORTA", "Puede cambiar la capacidad del sistema y también modificar cómo interactúan personas, procesos, información y reglas."],
-      ["DISTINCIÓN CLAVE", "IA ≠ SISTEMA. La IA es un componente o capacidad dentro de un sistema mayor.", "key"]
-    ]],
-    aiInformation: ["IA + INFORMACIÓN", "AI-FIRST EXTENSION · ANALIZAR", [
-      ["QUÉ SIGNIFICA", "La IA puede analizar grandes cantidades de información para encontrar patrones, clasificar contenidos, resumir datos o detectar anomalías."],
-      ["EJEMPLO", "Un sistema puede analizar miles de comentarios de clientes y agrupar los problemas que aparecen con mayor frecuencia."],
-      ["VALOR", "Escala, velocidad, detección de patrones y síntesis."],
-      ["IDEA IMPORTANTE", "La IA puede detectar patrones. El contexto humano ayuda a determinar qué significan.", "key"]
-    ]],
-    aiProcesses: ["IA + PROCESOS", "AI-FIRST EXTENSION · ASISTIR / AUTOMATIZAR", [
-      ["QUÉ SIGNIFICA", "La IA puede asistir o automatizar partes específicas de un proceso, especialmente tareas repetitivas, clasificación, generación de recomendaciones o procesamiento de información."],
-      ["EJEMPLO", "Solicitud → clasificación con IA → flujo de trabajo correcto."],
-      ["VALOR", "Velocidad, consistencia y escalabilidad."],
-      ["IDEA IMPORTANTE", "Automatizar un proceso deficiente no lo convierte en un buen proceso. NO AUTOMATICES LA CONFUSIÓN.", "key"]
-    ]],
-    aiPeople: ["IA + PERSONAS", "AI-FIRST EXTENSION · AMPLIAR CAPACIDAD", [
-      ["QUÉ SIGNIFICA", "La IA puede ampliar la capacidad de las personas para investigar, comparar, resumir y producir alternativas."],
-      ["EJEMPLO", "100 entrevistas → síntesis con IA → temas recurrentes → validación del analista."],
-      ["IDEA IMPORTANTE", "Ampliar capacidad no significa transferir responsabilidad.", "key"]
-    ]],
-    aiRules: ["REGLAS + IA", "AI-FIRST EXTENSION · GOBERNAR", [
-      ["QUÉ SIGNIFICA", "La IA debe operar dentro de límites definidos por el sistema."],
-      ["PREGUNTAS DE GOBERNANZA", "¿Qué puede hacer la IA? ¿Qué no puede hacer? ¿Qué datos puede utilizar? ¿Cuándo se requiere revisión humana? ¿Qué ocurre cuando la confianza es baja?"],
-      ["IDEA CLAVE", "LA IA TIENE CAPACIDADES. EL SISTEMA DEFINE LOS LÍMITES.", "key"]
-    ]]
+    system: {
+      title: labels.system,
+      what: B("Conjunto conectado de elementos que interactúan para lograr un propósito.", "A connected set of elements that interact to achieve a purpose."),
+      why: B("Cambiar un elemento puede afectar muchos otros y modificar el resultado total.", "Changing one element can affect many others and alter the overall outcome."),
+      question: B("¿Qué elementos y relaciones producen el resultado que observamos?", "Which elements and relationships produce the outcome we observe?"),
+      metaphor: B("Una orquesta: un instrumento no es la orquesta.", "An orchestra: one instrument is not the orchestra."),
+      related: ["people", "processes", "information", "rules", "resources", "technology"],
+      confuse: B("Software o una herramienta aislada.", "Software or an isolated tool."),
+      examples: [
+        [B("Negocios", "Business"), B("Una empresa de reservas conecta clientes, empleados, reglas, disponibilidad, pagos, procedimientos y software.", "A reservation company connects customers, staff, rules, availability, payments, procedures and software.")],
+        [B("Educación", "Education"), B("Una escuela conecta estudiantes, docentes, currículo, horarios, evaluación, políticas y herramientas digitales.", "A school connects students, teachers, curriculum, schedules, assessment, policies and digital tools.")],
+        [B("Biología", "Biology"), B("El cuerpo conecta órganos, señales, recursos y mecanismos de regulación.", "The body connects organs, signals, resources and regulation mechanisms.")],
+        [B("Psicología", "Psychology"), B("Aprender conecta atención, memoria, emoción, contexto y retroalimentación.", "Learning connects attention, memory, emotion, context and feedback.")],
+        [B("Música", "Music"), B("Una orquesta conecta músicos, director, instrumentos, partitura y acústica.", "An orchestra connects musicians, conductor, instruments, score and acoustics.")]
+      ]
+    },
+    purpose: {
+      title: B("Propósito", "Purpose"),
+      what: B("El resultado o finalidad que da sentido a la interacción entre los componentes.", "The outcome or end that gives meaning to the interaction among components."),
+      question: B("¿Para qué existe este sistema?", "Why does this system exist?"),
+      metaphor: B("El destino de un viaje. Sin un destino, podemos tener un automóvil, conductor y combustible, pero no sabemos cómo organizar el recorrido.", "The destination of a journey. Without a destination, we may have a car, driver and fuel, but we do not know how to organize the route."),
+      examples: [[B("Negocios", "Business"), B("Para un sistema de reservas: asignar correctamente recursos disponibles a clientes en determinados momentos.", "For a reservation system: correctly assign available resources to customers at specific times.")]]
+    },
+    people: {
+      title: labels.people, what: B("Quienes usan, operan, administran o reciben efectos del sistema.", "Those who use, operate, manage or are affected by the system."),
+      why: B("Sus decisiones, capacidades y necesidades influyen directamente en el resultado.", "Their decisions, capabilities and needs directly influence the outcome."),
+      question: B("¿Quién participa, decide o recibe los resultados?", "Who participates, decides or receives the outcomes?"), metaphor: B("Los actores de una obra.", "The actors in a play."), related: ["system", "processes", "sociotechnical"]
+    },
+    processes: {
+      title: labels.processes, what: B("Actividades relacionadas que transforman entradas en resultados.", "Related activities that transform inputs into outcomes."),
+      why: B("Revelan cómo ocurre realmente el trabajo, más allá del organigrama o del software.", "They reveal how work actually happens beyond the org chart or software."),
+      question: B("¿Qué trabajo ocurre y en qué secuencia?", "What work happens and in what sequence?"), metaphor: B("La ruta que sigue el trabajo.", "The route that work follows."), related: ["business_process", "information", "rules"]
+    },
+    information: {
+      title: labels.information, what: B("Datos interpretados y utilizados para operar o tomar decisiones.", "Data interpreted and used to operate or make decisions."),
+      why: B("Permite coordinar actividades y mantener una comprensión compartida del estado del sistema.", "It coordinates activities and maintains a shared understanding of system state."),
+      question: B("¿Qué debemos saber para actuar correctamente?", "What must we know to act correctly?"), metaphor: B("La memoria compartida del sistema.", "The shared memory of the system."), related: ["system", "processes", "evidence"]
+    },
+    rules: {
+      title: labels.rules, what: B("Condiciones que guían o restringen comportamiento y decisiones.", "Conditions that guide or constrain behavior and decisions."),
+      why: B("Hacen que el sistema actúe de manera consistente y explicable.", "They make system behavior consistent and explainable."),
+      question: B("¿Qué está permitido, requerido o prohibido?", "What is allowed, required or prohibited?"), metaphor: B("Barandas de seguridad en una carretera.", "Guardrails on a road."), related: ["processes", "sociotechnical"]
+    },
+    resources: {
+      title: labels.resources, what: B("Medios humanos, físicos, financieros u organizacionales usados por el sistema.", "Human, physical, financial or organizational means used by the system."),
+      why: B("Definen la capacidad real para producir resultados.", "They define the real capacity to produce outcomes."),
+      question: B("¿Con qué medios cuenta el sistema?", "What means are available to the system?"), metaphor: B("Los ingredientes y utensilios de una cocina.", "The ingredients and tools in a kitchen."), related: ["system", "feasibility"]
+    },
+    technology: {
+      title: labels.technology, what: B("Herramientas técnicas que apoyan la operación del sistema.", "Technical tools that support system operation."),
+      why: B("Puede aumentar capacidad y coordinación, pero no sustituye personas, procesos ni reglas.", "It can increase capacity and coordination but does not replace people, processes or rules."),
+      question: B("¿Qué herramienta apoya el trabajo y con qué límites?", "Which tool supports the work, and within what limits?"), metaphor: B("Un instrumento dentro de la orquesta.", "An instrument within the orchestra."),
+      related: ["software", "system"], confuse: B("El sistema completo.", "The complete system."), ai: B("La IA puede ser un componente dentro de tecnología: IA ⊂ tecnología ⊂ sistema.", "AI may be a component within technology: AI ⊂ technology ⊂ system.")
+    },
+    ai: {
+      title: B("Inteligencia artificial", "Artificial intelligence"),
+      what: B("Una capacidad tecnológica que puede analizar información, reconocer patrones, generar resultados, recomendar acciones o ejecutar tareas acotadas.", "A technological capability that can analyze information, recognize patterns, generate outputs, recommend actions or execute bounded tasks."),
+      why: B("Puede cambiar la capacidad del sistema y también modificar cómo interactúan personas, procesos, información y reglas.", "It can change system capability and also modify how people, processes, information and rules interact."),
+      important: B("IA ≠ SISTEMA. La IA es un componente o capacidad dentro de un sistema mayor.", "AI ≠ SYSTEM. AI is a component or capability inside a larger system."), aiFirst: true
+    },
+    "ai-information": {
+      title: B("IA + Información", "AI + Information"), what: B("La IA puede analizar grandes cantidades de información para encontrar patrones, clasificar contenidos, resumir datos o detectar anomalías.", "AI can analyze large amounts of information to find patterns, classify content, summarize data or detect anomalies."),
+      examples: [[B("Ejemplo", "Example"), B("Un sistema puede analizar miles de comentarios de clientes y agrupar los problemas que aparecen con mayor frecuencia.", "A system can analyze thousands of customer comments and group the problems that appear most frequently.")]],
+      value: B("Escala, velocidad, detección de patrones y síntesis.", "Scale, speed, pattern detection and synthesis."), important: B("La IA puede detectar patrones. El contexto humano ayuda a determinar qué significan.", "AI can detect patterns. Human context helps determine what they mean."), aiFirst: true
+    },
+    "ai-processes": {
+      title: B("IA + Procesos", "AI + Processes"), what: B("La IA puede asistir o automatizar partes específicas de un proceso, especialmente tareas repetitivas, clasificación, generación de recomendaciones o procesamiento de información.", "AI can assist or automate specific parts of a process, especially repetitive tasks, classification, recommendation generation or information processing."),
+      examples: [[B("Ejemplo", "Example"), B("Solicitud → clasificación con IA → flujo de trabajo correcto.", "Request → AI classification → correct workflow.")]],
+      value: B("Velocidad, consistencia y escalabilidad.", "Speed, consistency and scalability."), important: B("Automatizar un proceso deficiente no lo convierte en un buen proceso. NO AUTOMATIZAR LA CONFUSIÓN.", "Automating a poor process does not turn it into a good process. DO NOT AUTOMATE CONFUSION."), aiFirst: true
+    },
+    "ai-people": {
+      title: B("IA + Personas", "AI + People"), what: B("La IA puede ampliar la capacidad de las personas para investigar, comparar, resumir y producir alternativas.", "AI can augment people's ability to investigate, compare, summarize and produce alternatives."),
+      examples: [[B("Ejemplo", "Example"), B("100 entrevistas → síntesis con IA → temas recurrentes → validación del analista.", "100 interviews → AI synthesis → recurring themes → analyst validation.")]],
+      important: B("Ampliar capacidad no significa transferir responsabilidad.", "Augmenting capability does not mean transferring responsibility."), aiFirst: true
+    },
+    "rules-ai": {
+      title: B("Reglas → IA", "Rules → AI"), what: B("La IA debe operar dentro de límites definidos por el sistema.", "AI must operate within limits defined by the system."),
+      questions: [B("¿Qué puede hacer la IA?", "What may AI do?"), B("¿Qué no puede hacer?", "What may it not do?"), B("¿Qué datos puede utilizar?", "What data may it use?"), B("¿Cuándo se requiere revisión humana?", "When is human review required?"), B("¿Qué ocurre cuando la confianza es baja?", "What happens when confidence is low?")],
+      important: B("LA IA TIENE CAPACIDADES. EL SISTEMA DEFINE LOS LÍMITES.", "AI HAS CAPABILITIES. THE SYSTEM DEFINES THE LIMITS."), aiFirst: true
+    }
   };
 
-  function escapeHtml(value) {
-    return String(value).replace(/[&<>"']/g, function (character) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character];
-    });
-  }
-
-  function node(key, label, meta, className) {
-    return '<button class="d1l-node ' + className + '" type="button" data-d1l-detail="' + key + '">' +
-      '<b>' + escapeHtml(label) + '</b><span>' + escapeHtml(meta) + '</span></button>';
-  }
-
+  function component(key, es, en, qEs, qEn) { return '<button type="button" class="d1l-component d1l-open" data-detail="' + key + '"><strong>' + T(B(es, en)) + '</strong><span>' + T(B(qEs, qEn)) + '</span></button>'; }
+  function relation(key, row, es, en) { return '<button type="button" class="d1l-relation d1l-open d1l-ai-only" data-detail="' + key + '" data-row="' + row + '">' + T(B(es, en)) + '</button>'; }
+  function impact(key, es, en, aEs, aEn) { return '<button type="button" class="d1l-impact d1l-open" data-detail="' + key + '"><strong>' + T(B(es, en)) + '</strong><span>' + T(B(aEs, aEn)) + '</span></button>'; }
   function markup() {
-    return '<div class="d1l-shell">' +
-      '<div class="d1l-definition"><strong>Un sistema es un conjunto de elementos relacionados que interactúan para lograr un propósito.</strong><span>No basta con mirar cada parte por separado. Para comprender un sistema debemos observar sus componentes, sus relaciones y el propósito que los conecta.</span></div>' +
-      '<div class="d1l-map" aria-label="Modelo lineal de un sistema y su extensión con inteligencia artificial">' +
-        '<button class="d1l-node d1l-system" type="button" data-d1l-detail="system"><small>COURSE / ACADEMIC FOUNDATION</small><strong>SISTEMA</strong><span>COMPONENTES + RELACIONES + PROPÓSITO</span></button>' +
-        '<div class="d1l-system-link" aria-hidden="true"></div>' +
-        '<div class="d1l-components" aria-label="Componentes del sistema">' +
-          node("purpose", "Propósito", "¿PARA QUÉ EXISTE?", "d1l-component") +
-          node("people", "Personas", "¿QUIÉN PARTICIPA?", "d1l-component") +
-          node("processes", "Procesos", "¿QUÉ TRABAJO OCURRE?", "d1l-component") +
-          node("information", "Información", "¿QUÉ NECESITA SABER?", "d1l-component") +
-          node("rules", "Reglas", "¿QUÉ ESTÁ PERMITIDO?", "d1l-component") +
-          node("resources", "Recursos", "¿QUÉ NECESITA?", "d1l-component") +
-          node("technology", "Tecnología", "¿QUÉ TECNOLOGÍA APOYA?", "d1l-component d1l-technology") +
-        '</div>' +
-        '<div class="d1l-tech-bridge" aria-hidden="true"><span>CAPACIDAD POSIBLE</span></div>' +
-        '<button class="d1l-node d1l-ai" type="button" data-d1l-detail="ai"><small>AI-FIRST EXTENSION</small><strong>INTELIGENCIA ARTIFICIAL</strong><span>CAPACIDAD TECNOLÓGICA DEL SISTEMA</span></button>' +
-        '<div class="d1l-ai-fanout" aria-hidden="true"></div>' +
-        '<div class="d1l-impacts" aria-label="Conexiones de inteligencia artificial">' +
-          node("aiInformation", "Información aumentada", "ANALIZAR", "d1l-impact") +
-          node("aiProcesses", "Procesos asistidos", "ASISTIR / AUTOMATIZAR", "d1l-impact") +
-          node("aiPeople", "Personas ampliadas", "AMPLIAR CAPACIDAD", "d1l-impact") +
-          node("aiRules", "IA gobernada", "REGLAS → IA", "d1l-impact") +
-        '</div>' +
-      '</div>' +
-      '<div class="d1l-state" aria-live="polite">' +
-        '<p data-state="base">El sistema es el conjunto conectado. La tecnología forma parte de él, pero no necesariamente es el todo.</p>' +
-        '<p data-state="ai">La IA puede conectarse a distintas partes del sistema para ampliar capacidades, analizar información y transformar procesos, siempre dentro de su propósito y sus reglas.</p>' +
-      '</div>' +
-    '</div>';
+    var en = englishMode();
+    return '<div class="d1l-stage" data-diagram01-linear="true"><header class="d1l-heading"><p class="d1l-kicker">' + (en ? 'DIAGRAM 01 · WHAT IS A SYSTEM?' : 'DIAGRAMA 01 · ¿QUÉ ES UN SISTEMA?') + '</p><h3>' +
+      (en ? 'A system is a set of related elements that interact to achieve a purpose.' : 'Un sistema es un conjunto de elementos relacionados que interactúan para lograr un propósito.') + '</h3><p>' +
+      (en ? 'It is not enough to look at each part separately. To understand a system, we must observe its components, their relationships and the purpose that connects them.' : 'No basta con mirar cada parte por separado. Para comprender un sistema debemos observar sus componentes, sus relaciones y el propósito que los conecta.') + '</p></header><div class="d1l-map">' +
+      '<button type="button" class="d1l-system d1l-open" data-detail="system"><small>' + (en ? 'COURSE / ACADEMIC FOUNDATION' : 'CURSO / FUNDAMENTO ACADÉMICO') + '</small><strong>' + (en ? 'SYSTEM' : 'SISTEMA') + '</strong><span>' + (en ? 'COMPONENTS + RELATIONSHIPS + PURPOSE' : 'COMPONENTES + RELACIONES + PROPÓSITO') + '</span></button><div class="d1l-system-link" aria-hidden="true"></div><div class="d1l-components">' +
+      component('purpose', 'Propósito', 'Purpose', '¿Para qué existe?', 'Why does it exist?') + component('people', 'Personas', 'People', '¿Quién participa?', 'Who participates?') + component('processes', 'Procesos', 'Processes', '¿Qué trabajo ocurre?', 'What work happens?') +
+      component('information', 'Información', 'Information', '¿Qué necesita saber?', 'What must it know?') + component('rules', 'Reglas', 'Rules', '¿Qué está permitido?', 'What is allowed?') + component('resources', 'Recursos', 'Resources', '¿Qué necesita?', 'What does it need?') + component('technology', 'Tecnología', 'Technology', '¿Qué tecnología apoya?', 'What technology supports it?') + '</div><div class="d1l-ai-relations">' +
+      relation('ai-people', 'people', 'IA → PERSONAS · AMPLIAR CAPACIDAD', 'AI → PEOPLE · AUGMENT') + relation('ai-processes', 'processes', 'IA → PROCESOS · ASISTIR / AUTOMATIZAR', 'AI → PROCESSES · ASSIST / AUTOMATE') + relation('ai-information', 'information', 'IA → INFORMACIÓN · ANALIZAR', 'AI → INFORMATION · ANALYZE') + relation('rules-ai', 'rules', 'REGLAS → IA · GOBERNAR', 'RULES → AI · GOVERN') +
+      '</div><div class="d1l-tech-bridge d1l-ai-only" aria-hidden="true"><span>' + (en ? 'AVAILABLE CAPABILITY' : 'CAPACIDAD POSIBLE') + '</span></div><button type="button" class="d1l-ai d1l-open d1l-ai-only" data-detail="ai"><small>AI-FIRST EXTENSION</small><strong>' + (en ? 'ARTIFICIAL INTELLIGENCE' : 'INTELIGENCIA ARTIFICIAL') + '</strong><span>' + (en ? 'TECHNOLOGICAL CAPABILITY OF THE SYSTEM' : 'CAPACIDAD TECNOLÓGICA DEL SISTEMA') + '</span></button></div>' +
+      '<div class="d1l-impacts-wrap d1l-ai-only"><p class="d1l-impacts-label">' + (en ? 'AI CAPABILITIES IN THE SYSTEM' : 'CAPACIDADES DE IA EN EL SISTEMA') + '</p><div class="d1l-impacts">' +
+      impact('ai-information', 'Información aumentada', 'Augmented information', 'Analizar', 'Analyze') + impact('ai-processes', 'Procesos asistidos', 'Assisted processes', 'Asistir / automatizar', 'Assist / automate') + impact('ai-people', 'Personas ampliadas', 'Augmented people', 'Ampliar capacidad', 'Augment capability') + impact('rules-ai', 'IA gobernada', 'Governed AI', 'Reglas → IA', 'Rules → AI') + '</div></div><p class="d1l-state d1l-ai-only">' +
+      (en ? 'AI can connect to different parts of the system to augment capabilities, analyze information and transform processes, always within its purpose and rules.' : 'La IA puede conectarse a distintas partes del sistema para ampliar capacidades, analizar información y transformar procesos, siempre dentro de su propósito y sus reglas.') + '</p></div>';
   }
 
-  function ensureModal() {
-    if (document.querySelector(".d1l-modal")) return;
-    document.body.insertAdjacentHTML("beforeend",
-      '<button class="d1l-backdrop" type="button" aria-label="Cerrar detalle" hidden></button>' +
-      '<aside class="d1l-modal" role="dialog" aria-modal="true" aria-labelledby="d1lModalTitle" hidden>' +
-        '<button class="d1l-modal-close" type="button" aria-label="Cerrar">×</button>' +
-        '<div class="d1l-modal-content"></div>' +
-      '</aside>'
-    );
+  function isAIActive() {
+    var week = document.querySelector('#week-1');
+    if (week && (week.classList.contains('is-ai-lens') || week.classList.contains('ai-lens-active'))) return true;
+    var buttons = Array.prototype.slice.call(document.querySelectorAll('#week-1 button, .week1-lens-dock button'));
+    var aiButton = buttons.find(function (button) { var text = (button.textContent || '').trim().toUpperCase(); return text.indexOf('CAPA IA') !== -1 || text.indexOf('AI LENS') !== -1; });
+    return !!(aiButton && (aiButton.getAttribute('aria-pressed') === 'true' || aiButton.classList.contains('is-active') || aiButton.classList.contains('active')));
   }
-
-  function sectionMarkup(section) {
-    return '<section' + (section[2] === "key" ? ' class="is-key"' : "") + '><b>' + escapeHtml(section[0]) + '</b><p>' + escapeHtml(section[1]) + '</p></section>';
+  function syncLens() {
+    var stage = document.querySelector('.d1l-stage');
+    if (!stage) return;
+    stage.classList.toggle('is-ai-lens', isAIActive());
+    if (currentDetail) renderModal(currentDetail);
   }
-
-  function openModal(key) {
-    var item = details[key];
-    if (!item) return;
-    ensureModal();
-    var modal = document.querySelector(".d1l-modal");
-    modal.querySelector(".d1l-modal-content").innerHTML =
-      '<header><small>' + escapeHtml(item[1]) + '</small><h2 id="d1lModalTitle">' + escapeHtml(item[0]) + '</h2></header>' +
-      '<div class="d1l-modal-grid">' + item[2].map(sectionMarkup).join("") + '</div>';
-    modal.hidden = false;
-    document.querySelector(".d1l-backdrop").hidden = false;
-    document.body.classList.add("d1l-modal-open");
-    modal.querySelector(".d1l-modal-close").focus();
-  }
-
-  function closeModal() {
-    var modal = document.querySelector(".d1l-modal");
-    var backdrop = document.querySelector(".d1l-backdrop");
-    if (modal) modal.hidden = true;
-    if (backdrop) backdrop.hidden = true;
-    document.body.classList.remove("d1l-modal-open");
-  }
-
-  function currentAiState(root) {
-    var active = Array.prototype.find.call(root.querySelectorAll(".w1f-lens-toggle button"), function (button) {
-      return button.getAttribute("aria-pressed") === "true" || button.classList.contains("is-active");
-    });
-    if (active) return /CAPA IA|AI LENS/i.test(active.textContent);
-    return root.classList.contains("is-ai-lens");
-  }
-
-  function setAiState(root, enabled) {
-    root.classList.toggle("d1l-ai-active", enabled);
-  }
-
   function mount() {
-    var root = document.querySelector(ROOT);
-    var stage = root && root.querySelector(".d1c-stage, .d1-stage, .d1l-stage");
-    if (!root || !stage) return;
-    if (!stage.classList.contains("d1l-stage") || !stage.querySelector(".d1l-shell")) {
-      stage.className = "diagram-stage d1l-stage";
-      stage.innerHTML = markup();
-    }
-    ensureModal();
-    setAiState(root, currentAiState(root));
+    var oldStage = document.querySelector('.d1l-stage, .d1c-stage, .d1-stage');
+    if (!oldStage) return false;
+    var holder = document.createElement('div');
+    holder.innerHTML = markup();
+    oldStage.replaceWith(holder.firstElementChild);
+    syncLens();
+    return true;
   }
 
-  function handleClick(event) {
-    var detailButton = event.target.closest("[data-d1l-detail]");
-    var closeButton = event.target.closest(".d1l-modal-close, .d1l-backdrop");
-    var modal = event.target.closest(".d1l-modal");
-    var lensButton = event.target.closest(ROOT + " .w1f-lens-toggle button");
-
-    if (detailButton) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      openModal(detailButton.dataset.d1lDetail);
-      return;
-    }
-
-    if (closeButton) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      closeModal();
-      return;
-    }
-
-    if (modal) {
-      event.stopImmediatePropagation();
-      return;
-    }
-
-    if (lensButton) {
-      window.setTimeout(function () {
-        var root = document.querySelector(ROOT);
-        if (root) setAiState(root, /CAPA IA|AI LENS/i.test(lensButton.textContent));
-      }, 0);
-    }
+  function section(label, content, className) { return content ? '<section class="d1l-modal-section' + (className ? ' ' + className : '') + '"><h5>' + label + '</h5>' + content + '</section>' : ''; }
+  function paragraph(value) { return value ? '<p>' + T(value) + '</p>' : ''; }
+  function renderExamples(items) { return items && items.length ? '<div class="d1l-modal-examples">' + items.map(function (item) { return '<div class="d1l-modal-example"><b>' + T(item[0]) + '</b><p>' + T(item[1]) + '</p></div>'; }).join('') + '</div>' : ''; }
+  function renderRelated(items) { return items && items.length ? '<p>' + items.map(function (key) { return T(labels[key] || key); }).join(' · ') + '</p>' : ''; }
+  function renderQuestions(items) { return items && items.length ? '<ul>' + items.map(function (item) { return '<li>' + T(item) + '</li>'; }).join('') + '</ul>' : ''; }
+  function modalMarkup(key) {
+    var d = details[key];
+    if (!d) return '';
+    var en = englishMode();
+    var origin = d.aiFirst ? (en ? 'AI-FIRST EXTENSION · WEEK 1' : 'EXTENSIÓN AI-FIRST · SEMANA 1') : (en ? 'COURSE / ACADEMIC FOUNDATION · WEEK 1' : 'CURSO / FUNDAMENTO ACADÉMICO · SEMANA 1');
+    var grid = '';
+    grid += section(en ? 'WHAT IS IT?' : '¿QUÉ ES?', paragraph(d.what));
+    grid += section(en ? 'WHY DOES IT MATTER?' : '¿POR QUÉ IMPORTA?', paragraph(d.why));
+    grid += section(en ? 'GUIDING QUESTION' : 'PREGUNTA GUÍA', paragraph(d.question));
+    grid += section(en ? 'METAPHOR' : 'METÁFORA', paragraph(d.metaphor));
+    grid += section(en ? 'EXAMPLES' : 'EJEMPLOS', renderExamples(d.examples), d.examples && d.examples.length > 2 ? 'is-wide' : '');
+    grid += section(en ? 'VALUE' : 'VALOR', paragraph(d.value));
+    grid += section(en ? 'CONTROL QUESTIONS' : 'PREGUNTAS DE CONTROL', renderQuestions(d.questions), d.questions ? 'is-wide' : '');
+    grid += section(en ? 'RELATED CONCEPTS' : 'CONCEPTOS RELACIONADOS', renderRelated(d.related));
+    grid += section(en ? 'DO NOT CONFUSE WITH' : 'NO CONFUNDIR CON', paragraph(d.confuse));
+    grid += section(en ? 'IMPORTANT' : 'IMPORTANTE', paragraph(d.important), d.aiFirst ? 'd1l-modal-ai' : '');
+    if (d.ai && isAIActive()) grid += section(en ? 'AI LENS' : 'CAPA IA', paragraph(d.ai), 'd1l-modal-ai');
+    grid += section(en ? 'ACADEMIC SOURCE' : 'FUENTE ACADÉMICA', '<p>' + SOURCE + '</p>');
+    return '<div class="d1l-backdrop" data-d1l-close="true"></div><article class="d1l-modal" role="dialog" aria-modal="true" aria-labelledby="d1l-modal-title"><button type="button" class="d1l-modal-close" data-d1l-close="true" aria-label="' + (en ? 'Close' : 'Cerrar') + '">×</button><header class="d1l-modal-head"><small>' + origin + '</small><h4 id="d1l-modal-title">' + T(d.title) + '</h4></header><div class="d1l-modal-grid">' + grid + '</div></article>';
+  }
+  function closeModal() { document.querySelectorAll('.d1l-backdrop, .d1l-modal').forEach(function (node) { node.remove(); }); currentDetail = null; }
+  function renderModal(key) {
+    closeModal();
+    currentDetail = key;
+    var holder = document.createElement('div');
+    holder.innerHTML = modalMarkup(key);
+    while (holder.firstChild) document.body.appendChild(holder.firstChild);
+    var close = document.querySelector('.d1l-modal-close');
+    if (close) close.focus({ preventScroll: true });
   }
 
-  document.addEventListener("click", handleClick, true);
-  document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" && document.querySelector(".d1l-modal:not([hidden])")) closeModal();
+  document.addEventListener('click', function (event) {
+    var open = event.target.closest('.d1l-open[data-detail]');
+    if (open) { event.preventDefault(); event.stopImmediatePropagation(); renderModal(open.getAttribute('data-detail')); return; }
+    if (event.target.closest('[data-d1l-close="true"]')) { event.preventDefault(); event.stopImmediatePropagation(); closeModal(); return; }
+    var button = event.target.closest('button');
+    if (button) {
+      var text = (button.textContent || '').trim().toUpperCase();
+      if (text.indexOf('CAPA IA') !== -1 || text.indexOf('AI LENS') !== -1 || text === 'BASE') { window.setTimeout(syncLens, 0); window.setTimeout(syncLens, 120); }
+    }
+  }, true);
+  document.addEventListener('keydown', function (event) { if (event.key === 'Escape' && document.querySelector('.d1l-modal')) closeModal(); });
+
+  var observer = new MutationObserver(function (records) {
+    if (!document.querySelector('.d1l-stage') && document.querySelector('.d1c-stage, .d1-stage')) { mount(); return; }
+    if (records.some(function (record) { return record.type === 'attributes'; })) syncLens();
   });
-
-  var scheduled = false;
-  function scheduleMount() {
-    if (scheduled) return;
-    scheduled = true;
-    window.requestAnimationFrame(function () {
-      scheduled = false;
-      mount();
-    });
+  function start() {
+    if (!mount()) { window.setTimeout(start, 120); return; }
+    observer.observe(document.documentElement, { subtree: true, childList: true, attributes: true, attributeFilter: ['class', 'aria-pressed', 'lang'] });
   }
-
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", scheduleMount, { once: true });
-  else scheduleMount();
-
-  new MutationObserver(function (mutations) {
-    var needsMount = mutations.some(function (mutation) {
-      return mutation.target.closest && !mutation.target.closest(".d1l-modal, .d1l-backdrop, .d1l-stage");
-    });
-    if (needsMount) scheduleMount();
-  }).observe(document.documentElement, { childList: true, subtree: true });
-})();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true }); else start();
+}());

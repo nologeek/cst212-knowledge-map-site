@@ -4,10 +4,10 @@
   var ROOT_SELECTOR = "#week-1";
   var relationOrder = ["information", "processes", "people", "governance"];
   var nodeSelectors = {
-    information: ".d1c-information",
-    processes: ".d1c-processes",
-    people: ".d1c-people",
-    governance: ".d1c-rules"
+    information: ".d1c-information, .d1-information",
+    processes: ".d1c-processes, .d1-processes",
+    people: ".d1c-people, .d1-people",
+    governance: ".d1c-rules, .d1-rules"
   };
 
   var content = {
@@ -79,8 +79,17 @@
     );
 
     drawer = document.querySelector(".d1a-drawer");
-    document.querySelector(".d1a-backdrop").addEventListener("click", closeDrawer);
-    drawer.querySelector(".d1a-drawer-close").addEventListener("click", closeDrawer);
+    document.querySelector(".d1a-backdrop").addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      closeDrawer();
+    });
+    drawer.addEventListener("click", function (event) { event.stopPropagation(); });
+    drawer.querySelector(".d1a-drawer-close").addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      closeDrawer();
+    });
     document.addEventListener("keydown", function (event) {
       if (event.key === "Escape" && !drawer.hidden) closeDrawer();
     });
@@ -129,7 +138,7 @@
         return '<g class="d1a-relation" data-relation="' + key + '">' +
           '<path id="d1aPath-' + key + '" class="d1a-signal" marker-end="url(#d1aArrow)"></path>' +
           '<path class="d1a-hit" role="button" tabindex="0" aria-label="Abrir ' + labels[key] + '"></path>' +
-          '<text><textPath href="#d1aPath-' + key + '" startOffset="50%" text-anchor="middle">' + labels[key] + '</textPath></text>' +
+          '<text class="d1a-path-label" text-anchor="middle">' + labels[key] + '</text>' +
         '</g>';
       }).join("") +
     '</svg>' +
@@ -190,6 +199,15 @@
       var pathData = curve(start, end, key, stageRect.width, stageRect.height);
       group.querySelector(".d1a-signal").setAttribute("d", pathData);
       group.querySelector(".d1a-hit").setAttribute("d", pathData);
+      var label = group.querySelector(".d1a-path-label");
+      var labelX = (start.x + end.x) / 2;
+      var labelY = (start.y + end.y) / 2;
+      if (key === "people") labelY = stageRect.height * .16;
+      if (key === "processes") labelY -= 34;
+      if (key === "information") labelY -= 18;
+      if (key === "governance") labelY = stageRect.height * .87;
+      label.setAttribute("x", labelX);
+      label.setAttribute("y", labelY);
     });
   }
 
@@ -213,13 +231,21 @@
   function bindStage(root, stage) {
     if (stage.dataset.d1aBound === "true") return;
     stage.dataset.d1aBound = "true";
-    stage.querySelector(".d1a-ai-node").addEventListener("click", function () { openDrawer("ai"); });
+    stage.querySelector(".d1a-ai-node").addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      openDrawer("ai");
+    });
 
     stage.querySelectorAll(".d1a-relation").forEach(function (relation) {
       var key = relation.dataset.relation;
       relation.addEventListener("pointerenter", function () { highlight(stage, key); });
       relation.addEventListener("pointerleave", function () { clearHover(stage); });
-      relation.querySelector(".d1a-hit").addEventListener("click", function () { openDrawer(key); });
+      relation.querySelector(".d1a-hit").addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        openDrawer(key);
+      });
       relation.querySelector(".d1a-hit").addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
           event.preventDefault();
@@ -239,16 +265,19 @@
 
   function setAiState(root, enabled) {
     root.classList.toggle("d1a-ai-active", enabled);
-    root.querySelectorAll(".d1c-node.is-muted").forEach(function (node) { node.classList.remove("is-muted"); });
+    root.querySelectorAll(".d1c-node.is-muted, .d1-node.is-muted").forEach(function (node) { node.classList.remove("is-muted"); });
     window.requestAnimationFrame(function () { drawConnections(root); });
   }
 
   function mount() {
     var root = document.querySelector(ROOT_SELECTOR);
-    var stage = root && root.querySelector(".d1c-stage");
+    var stage = root && root.querySelector(".d1c-stage, .d1-stage");
     if (!root || !stage) return;
 
-    root.querySelectorAll(".d1c-human-gate, [class*='human-gate']").forEach(function (item) { item.remove(); });
+    root.querySelectorAll(".d1c-human-gate, .d1-human-gate, .d1-ai-edges, .d1-tech-expansion, .d1-ai-label, [class*='human-gate']").forEach(function (item) {
+      item.hidden = true;
+      item.setAttribute("aria-hidden", "true");
+    });
     if (!stage.querySelector(".d1a-ai-node")) stage.insertAdjacentHTML("beforeend", sidecarMarkup());
     ensureDrawer();
     bindStage(root, stage);

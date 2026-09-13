@@ -1,0 +1,377 @@
+/* CST212 Diagram 01: AI as an external capability connected to a stable system. */
+#week-1 .d1c-ai-layer,
+#week-1 .d1c-ai-connections,
+#week-1 .d1c-ai-paths,
+#week-1 .d1c-human-gate,
+#week-1 [data-ai-connection]:not(.d1a-relation),
+#week-1 [class*="human-gate"] {
+  display: none !important;
+}
+
+#week-1 .d1c-stage {
+  position: relative !important;
+  isolation: isolate;
+}
+
+#week-1.d1a-ai-active .d1c-node,
+#week-1.d1a-ai-active .d1c-node.is-muted {
+  opacity: 1 !important;
+  filter: none !important;
+  pointer-events: auto !important;
+}
+
+.d1a-paths {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.d1a-relation {
+  opacity: 0;
+  transition: opacity .3s ease, filter .3s ease;
+}
+
+#week-1.d1a-ai-active .d1a-relation {
+  opacity: 1;
+  animation: d1a-relation-in .7s cubic-bezier(.2,.75,.22,1) both;
+}
+
+#week-1.d1a-ai-active .d1a-relation:nth-of-type(2) { animation-delay: .18s; }
+#week-1.d1a-ai-active .d1a-relation:nth-of-type(3) { animation-delay: .36s; }
+#week-1.d1a-ai-active .d1a-relation:nth-of-type(4) { animation-delay: .54s; }
+
+.d1a-signal {
+  fill: none;
+  stroke: url(#d1aSignalGradient);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 9 8;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 5px rgba(113, 225, 218, .26));
+  animation: d1a-signal-flow 7s linear infinite;
+}
+
+.d1a-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 18;
+  pointer-events: stroke;
+  cursor: pointer;
+  vector-effect: non-scaling-stroke;
+}
+
+.d1a-relation text {
+  fill: #bceee9;
+  font-family: sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .13em;
+  paint-order: stroke;
+  stroke: #06161d;
+  stroke-width: 5px;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.d1a-relation:hover .d1a-signal,
+.d1a-relation:focus-within .d1a-signal,
+.d1a-relation.is-hovered .d1a-signal {
+  stroke-width: 3.5;
+  filter: drop-shadow(0 0 8px rgba(120, 238, 229, .72));
+}
+
+.d1a-relation.is-muted {
+  opacity: .16 !important;
+}
+
+#week-1 .d1c-node.d1a-related {
+  border-color: #8eeae3 !important;
+  box-shadow: 0 0 0 4px rgba(105,221,212,.08), 0 0 28px rgba(105,221,212,.2) !important;
+}
+
+.d1a-ai-node {
+  position: absolute;
+  top: 55%;
+  right: 2.2%;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  width: 168px;
+  min-height: 94px;
+  padding: 16px 18px;
+  border: 1px solid rgba(124, 232, 221, .62);
+  border-radius: 30px;
+  color: #ecfbf9;
+  background:
+    radial-gradient(circle at 30% 22%, rgba(120, 238, 229, .24), transparent 48%),
+    linear-gradient(145deg, rgba(12, 52, 63, .98), rgba(8, 28, 42, .98));
+  box-shadow: 0 18px 55px rgba(0,0,0,.3), 0 0 42px rgba(92, 218, 207, .12);
+  font: inherit;
+  text-align: center;
+  transform: translateY(-50%) translateX(24px) scale(.96);
+  opacity: 0;
+  visibility: hidden;
+  cursor: pointer;
+  pointer-events: none;
+  transition: opacity .38s ease, transform .55s cubic-bezier(.2,.8,.2,1), border-color .25s ease;
+}
+
+.d1a-ai-node small {
+  color: #9fded9;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .14em;
+}
+
+.d1a-ai-node strong {
+  display: block;
+  max-width: 130px;
+  font-size: 13px;
+  line-height: 1.18;
+  letter-spacing: .045em;
+}
+
+#week-1.d1a-ai-active .d1a-ai-node {
+  transform: translateY(-50%) translateX(0) scale(1);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  animation: d1a-ai-arrival 1.8s .1s ease-out both;
+}
+
+.d1a-ai-node:hover,
+.d1a-ai-node:focus-visible,
+.d1a-ai-node.d1a-related {
+  border-color: #ddfff9;
+  outline: none;
+  box-shadow: 0 0 0 5px rgba(105,221,212,.08), 0 0 44px rgba(105,221,212,.3);
+}
+
+.d1a-state-message {
+  position: absolute;
+  right: 12%;
+  bottom: 12px;
+  left: 12%;
+  z-index: 7;
+  text-align: center;
+  pointer-events: none;
+}
+
+.d1a-state-message p {
+  margin: 0;
+  color: rgba(211, 235, 234, .72);
+  font-size: clamp(11px, .8vw, 14px);
+  line-height: 1.45;
+}
+
+.d1a-state-message [data-state="ai"] { display: none; }
+#week-1.d1a-ai-active .d1a-state-message [data-state="base"] { display: none; }
+#week-1.d1a-ai-active .d1a-state-message [data-state="ai"] { display: block; }
+
+.d1a-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1390;
+  border: 0;
+  background: rgba(0, 8, 12, .52);
+  backdrop-filter: blur(4px);
+}
+
+.d1a-backdrop[hidden],
+.d1a-drawer[hidden] {
+  display: none !important;
+}
+
+.d1a-drawer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1400;
+  box-sizing: border-box;
+  width: min(1120px, calc(100vw - 80px));
+  max-height: calc(100vh - 80px);
+  padding: clamp(28px, 4vw, 54px);
+  border: 1px solid rgba(123, 226, 219, .24);
+  border-radius: 32px;
+  color: #eaf6f5;
+  background: rgba(3, 19, 27, .97);
+  box-shadow: 0 32px 120px rgba(0,0,0,.56);
+  transform: translate(-50%, -50%);
+  animation: d1a-drawer-in .38s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.d1a-drawer-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(123, 226, 219, .24);
+  border-radius: 50%;
+  color: #edf8f7;
+  background: transparent;
+  cursor: pointer;
+  font: 500 20px/1 sans-serif;
+}
+
+.d1a-drawer header {
+  padding-right: 58px;
+}
+
+.d1a-drawer header small {
+  color: #84ded7;
+  font: 700 10px/1 sans-serif;
+  letter-spacing: .15em;
+}
+
+.d1a-drawer h2 {
+  margin: 10px 0 8px;
+  font: 350 clamp(36px, 4vw, 64px)/.98 sans-serif;
+  letter-spacing: -.045em;
+}
+
+.d1a-drawer h2 span {
+  display: block;
+  margin-top: 8px;
+  color: rgba(184, 214, 215, .58);
+  font-size: .28em;
+  font-weight: 650;
+  letter-spacing: .1em;
+}
+
+.d1a-drawer-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px 34px;
+  margin-top: 28px;
+  border-top: 1px solid rgba(123, 226, 219, .14);
+}
+
+.d1a-drawer-section {
+  padding-top: 20px;
+}
+
+.d1a-drawer-section b {
+  color: #76dcd4;
+  font: 700 10px/1.2 sans-serif;
+  letter-spacing: .13em;
+}
+
+.d1a-drawer-section p,
+.d1a-drawer-section li {
+  color: rgba(222, 239, 239, .76);
+  font: 400 15px/1.52 sans-serif;
+}
+
+.d1a-drawer-section ul {
+  margin: 10px 0 0;
+  padding-left: 18px;
+}
+
+.d1a-drawer-section.is-key {
+  padding: 20px;
+  border: 1px solid rgba(123, 226, 219, .18);
+  border-radius: 20px;
+  background: rgba(89, 206, 196, .055);
+}
+
+.d1a-drawer-section.is-key p {
+  color: #eefaf8;
+  font-weight: 650;
+}
+
+body.d1a-drawer-open {
+  overflow: hidden;
+}
+
+@keyframes d1a-signal-flow {
+  to { stroke-dashoffset: -136; }
+}
+
+@keyframes d1a-relation-in {
+  from { opacity: 0; filter: blur(5px); }
+  to { opacity: 1; filter: none; }
+}
+
+@keyframes d1a-ai-arrival {
+  0% { box-shadow: 0 0 0 rgba(105,221,212,0); }
+  45% { box-shadow: 0 0 0 9px rgba(105,221,212,.06), 0 0 54px rgba(105,221,212,.34); }
+  100% { box-shadow: 0 18px 55px rgba(0,0,0,.3), 0 0 42px rgba(92,218,207,.12); }
+}
+
+@keyframes d1a-drawer-in {
+  from { opacity: 0; transform: translate(-50%, -46%) scale(.98); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+@media (max-width: 980px) {
+  #week-1 .d1c-stage {
+    padding-bottom: 150px !important;
+  }
+
+  .d1a-ai-node {
+    top: auto;
+    right: auto;
+    bottom: 54px;
+    left: 50%;
+    width: 190px;
+    min-height: 74px;
+    transform: translate(-50%, 18px) scale(.96);
+  }
+
+  #week-1.d1a-ai-active .d1a-ai-node {
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  .d1a-state-message {
+    right: 18px;
+    bottom: 10px;
+    left: 18px;
+  }
+
+  .d1a-relation text {
+    font-size: 9px;
+  }
+
+  .d1a-drawer {
+    top: auto;
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    width: auto;
+    max-height: 82svh;
+    overflow: auto;
+    padding: 34px 22px 26px;
+    border-radius: 26px 26px 18px 18px;
+    transform: none;
+    animation: d1a-sheet-in .35s cubic-bezier(.2,.8,.2,1) both;
+  }
+
+  .d1a-drawer-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .d1a-drawer h2 {
+    font-size: clamp(32px, 10vw, 48px);
+  }
+}
+
+@keyframes d1a-sheet-in {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .d1a-relation,
+  .d1a-ai-node,
+  .d1a-signal,
+  .d1a-drawer {
+    animation: none !important;
+    transition: none !important;
+  }
+}

@@ -1,4 +1,4 @@
-+/* Week 1 Diagram 01 presentation refinements */
+/* Week 1 Diagram 01 presentation refinements */
 #week-1:has(.d1c-master-question) .week-master-question {
   display: none !important;
 }
@@ -109,7 +109,7 @@ figure[data-d1-cleanup] .diagram-heading h3 {
     text-wrap: pretty;
   }
 }
-+
+
 /* Desktop drawer: horizontal, complete and scroll-free */
 @media (min-width: 1100px) {
   html:has(body.d1c-drawer-open),

@@ -765,3 +765,28 @@ body.w1f-drawer-open #week-1 > .w1i-lens-slot.d1c-lens-dock {
     transition: none !important;
   }
 }
+
+/* Hotfix: keep the floating AI lens compact instead of inheriting the full-width slot. */
+#week-1 > .w1i-lens-slot.d1c-lens-dock {
+  position: fixed !important;
+  inset: 18px 22px auto auto !important;
+  display: block !important;
+  width: max-content !important;
+  max-width: calc(100vw - 44px) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  pointer-events: none !important;
+}
+
+#week-1 > .w1i-lens-slot.d1c-lens-dock .w1f-lens-toggle {
+  width: max-content !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  pointer-events: auto !important;
+}

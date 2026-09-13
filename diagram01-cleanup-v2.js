@@ -91,5 +91,8 @@
   document.addEventListener("keydown",event=>{if(event.key==="Escape"){const d=document.querySelector(".d1c-drawer"),b=document.querySelector(".d1c-backdrop");if(d)d.hidden=true;if(b)b.hidden=true;document.body.classList.remove("d1c-drawer-open")}});
   const boot=()=>{ensureDrawer();render()};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
   const weekRoot=document.querySelector("#week-1");
-  if(weekRoot)new MutationObserver(()=>{const figure=weekRoot.querySelector(".lesson-diagram");if(figure)delete figure.dataset.d1Cleanup;requestAnimationFrame(render)}).observe(weekRoot,{attributes:true,attributeFilter:["class"]});
+  if(weekRoot)new MutationObserver(records=>{
+    if(weekRoot.querySelector(".week-master-question"))requestAnimationFrame(()=>masterQuestion(weekRoot));
+    if(records.some(record=>record.type==="attributes"&&record.target===weekRoot)){const figure=weekRoot.querySelector(".lesson-diagram");if(figure)delete figure.dataset.d1Cleanup;requestAnimationFrame(render)}
+  }).observe(weekRoot,{childList:true,subtree:true,attributes:true,attributeFilter:["class"]});
 })();

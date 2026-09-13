@@ -217,7 +217,14 @@
   }
 
   function getFigure() {
-    return document.querySelectorAll('#week-1 .lesson-diagram')[1] || null;
+    var mounted = document.querySelector('#week-1 .lesson-diagram[data-diagram02-owner="true"]');
+    if (mounted) return mounted;
+    var figures = Array.prototype.slice.call(document.querySelectorAll('#week-1 .lesson-diagram'));
+    return figures.find(function (figure) {
+      var heading = figure.querySelector('.diagram-heading h3, .diagram-heading h2, h3');
+      var text = (heading ? heading.textContent : figure.textContent || '').replace(/\s+/g, ' ').trim().toUpperCase();
+      return text.indexOf('SISTEMA ≠ SOFTWARE') !== -1 || text.indexOf('SYSTEM ≠ SOFTWARE') !== -1;
+    }) || null;
   }
 
   function prepareTransitions(figure) {
@@ -257,6 +264,7 @@
     var figure = getFigure();
     if (!figure) return false;
     if (figure.querySelector('.d2-stage')) return true;
+    figure.dataset.diagram02Owner = 'true';
     figure.classList.add('d2-figure');
     var heading = figure.querySelector('.diagram-heading, .d2-heading');
     if (!heading) { heading = document.createElement('header'); figure.prepend(heading); }

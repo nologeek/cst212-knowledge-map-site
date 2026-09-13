@@ -36,8 +36,7 @@
 
   const masterQuestion = root => {
     let box = root.querySelector(".d1c-master-question");
-    const legacyMarker = [...root.querySelectorAll("*")].find(el => !el.children.length && /WEEK 1\s*·\s*MASTER QUESTION/i.test(el.textContent || ""));
-    const legacyBox = legacyMarker?.parentElement;
+    const legacyBox = root.querySelector(".week-master-question");
     if (box && legacyBox && box !== legacyBox) legacyBox.remove();
     if (!box) {
       box = legacyBox;

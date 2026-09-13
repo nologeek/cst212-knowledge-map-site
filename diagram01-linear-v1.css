@@ -42,7 +42,9 @@ html, body { overflow-x: clip; }
 .week1-lens-switch,
 #week1LensDock,
 [data-week1-lens-dock],
-.w1f-lens-toggle {
+.w1f-lens-toggle,
+.d1c-lens-dock,
+.w1i-lens-slot {
   display: none !important;
 }
 

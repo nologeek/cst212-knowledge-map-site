@@ -126,6 +126,7 @@
 
 /* Keep the Week 1 lens control visible while the learner explores the diagrams. */
 (function installDiagram01LensDock() {
+  return;
   var scheduled = false;
 
   function updateDock() {

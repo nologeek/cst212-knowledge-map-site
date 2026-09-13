@@ -238,7 +238,18 @@
   });
   document.addEventListener("click", e => {
     const lens = e.target.closest?.("[data-w1f-lens]");
-    if (lens) { aiOn = lens.dataset.w1fLens === "ai"; document.querySelector("#week-1")?.removeAttribute("data-week1-final"); renderWeek(); return; }
+    if (lens) {
+      aiOn = lens.dataset.w1fLens === "ai";
+      const root = document.querySelector("#week-1");
+      if (!root) return;
+      root.classList.toggle("is-ai-lens", aiOn);
+      root.querySelectorAll("[data-w1f-lens]").forEach(button => {
+        button.classList.toggle("is-active", button.dataset.w1fLens === (aiOn ? "ai" : "base"));
+        button.setAttribute("aria-pressed", String(button.dataset.w1fLens === (aiOn ? "ai" : "base")));
+      });
+      root.dispatchEvent(new CustomEvent("cst212:lenschange", { detail: { mode: aiOn ? "ai" : "base" } }));
+      return;
+    }
     const answer = e.target.closest?.("[data-w1f-answer]");
     if (answer) { const q=answer.closest(".w1f-quiz"), correct=Number(answer.dataset.w1fAnswer)===Number(q.dataset.answer), data=quizzes()[Number(q.dataset.quiz)]; q.querySelectorAll("button").forEach(b=>{b.disabled=true;b.classList.toggle("is-correct",Number(b.dataset.w1fAnswer)===data[2]);}); q.querySelector("output").innerHTML=`<b>${correct?(isEn()?"Correct":"Correcto"):(isEn()?"Review":"Revisemos")}</b> ${data[3]}`; return; }
     const domain = e.target.closest?.("[data-w1f-domain]");

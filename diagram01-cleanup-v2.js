@@ -123,3 +123,30 @@
   const observeWeek=()=>{const weekRoot=document.querySelector("#week-1");if(!weekRoot||weekRoot.dataset.d1cObserved)return;weekRoot.dataset.d1cObserved="true";new MutationObserver(()=>masterQuestion(weekRoot)).observe(weekRoot,{childList:true,subtree:true});new MutationObserver(()=>{const figure=weekRoot.querySelector(".lesson-diagram");if(figure)syncAiState(weekRoot,figure)}).observe(weekRoot,{attributes:true,attributeFilter:["class"]})};
   const boot=()=>{ensureDrawer();render();observeWeek()};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
 })();
+
+/* Keep Diagram 01 node interactions inside the final renderer. */
+(function isolateDiagram01NodeEvents() {
+  function bind() {
+    var stage = document.querySelector("#week-1 .d1c-stage");
+    if (!stage || stage.dataset.d1cEventsIsolated === "true") return;
+
+    stage.dataset.d1cEventsIsolated = "true";
+    stage.addEventListener("click", function (event) {
+      if (event.target.closest(".d1c-node")) {
+        event.stopPropagation();
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function () {
+      window.setTimeout(bind, 0);
+    }, { once: true });
+  } else {
+    window.setTimeout(bind, 0);
+  }
+
+  document.addEventListener("cst212:lenschange", function () {
+    window.setTimeout(bind, 0);
+  });
+})();

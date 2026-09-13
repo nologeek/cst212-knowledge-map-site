@@ -272,3 +272,108 @@ figure[data-d1-cleanup] .diagram-heading h3 {
     box-shadow: inset 3px 0 0 rgba(87, 239, 225, 0.82) !important;
   }
 }
+
+/* AI Lens transformation: preserve the base system and reveal secondary influence. */
+@keyframes d1c-ai-connection-flow {
+  to { stroke-dashoffset: -48; }
+}
+
+@keyframes d1c-ai-node-reveal {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes d1c-ai-target-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(255, 205, 92, 0.12), 0 0 14px rgba(255, 196, 58, 0.08); }
+  50% { box-shadow: 0 0 0 1px rgba(255, 213, 112, 0.34), 0 0 24px rgba(255, 196, 58, 0.18); }
+}
+
+#week-1.is-ai-lens .d1c-canvas > svg > line {
+  opacity: 0.34;
+  transition: opacity 320ms ease;
+}
+
+#week-1.is-ai-lens .d1c-ai-lines {
+  display: inline !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 5px rgba(255, 200, 62, 0.72));
+}
+
+#week-1.is-ai-lens .d1c-ai-lines path {
+  fill: none !important;
+  stroke: #ffd166 !important;
+  stroke-width: 3px !important;
+  stroke-opacity: 0.96 !important;
+  stroke-linecap: round;
+  stroke-dasharray: 10 8 !important;
+  vector-effect: non-scaling-stroke;
+  animation: d1c-ai-connection-flow 2.4s linear infinite;
+}
+
+#week-1.is-ai-lens .d1c-ai-lines path:nth-child(2) { animation-delay: -0.6s; }
+#week-1.is-ai-lens .d1c-ai-lines path:nth-child(3) { animation-delay: -1.2s; }
+#week-1.is-ai-lens .d1c-ai-lines path:nth-child(4) { animation-direction: reverse; }
+
+#week-1.is-ai-lens .d1c-technology {
+  border-color: #ffd166 !important;
+  background: rgba(255, 193, 46, 0.1) !important;
+  color: #ffe8ad !important;
+  box-shadow: 0 0 0 2px rgba(255, 209, 102, 0.14), 0 0 34px rgba(255, 190, 38, 0.24) !important;
+}
+
+#week-1.is-ai-lens :is(.d1c-people, .d1c-processes, .d1c-information, .d1c-rules) {
+  border-color: rgba(255, 209, 102, 0.78) !important;
+  color: #fff1c7 !important;
+  animation: d1c-ai-target-pulse 3.2s ease-in-out infinite;
+}
+
+#week-1.is-ai-lens .d1c-ai-layer {
+  opacity: 1 !important;
+  visibility: visible !important;
+  overflow: visible !important;
+}
+
+#week-1.is-ai-lens .d1c-ai-layer > div .d1c-node {
+  border-color: rgba(255, 209, 102, 0.86) !important;
+  background: rgba(255, 193, 46, 0.1) !important;
+  color: #ffe8ad !important;
+  box-shadow: 0 0 18px rgba(255, 190, 38, 0.14);
+  animation: d1c-ai-node-reveal 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+#week-1.is-ai-lens .d1c-ai-layer > div .d1c-node:nth-child(2) { animation-delay: 90ms; }
+#week-1.is-ai-lens .d1c-ai-layer > div .d1c-node:nth-child(3) { animation-delay: 180ms; }
+
+#week-1.is-ai-lens .d1c-ai-layer > div .d1c-ai {
+  border-color: #64eee2 !important;
+  background: rgba(63, 224, 210, 0.14) !important;
+  color: #bffcf7 !important;
+  box-shadow: 0 0 0 2px rgba(90, 239, 227, 0.12), 0 0 26px rgba(63, 224, 210, 0.24) !important;
+}
+
+@media (min-width: 900px) {
+  #week-1.is-ai-lens .d1c-ai-layer > :is(.analyze, .assist, .augment, .govern) {
+    width: auto !important;
+    height: auto !important;
+    padding: 3px 6px;
+    border: 1px solid rgba(255, 209, 102, 0.34);
+    border-radius: 999px;
+    background: rgba(5, 22, 27, 0.88);
+    color: #ffe3a0 !important;
+    font-size: clamp(8px, 0.62vw, 11px) !important;
+    font-weight: 700;
+    line-height: 1.1 !important;
+    letter-spacing: 0.07em;
+    white-space: nowrap;
+    text-shadow: 0 0 10px rgba(255, 199, 69, 0.4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #week-1.is-ai-lens .d1c-ai-lines path,
+  #week-1.is-ai-lens :is(.d1c-people, .d1c-processes, .d1c-information, .d1c-rules),
+  #week-1.is-ai-lens .d1c-ai-layer > div .d1c-node {
+    animation: none !important;
+  }
+}

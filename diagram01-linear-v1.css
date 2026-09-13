@@ -161,6 +161,17 @@ html.d1l-fluid-motion .d1l-scroll-reveal.is-visible {
   background: var(--d1l-ai);
   box-shadow: 0 0 24px rgba(255, 116, 88, .2);
 }
+
+.d1l-lens-control .d1l-lens-ai[aria-pressed="false"] {
+  color: #b9efea;
+  background: linear-gradient(105deg, rgba(112, 222, 216, .04), rgba(255, 116, 88, .1), rgba(112, 222, 216, .04));
+  background-size: 220% 100%;
+  animation: d1l-lens-invite 3.6s ease-in-out infinite;
+}
+
+.d1l-lens-control .d1l-lens-ai[aria-pressed="true"] {
+  animation: d1l-lens-active 2.8s ease-in-out infinite;
+}
 .d1l-heading h3 { max-width: 1480px; margin: 0 auto; font-size: clamp(25px, 2.15vw, 39px); font-weight: 500; line-height: 1.13; letter-spacing: -0.035em; }
 .d1l-heading p:last-child { max-width: 1120px; margin: 9px auto 0; color: var(--d1l-muted); font-size: clamp(14px, 1vw, 17px); line-height: 1.45; }
 
@@ -325,11 +336,36 @@ html.d1l-fluid-motion .d1l-scroll-reveal.is-visible {
   min-height: 130px;
   padding: 19px 20px;
   border: 1px solid rgba(112, 222, 216, .76);
-  border-radius: 31px;
-  background: radial-gradient(circle at 50% 0, rgba(112, 222, 216, .22), transparent 58%), rgba(8, 42, 51, .94);
+  border-radius: 34px 13px 34px 13px;
+  background: radial-gradient(circle at 50% 0, rgba(112, 222, 216, .28), transparent 56%), linear-gradient(135deg, rgba(8, 42, 51, .98), rgba(21, 52, 64, .94), rgba(42, 30, 31, .9));
+  background-size: 100% 100%, 220% 220%;
   text-align: center;
   box-shadow: 0 0 55px rgba(112, 222, 216, .12);
+  animation: d1l-ai-core 5.8s ease-in-out infinite;
 }
+.d1l-ai::before {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  z-index: -1;
+  border: 1px solid rgba(112, 222, 216, .3);
+  border-radius: 39px 17px 39px 17px;
+  box-shadow: 0 0 34px rgba(112, 222, 216, .12), inset 0 0 22px rgba(255, 116, 88, .05);
+  animation: d1l-ai-halo 3.4s ease-in-out infinite;
+}
+.d1l-ai::after {
+  content: "✦";
+  position: absolute;
+  top: -17px;
+  right: 23px;
+  color: #c6fbf5;
+  font-size: 15px;
+  text-shadow: 0 0 14px rgba(112, 222, 216, .9), 0 0 26px rgba(255, 116, 88, .55);
+  animation: d1l-ai-signal 2.7s ease-in-out infinite;
+}
+.d1l-stage:not(.is-ai-lens) .d1l-ai,
+.d1l-stage:not(.is-ai-lens) .d1l-ai::before,
+.d1l-stage:not(.is-ai-lens) .d1l-ai::after { animation: none; }
 .d1l-ai small { color: #9bdfda; }
 .d1l-ai strong { font-size: clamp(22px, 1.55vw, 28px); }
 .d1l-ai span { color: #a8babc; }
@@ -384,6 +420,26 @@ html.d1l-fluid-motion .d1l-scroll-reveal.is-visible {
 .d1l-modal-ai h5 { color: #ff9c87; }
 
 @keyframes d1l-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes d1l-lens-invite {
+  0%, 100% { background-position: 100% 0; box-shadow: 0 0 0 0 rgba(112, 222, 216, 0); }
+  50% { background-position: 0 0; box-shadow: 0 0 0 1px rgba(112, 222, 216, .26), 0 0 20px rgba(112, 222, 216, .17); }
+}
+@keyframes d1l-lens-active {
+  0%, 100% { box-shadow: 0 0 18px rgba(255, 116, 88, .18); }
+  50% { box-shadow: 0 0 30px rgba(255, 116, 88, .38); }
+}
+@keyframes d1l-ai-core {
+  0%, 100% { background-position: 0 0, 0 50%; box-shadow: 0 0 38px rgba(112, 222, 216, .12); }
+  50% { background-position: 0 0, 100% 50%; box-shadow: 0 0 62px rgba(112, 222, 216, .22); }
+}
+@keyframes d1l-ai-halo {
+  0%, 100% { opacity: .5; }
+  50% { opacity: 1; }
+}
+@keyframes d1l-ai-signal {
+  0%, 100% { opacity: .5; }
+  50% { opacity: 1; }
+}
 @keyframes d1l-modal-in { from { opacity: 0; transform: translate(-50%, -47%) scale(.985); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
 
 @media (max-width: 1260px) {
@@ -432,6 +488,12 @@ html.d1l-fluid-motion .d1l-scroll-reveal.is-visible {
 @keyframes d1l-sheet-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .d1l-ai-only, .d1l-component, .d1l-backdrop, .d1l-modal { transition: none; animation: none; } }
 @media (prefers-reduced-motion: reduce) {
+  .d1l-lens-control .d1l-lens-ai,
+  .d1l-ai,
+  .d1l-ai::before,
+  .d1l-ai::after {
+    animation: none !important;
+  }
   html.d1l-fluid-motion .d1l-scroll-reveal {
     opacity: 1;
     transform: none;

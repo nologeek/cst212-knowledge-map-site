@@ -445,6 +445,10 @@ figure[data-d1-cleanup] .diagram-heading h3 {
 }
 
 #week-1.is-ai-lens .d1c-ai-lines path {
+  stroke: var(--d1c-ai-accent) !important;
+  stroke-width: 2.35px !important;
+  stroke-opacity: 0.92 !important;
+  stroke-dasharray: 8 10 !important;
   animation: d1c-final-ai-flow 3s linear 430ms infinite !important;
   animation-direction: normal !important;
 }

@@ -266,5 +266,17 @@
 
   const boot = () => { ensureUI(); renderWeek(); };
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded",boot,{once:true}); else boot();
-  new MutationObserver(() => requestAnimationFrame(renderWeek)).observe(document.documentElement,{childList:true,subtree:true});
+  const finalDiagramSelector = ".d1c-stage, .d1c-drawer, .d1c-backdrop, .w1i-lens-slot";
+  const isFinalDiagramMutation = mutation => {
+    if (mutation.target.closest?.(finalDiagramSelector)) return true;
+    const changedElements = [...mutation.addedNodes, ...mutation.removedNodes]
+      .filter(node => node.nodeType === 1);
+    return changedElements.length > 0 && changedElements.every(node =>
+      node.matches?.(finalDiagramSelector) || node.closest?.(finalDiagramSelector)
+    );
+  };
+  new MutationObserver(mutations => {
+    if (mutations.length && mutations.every(isFinalDiagramMutation)) return;
+    requestAnimationFrame(renderWeek);
+  }).observe(document.documentElement,{childList:true,subtree:true});
 })();

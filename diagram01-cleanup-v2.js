@@ -46,7 +46,7 @@
       if (!box) { box=document.createElement("section"); root.querySelector(".w1i-intro")?.after(box); }
       box.className = "d1c-master-question";
     }
-    const content = `<small>01 / 07 · ${isEn()?"WEEK 1":"SEMANA 1"}</small><h2>${isEn()?"BEFORE DESIGNING A SOLUTION,<br>IS THERE REALLY A PROBLEM OR OPPORTUNITY THAT JUSTIFIES STARTING A PROJECT?":"ANTES DE DISEÑAR UNA SOLUCIÓN,<br>¿EXISTE REALMENTE UN PROBLEMA O UNA OPORTUNIDAD QUE JUSTIFIQUE INICIAR UN PROYECTO?"}</h2><p>${isEn()?"To answer that, we first need to understand the system, identify the need, investigate the problem and evaluate alternatives.":"Para responderlo, primero debemos entender el sistema, identificar la necesidad, investigar el problema y evaluar alternativas."}</p><strong>${isEn()?"UNDERSTAND → INVESTIGATE → EVALUATE → DECIDE":"COMPRENDER → INVESTIGAR → EVALUAR → DECIDIR"}</strong>`;
+    const content = `<small>01 / 07 · ${isEn()?"WEEK 1":"SEMANA 1"}</small><h2>${isEn()?"BEFORE DESIGNING A SOLUTION,<br>IS THERE REALLY A PROBLEM OR OPPORTUNITY THAT JUSTIFIES STARTING A PROJECT?":"¿Existe realmente un problema o una oportunidad que justifique iniciar un proyecto??"}</h2><p>${isEn()?"To answer that, we first need to understand the system, identify the need, investigate the problem and evaluate alternatives.":"Para responderlo, primero debemos entender el sistema, identificar la necesidad, investigar el problema y evaluar alternativas."}</p><strong>${isEn()?"UNDERSTAND → INVESTIGATE → EVALUATE → DECIDE":"COMPRENDER → INVESTIGAR → EVALUAR → DECIDIR"}</strong>`;
     if (box.innerHTML !== content) box.innerHTML = content;
   };
 
@@ -122,4 +122,48 @@
   document.addEventListener("keydown",event=>{if(event.key==="Escape"){const d=document.querySelector(".d1c-drawer"),b=document.querySelector(".d1c-backdrop");if(d)d.hidden=true;if(b)b.hidden=true;document.body.classList.remove("d1c-drawer-open")}});
   const observeWeek=()=>{const weekRoot=document.querySelector("#week-1");if(!weekRoot||weekRoot.dataset.d1cObserved)return;weekRoot.dataset.d1cObserved="true";new MutationObserver(()=>masterQuestion(weekRoot)).observe(weekRoot,{childList:true,subtree:true});new MutationObserver(()=>{const figure=weekRoot.querySelector(".lesson-diagram");if(figure)syncAiState(weekRoot,figure)}).observe(weekRoot,{attributes:true,attributeFilter:["class"]})};
   const boot=()=>{ensureDrawer();render();observeWeek()};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot,{once:true});else boot();
+})();
+
+/* Keep the Week 1 lens control visible while the learner explores the diagrams. */
+(function installDiagram01LensDock() {
+  var scheduled = false;
+
+  function updateDock() {
+    scheduled = false;
+    var root = document.querySelector("#week-1");
+    var slot = root && root.querySelector(".w1i-lens-slot");
+    var diagrams = root ? Array.prototype.slice.call(root.querySelectorAll(".lesson-diagram"), 0, 7) : [];
+    if (!root || !slot || !diagrams.length) return;
+
+    slot.classList.add("d1c-lens-dock");
+    if (slot.parentElement !== root) root.appendChild(slot);
+
+    var first = diagrams[0].getBoundingClientRect();
+    var last = diagrams[diagrams.length - 1].getBoundingClientRect();
+    var inDiagramRange = first.top < window.innerHeight * 0.78 && last.bottom > window.innerHeight * 0.18;
+    slot.classList.toggle("is-diagram-visible", inDiagramRange);
+  }
+
+  function scheduleDock() {
+    if (scheduled) return;
+    scheduled = true;
+    window.requestAnimationFrame(updateDock);
+  }
+
+  function startDock() {
+    var root = document.querySelector("#week-1");
+    if (!root || root.dataset.d1cLensDockBound === "true") return;
+    root.dataset.d1cLensDockBound = "true";
+    window.addEventListener("scroll", scheduleDock, { passive: true });
+    window.addEventListener("resize", scheduleDock);
+    root.addEventListener("cst212:lenschange", scheduleDock);
+    scheduleDock();
+    window.setTimeout(scheduleDock, 180);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", startDock, { once: true });
+  } else {
+    startDock();
+  }
 })();

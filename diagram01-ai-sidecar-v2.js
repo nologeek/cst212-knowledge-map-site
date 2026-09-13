@@ -143,6 +143,12 @@
       }).join("") +
     '</svg>' +
     '<button class="d1a-ai-node" type="button" aria-label="Abrir concepto Inteligencia Artificial"><small>AI CAPABILITY</small><strong>INTELIGENCIA ARTIFICIAL</strong></button>' +
+    '<div class="d1a-mobile-relations" aria-label="Conexiones de inteligencia artificial">' +
+      '<button type="button" data-mobile-relation="information">IA → INFORMACIÓN<span>ANALIZAR</span></button>' +
+      '<button type="button" data-mobile-relation="processes">IA → PROCESOS<span>ASISTIR / AUTOMATIZAR</span></button>' +
+      '<button type="button" data-mobile-relation="people">IA → PERSONAS<span>AMPLIAR CAPACIDAD</span></button>' +
+      '<button type="button" data-mobile-relation="governance">REGLAS → IA<span>GOBERNAR</span></button>' +
+    '</div>' +
     '<div class="d1a-state-message" aria-live="polite">' +
       '<p data-state="base">El sistema es el conjunto conectado. La tecnología forma parte de él, pero no necesariamente es el todo.</p>' +
       '<p data-state="ai">La IA puede conectarse a distintas partes del sistema para ampliar capacidades, analizar información y transformar procesos, siempre dentro de su propósito y sus reglas.</p>' +
@@ -253,6 +259,14 @@
         }
       });
     });
+
+    stage.querySelectorAll("[data-mobile-relation]").forEach(function (button) {
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        openDrawer(button.dataset.mobileRelation);
+      });
+    });
   }
 
   function currentAiState(root) {
@@ -274,7 +288,7 @@
     var stage = root && root.querySelector(".d1c-stage, .d1-stage");
     if (!root || !stage) return;
 
-    root.querySelectorAll(".d1c-human-gate, .d1-human-gate, .d1-ai-edges, .d1-tech-expansion, .d1-ai-label, [class*='human-gate']").forEach(function (item) {
+    root.querySelectorAll(".d1c-human-gate, .d1c-ai-marker, .d1c-ai-expansion, .d1c-ai-lines, .d1c-ai-edge, .d1c-ai-relation-label, .d1-human-gate, .d1-ai-edges, .d1-tech-expansion, .d1-ai-label, [class*='human-gate']").forEach(function (item) {
       item.hidden = true;
       item.setAttribute("aria-hidden", "true");
     });

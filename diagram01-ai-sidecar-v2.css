@@ -3,6 +3,11 @@
 #week-1 .d1c-ai-connections,
 #week-1 .d1c-ai-paths,
 #week-1 .d1c-human-gate,
+#week-1 .d1c-ai-marker,
+#week-1 .d1c-ai-expansion,
+#week-1 .d1c-ai-lines,
+#week-1 .d1c-ai-edge,
+#week-1 .d1c-ai-relation-label,
 #week-1 .d1-ai-edges,
 #week-1 .d1-tech-expansion,
 #week-1 .d1-ai-label,
@@ -174,6 +179,10 @@
   box-shadow: 0 0 0 5px rgba(105,221,212,.08), 0 0 44px rgba(105,221,212,.3);
 }
 
+.d1a-mobile-relations {
+  display: none;
+}
+
 .d1a-state-message {
   position: absolute;
   right: 12%;
@@ -334,13 +343,24 @@ body.d1a-drawer-open {
 @media (max-width: 980px) {
   #week-1 .d1c-stage,
   #week-1 .d1-stage {
-    padding-bottom: 150px !important;
+    min-height: 940px !important;
+    padding-bottom: 310px !important;
+  }
+
+  #week-1 > .w1i-lens-slot.d1c-lens-dock {
+    top: auto !important;
+    right: 12px !important;
+    bottom: 18px !important;
+  }
+
+  .d1a-paths {
+    display: none;
   }
 
   .d1a-ai-node {
     top: auto;
     right: auto;
-    bottom: 54px;
+    bottom: 58px;
     left: 50%;
     width: 190px;
     min-height: 74px;
@@ -351,9 +371,50 @@ body.d1a-drawer-open {
     transform: translate(-50%, 0) scale(1);
   }
 
+  .d1a-mobile-relations {
+    position: absolute;
+    right: 18px;
+    bottom: 152px;
+    left: 18px;
+    z-index: 8;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity .3s ease, transform .4s ease, visibility .3s ease;
+  }
+
+  #week-1.d1a-ai-active .d1a-mobile-relations {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .d1a-mobile-relations button {
+    min-height: 48px;
+    padding: 10px 12px;
+    border: 1px solid rgba(123,226,219,.22);
+    border-radius: 16px;
+    color: #dff5f2;
+    background: rgba(6,31,41,.92);
+    font: 650 10px/1.35 sans-serif;
+    letter-spacing: .06em;
+    cursor: pointer;
+  }
+
+  .d1a-mobile-relations button span {
+    display: block;
+    margin-top: 3px;
+    color: #7bded6;
+    font-size: 9px;
+    letter-spacing: .1em;
+  }
+
   .d1a-state-message {
     right: 18px;
-    bottom: 10px;
+    bottom: 8px;
     left: 18px;
   }
 
@@ -382,6 +443,19 @@ body.d1a-drawer-open {
 
   .d1a-drawer h2 {
     font-size: clamp(32px, 10vw, 48px);
+  }
+}
+
+@media (max-width: 560px) {
+  .d1a-mobile-relations {
+    grid-template-columns: 1fr;
+    bottom: 150px;
+  }
+
+  #week-1 .d1c-stage,
+  #week-1 .d1-stage {
+    min-height: 1080px !important;
+    padding-bottom: 430px !important;
   }
 }
 

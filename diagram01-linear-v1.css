@@ -41,8 +41,50 @@ html, body { overflow-x: clip; }
 .week1-lens-dock,
 .week1-lens-switch,
 #week1LensDock,
-[data-week1-lens-dock] {
+[data-week1-lens-dock],
+.w1f-lens-toggle {
   display: none !important;
+}
+
+html,
+body,
+#learnView,
+#atlasEditorial {
+  scroll-behavior: auto !important;
+  scroll-snap-type: none !important;
+  scroll-snap-stop: normal !important;
+  overscroll-behavior-y: auto;
+}
+
+#learnView {
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+#atlasEditorial > *,
+#week-1 .week-intro,
+#week-1 .lesson-diagram,
+#week-1 .diagram-heading,
+#week-1 .diagram-stage,
+#week-1 .diagram-caption {
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
+}
+
+html.d1l-fluid-motion .d1l-scroll-reveal {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  will-change: opacity, transform;
+  transition:
+    opacity 460ms cubic-bezier(.2, .72, .2, 1),
+    transform 620ms cubic-bezier(.2, .72, .2, 1);
+  transition-delay: var(--d1l-reveal-delay, 0ms);
+}
+
+html.d1l-fluid-motion .d1l-scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
 }
 
 .d1l-stage,
@@ -387,3 +429,10 @@ html, body { overflow-x: clip; }
 
 @keyframes d1l-sheet-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .d1l-ai-only, .d1l-component, .d1l-backdrop, .d1l-modal { transition: none; animation: none; } }
+@media (prefers-reduced-motion: reduce) {
+  html.d1l-fluid-motion .d1l-scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

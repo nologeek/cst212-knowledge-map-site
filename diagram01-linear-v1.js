@@ -152,6 +152,30 @@
   window.CST212DiagramAILenses = lensRegistry;
   lensRegistry.register(diagramConfig);
 
+  function initFluidMotion() {
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var targets = Array.prototype.slice.call(document.querySelectorAll(
+      '#week-1 .diagram-heading, #week-1 .diagram-stage, #week-1 .diagram-caption, #week-1 .d1l-heading, #week-1 .d1l-map, #week-1 .d1l-impacts-wrap'
+    ));
+    if (!targets.length || reduceMotion || !('IntersectionObserver' in window)) {
+      targets.forEach(function (target) { target.classList.add('is-visible'); });
+      return;
+    }
+    document.documentElement.classList.add('d1l-fluid-motion');
+    targets.forEach(function (target, index) {
+      target.classList.add('d1l-scroll-reveal');
+      target.style.setProperty('--d1l-reveal-delay', String((index % 3) * 35) + 'ms');
+    });
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      });
+    }, { root: null, rootMargin: '0px 0px -7% 0px', threshold: 0.035 });
+    targets.forEach(function (target) { revealObserver.observe(target); });
+  }
+
   function component(key, es, en, qEs, qEn) { return '<button type="button" class="d1l-component d1l-open" data-detail="' + key + '"><strong>' + T(B(es, en)) + '</strong><span>' + T(B(qEs, qEn)) + '</span></button>'; }
   function relation(key, row, es, en) { return '<button type="button" class="d1l-relation d1l-open d1l-ai-only" data-detail="' + key + '" data-row="' + row + '">' + T(B(es, en)) + '</button>'; }
   function impact(key, es, en, aEs, aEn) { return '<button type="button" class="d1l-impact d1l-open" data-detail="' + key + '"><strong>' + T(B(es, en)) + '</strong><span>' + T(B(aEs, aEn)) + '</span></button>'; }
@@ -195,6 +219,7 @@
     holder.innerHTML = markup();
     oldStage.replaceWith(holder.firstElementChild);
     setLens(false);
+    window.requestAnimationFrame(initFluidMotion);
     return true;
   }
 

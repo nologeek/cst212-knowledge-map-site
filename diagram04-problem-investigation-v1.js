@@ -417,6 +417,12 @@
   function bindDirectControls(root) {
     if (!root) return;
     root.querySelectorAll('[data-d4pr-detail]').forEach(function (node) {
+      node.onpointerdown = function (event) {
+        if (typeof event.button === 'number' && event.button !== 0) return;
+        event.preventDefault();
+        event.stopPropagation();
+        renderDrawer(node.getAttribute('data-d4pr-detail'));
+      };
       node.onclick = function (event) { event.preventDefault(); renderDrawer(node.getAttribute('data-d4pr-detail')); };
     });
     root.querySelectorAll('[data-d4pr-lens]').forEach(function (node) {

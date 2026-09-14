@@ -275,6 +275,12 @@
   function bindDirectControls(root) {
     if (!root) return;
     root.querySelectorAll('.d1l-open[data-detail]').forEach(function (node) {
+      node.onpointerdown = function (event) {
+        if (typeof event.button === 'number' && event.button !== 0) return;
+        event.preventDefault();
+        event.stopPropagation();
+        renderModal(node.getAttribute('data-detail'));
+      };
       node.onclick = function (event) { event.preventDefault(); renderModal(node.getAttribute('data-detail')); };
     });
     root.querySelectorAll('[data-d1l-lens]').forEach(function (node) {

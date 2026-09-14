@@ -593,8 +593,10 @@
       start.className = 'w1f-next-week-start';
       next.appendChild(start);
     }
-    var language = isEnglish() ? 'en' : 'es';
-    if (start.dataset.language !== language) {
+    var language = start.dataset.w2LanguageOverride || (isEnglish() ? 'en' : 'es');
+    if (window.CST212Week2 && typeof window.CST212Week2.mount === 'function') {
+      window.CST212Week2.mount(start, language);
+    } else if (start.dataset.language !== language) {
       start.dataset.language = language;
       start.innerHTML = '<small>' + (isEnglish() ? 'WEEK 2' : 'SEMANA 2') + '</small><h2 tabindex="-1">' + (isEnglish() ? 'Systems development with project management' : 'Desarrollo de sistemas con gestión de proyectos') + '</h2><p>' + (isEnglish() ? 'Content in preparation.' : 'Contenido en preparación.') + '</p><a class="w1f-next-week-back" href="#week-1">' + (isEnglish() ? 'Back to Week 1' : 'Volver a la semana 1') + '</a>';
     }
@@ -606,7 +608,8 @@
       next.hidden = false;
       window.history.replaceState(null, '', '#week-2');
       next.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-      start.querySelector('h2').focus({ preventScroll: true });
+      var heading = start.querySelector('h1, h2');
+      if (heading) { heading.setAttribute('tabindex', '-1'); heading.focus({ preventScroll: true }); }
     };
     start.querySelector('.w1f-next-week-back').onclick = function (event) {
       event.preventDefault();

@@ -1034,13 +1034,51 @@ body.w1f-drawer-open {
 #week-1 .d1l-stage[data-diagram01-linear="true"] .d1l-relation::after,
 #week-1 .d1l-stage[data-diagram01-linear="true"] .d1l-impact::before,
 #week-1 .d1l-stage[data-diagram01-linear="true"] .d1l-impact::after,
-#week-1 .d1l-stage[data-diagram01-linear="true"] .d1l-tech-bridge,
 #week-1 .d1l-stage[data-diagram01-linear="true"] .d1l-tech-bridge::before,
-#week-1 .d1l-stage[data-diagram01-linear="true"] .d1l-ai-spine,
 #week-1 .d1l-stage[data-diagram01-linear="true"] .d1l-ai-spine::before,
 #week-1 .d1l-stage[data-diagram01-linear="true"] .d1l-ai-spine::after {
   border-color: var(--w1f-ai) !important;
   background-color: var(--w1f-ai) !important;
   color: var(--w1f-ai) !important;
   stroke: var(--w1f-ai) !important;
+}
+
+/* Connector containers stay transparent; only their one-pixel lines are colored. */
+#week-1 .d1l-stage[data-diagram01-linear="true"] .d1l-tech-bridge,
+#week-1 .d1l-stage[data-diagram01-linear="true"] .d1l-ai-spine {
+  background: transparent !important;
+}
+
+/* The relationship grid crosses the BASE control; its empty cells must pass clicks through. */
+#week-1 .d1l-stage[data-diagram01-linear="true"] .d1l-ai-relations {
+  pointer-events: none;
+}
+
+#week-1 .d1l-stage[data-diagram01-linear="true"].is-ai-lens .d1l-relation {
+  pointer-events: auto;
+}
+
+/* Diagram 02 shares the same blue AI relationships as the system diagram. */
+#week-1 .d2is-figure {
+  --d2is-ai: #78b9ff;
+  --w1f-ai: #78b9ff;
+}
+
+#week-1 .d2is-stage :is(.d2is-ai-relation, .d2is-tech-bridge, .d2is-ai-entry) {
+  border-color: rgba(120, 185, 255, .72) !important;
+  background: linear-gradient(135deg, rgba(8, 39, 61, .96), rgba(6, 29, 48, .96)) !important;
+  color: var(--w1f-ai) !important;
+  box-shadow: 0 0 24px rgba(120, 185, 255, .12) !important;
+}
+
+#week-1 .d2is-stage :is(.d2is-ai-relation, .d2is-tech-bridge, .d2is-ai-entry) :is(strong, span, small),
+#week-1 .d2is-stage .d2is-ai-state strong,
+#week-1 .d2is-stage .d2is-ai-question,
+#week-1 .d2is-stage .d2is-ai-level {
+  color: var(--w1f-ai) !important;
+}
+
+#week-1 .d2is-stage :is(.d2is-linear-relation, .d2is-tech-bridge)::before,
+#week-1 .d2is-stage :is(.d2is-linear-relation, .d2is-tech-bridge)::after {
+  background: var(--w1f-ai) !important;
 }

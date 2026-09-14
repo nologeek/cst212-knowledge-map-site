@@ -111,17 +111,43 @@
   font-weight: 560;
 }
 
-.w1i-intro {
-  min-height: 92svh !important;
+#week-1 .w1i-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto;
+  gap: 0;
+  place-items: center;
+  min-height: min(76svh, 780px) !important;
 }
 
-.w1i-intro .w1i-cue {
-  margin-top: clamp(28px, 5vh, 56px);
+#week-1 .w1i-intro .w1i-copy {
+  box-sizing: border-box;
+  width: min(1080px, calc(100% - 48px));
+  min-height: 0;
+  padding: clamp(48px, 8svh, 86px) 0;
+  text-align: center;
+}
+
+#week-1 .w1i-intro .w1i-lead {
+  width: 100%;
+  font-size: clamp(2rem, 4.2vw, 4.75rem);
+  line-height: 1.12;
+}
+
+#week-1 .w1i-morph {
+  display: none !important;
+}
+
+.w1i-intro .w1i-cue,
+.w1i-concept-scene .w1i-scene-cue {
+  margin: clamp(24px, 3svh, 36px) auto 0;
   color: #edf8f7;
-  font-size: clamp(1.05rem, 1.7vw, 1.55rem);
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
   font-weight: 400;
+  line-height: 1.5;
   letter-spacing: 0;
   text-transform: none;
+  text-align: center;
 }
 
 .d1c-master-question {
@@ -189,14 +215,26 @@
   text-transform: none !important;
 }
 
-.w1i-diagram-01 figcaption > span:first-child,
-.w1i-diagram-01 .diagram-caption > span:first-child {
+#week-1 .w1i-diagram-01 > .diagram-heading,
+#week-1 .w1i-diagram-01 .d1l-heading h3,
+#week-1 .w1i-diagram-01 .d1l-kicker,
+#week-1 .w1i-diagram-01 > figcaption,
+#week-1 .w1i-diagram-01 > .diagram-caption,
+#week-1 .lesson-diagram > .week1-source-note,
+#week-1 .lesson-diagram .diagram-caption .w1f-source {
   display: none !important;
 }
 
-.w1i-diagram-01 figcaption,
-.w1i-diagram-01 .diagram-caption {
-  justify-content: flex-end !important;
+#week-1 .w1i-diagram-01 .d1l-meta-row {
+  margin: 0;
+}
+
+#week-1 .w1i-diagram-01 .d1l-heading {
+  margin: 0 auto clamp(20px, 3svh, 32px);
+}
+
+#week-1 .w1i-diagram-01 .d1l-heading > p:last-child {
+  margin: 0 auto;
 }
 
 @supports (animation-timeline: view()) {
@@ -270,4 +308,64 @@
   .w1i-concept-scene > div {
     animation: none !important;
   }
+}
+
+/* Explain once, then reveal the information-system diagram. */
+#week-1 .w1i-diagram-02 .d2is-heading > h3,
+#week-1 .w1i-diagram-02 .d2is-heading > .d2is-primary,
+#week-1 .w1i-diagram-02 .d2is-heading > .d2is-intro,
+#week-1 .w1i-diagram-02 .d2is-heading > .d2is-question,
+#week-1 .w1i-diagram-02 > .d2is-caption,
+#week-1 .d2is-transition-out .d2is-transition-inner > p,
+#week-1 .d2is-transition-out .d2is-transition-next,
+#week-1 .d3bp-transition-in h4,
+#week-1 .w1i-concept-scene[data-w1i-for="03"] {
+  display: none !important;
+}
+
+#week-1 .w1i-diagram-02 .d2is-heading {
+  margin-bottom: clamp(20px, 3svh, 32px);
+}
+
+#week-1 .w1i-diagram-02 .d2is-meta-row {
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.w1i-concept-scene .w1i-scene-principle {
+  margin: 24px auto 0;
+  color: #8be8e1;
+  font-size: clamp(1.1rem, 1.7vw, 1.65rem);
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.w1i-detail-scene .w1i-detail-copy {
+  max-width: 1000px;
+  margin: 0 auto;
+  color: #a8bfbe;
+  font-size: clamp(1.1rem, 2vw, 2rem);
+  font-weight: 350;
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+.w1i-detail-scene .w1i-detail-question {
+  max-width: 960px;
+  margin: clamp(28px, 4svh, 44px) auto 0;
+  color: #edf8f7;
+  font-size: clamp(1.35rem, 2.55vw, 2.7rem);
+  font-weight: 400;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+#week-1 .d3bp-heading .w1i-diagram-summary {
+  max-width: 1040px;
+  margin: 18px auto 24px;
+  color: #c7dddf;
+  font-size: clamp(1rem, 1.45vw, 1.4rem);
+  line-height: 1.45;
+  text-align: center;
+  text-wrap: balance;
 }

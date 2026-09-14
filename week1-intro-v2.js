@@ -89,6 +89,50 @@
       </section>`;
   };
 
+  const setNarrativeText = (node, text) => {
+    if (node && node.textContent !== text) node.textContent = text;
+  };
+
+  const ensureInformationSystemNarrative = (root, figure, scene) => {
+    const header = figure.querySelector(".d2is-heading");
+    const explanation = header?.querySelector(".d2is-intro")?.textContent;
+    const question = header?.querySelector(".d2is-question")?.textContent;
+    const primary = header?.querySelector(".d2is-primary")?.textContent;
+    if (!explanation || !question || !primary) return;
+
+    let principle = scene.querySelector(".w1i-scene-principle");
+    if (!principle) {
+      principle = document.createElement("p");
+      principle.className = "w1i-scene-principle";
+      scene.querySelector("h3").after(principle);
+    }
+    setNarrativeText(principle, primary.charAt(0) + primary.slice(1).toLowerCase());
+
+    let detail = root.querySelector('[data-w1i-detail="02"]');
+    if (!detail) {
+      detail = document.createElement("section");
+      detail.className = "w1i-concept-scene w1i-detail-scene";
+      detail.dataset.w1iDetail = "02";
+      detail.innerHTML = '<div><p class="w1i-detail-copy"></p><p class="w1i-detail-question"></p></div>';
+      figure.before(detail);
+    }
+    setNarrativeText(detail.querySelector(".w1i-detail-copy"), explanation);
+    setNarrativeText(detail.querySelector(".w1i-detail-question"), question);
+  };
+
+  const ensureBusinessProcessSummary = (root, figure) => {
+    const header = figure.querySelector(".d3bp-heading");
+    const text = root.querySelector(".d2is-transition-out .d2is-transition-inner > p")?.textContent;
+    if (!header || !text) return;
+    let summary = header.querySelector(".w1i-diagram-summary");
+    if (!summary) {
+      summary = document.createElement("p");
+      summary.className = "w1i-diagram-summary";
+      header.querySelector("h3").after(summary);
+    }
+    setNarrativeText(summary, text);
+  };
+
   const ensureDiagramIntros = root => {
     root.querySelectorAll(".w1f-transition").forEach(node => node.remove());
     stories().forEach(story => {
@@ -107,8 +151,10 @@
       const signature = `${isEn() ? "en" : "es"}-${story.number}`;
       if (scene.dataset.w1iSignature !== signature) {
         scene.dataset.w1iSignature = signature;
-        scene.innerHTML = `<div><small>${story.eyebrow}</small><p class="w1i-scene-index">${isEn() ? "Diagram" : "Diagrama"} ${Number(story.number)}</p><h3>${story.title}</h3><p class="w1i-scene-copy">${story.text}</p>${story.number === "01" ? `<strong>${isEn() ? "Now let us see how its parts connect." : "Ahora veamos cómo se conectan sus partes."}</strong>` : ""}</div>`;
+        scene.innerHTML = `<div><small>${story.eyebrow}</small>${["01", "02"].includes(story.number) ? "" : `<p class="w1i-scene-index">${isEn() ? "Diagram" : "Diagrama"} ${Number(story.number)}</p>`}<h3>${story.title}</h3><p class="w1i-scene-copy">${story.text}</p>${story.number === "01" ? `<p class="w1i-cue w1i-scene-cue">${isEn() ? "Now let us see how its parts connect." : "Ahora veamos cómo se conectan sus partes."}</p>` : ""}</div>`;
       }
+      if (story.number === "02") ensureInformationSystemNarrative(root, figure, scene);
+      if (story.number === "03") ensureBusinessProcessSummary(root, figure);
     });
   };
 
@@ -131,8 +177,6 @@
         <p class="w1i-index"><span>01 / 07</span><span>${text.week}</span></p>
         <h2>${text.title}</h2>
         <p class="w1i-lead">${text.lead}</p>
-        <div class="w1i-questions">${text.questions.map(question => `<p>${question}</p>`).join("")}</div>
-        <p class="w1i-progression">${text.progress.map((step, index) => `${index ? "<i>→</i>" : ""}<span>${step}</span>`).join("")}</p>
         <p class="w1i-cue">${text.cue}</p>
       </div>
       <div class="w1i-morph" aria-hidden="true">

@@ -548,7 +548,7 @@
     return true;
   }
 
-  var nextWeekOpened = window.location.hash === '#week-2';
+  var nextWeekOpened = /^#(?:week-[23]|w3-diagram-)/.test(window.location.hash);
 
   function prepareCourseBoundary() {
     var week = document.getElementById('week-1');
@@ -557,7 +557,7 @@
     if (!week || !learn || !end) return;
     var hideFollowing = function (node) {
       for (var following = node.nextElementSibling; following; following = following.nextElementSibling) {
-        if (following.id === 'week-2') continue;
+        if (following.id === 'week-2' || following.id === 'week-3-journey') continue;
         if (!following.classList.contains('w1f-legacy-tail')) {
           following.classList.add('w1f-legacy-tail');
           following.hidden = true;

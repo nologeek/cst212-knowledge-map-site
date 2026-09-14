@@ -167,7 +167,7 @@
   function layerBadge(layer) {
     if (layer === "deepening") return B("PROFUNDIZACIÓN ACADÉMICA", "ACADEMIC DEEPENING");
     if (layer === "ai") return B("AI-FIRST EXTENSION · NO CANÓNICO", "AI-FIRST EXTENSION · NOT CANONICAL");
-    return B("CST212 / TIFFIN FOUNDATION", "CST212 / TIFFIN FOUNDATION");
+    return B("CST212 FOUNDATION", "CST212 FOUNDATION");
   }
 
   function layerSource(layer) {

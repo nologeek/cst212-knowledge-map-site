@@ -1,0 +1,273 @@
+/* Cover: institutional, quiet and focused. The explanatory copy continues below. */
+#home.cover-v2 .cover-v2__content {
+  gap: clamp(0.62rem, 1.25vh, 0.95rem);
+}
+
+#home.cover-v2 .cover-v2__title {
+  font-size: clamp(1.65rem, 4vw, 4.35rem);
+  font-weight: 560;
+  letter-spacing: -0.052em;
+  text-transform: none;
+}
+
+#home.cover-v2 .cover-v2__subtitle {
+  margin-top: 0.42rem;
+  color: #75e3dc;
+  font-size: clamp(1.05rem, 1.85vw, 1.75rem);
+  font-weight: 520;
+  letter-spacing: 0.005em;
+}
+
+#home.cover-v2 .cover-v2__people {
+  margin-top: clamp(0.65rem, 1.5vh, 1.15rem);
+}
+
+/* A single canvas: full-width sections, only the knowledge content moves. */
+.w1i-manifest,
+.w1i-manifest-scene,
+.w1i-concept-scene {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  font-family: sans-serif;
+}
+
+#week-1 .lesson-diagram[hidden] {
+  display: none !important;
+}
+
+.w1i-manifest-scene,
+.w1i-concept-scene {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: min(78svh, 820px);
+  padding: clamp(72px, 9vw, 150px) clamp(24px, 7vw, 120px);
+  overflow-x: clip;
+  text-align: center;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(33, 135, 143, 0.11), transparent 50%),
+    linear-gradient(180deg, rgba(2, 22, 28, 0.02), rgba(2, 22, 28, 0.14));
+}
+
+#learnView,
+#atlasEditorial,
+#week-1 {
+  background-color: #02171d;
+}
+
+#week-1 {
+  position: relative;
+  left: 50%;
+  width: 100dvw !important;
+  max-width: none !important;
+  margin-left: -50dvw !important;
+  background-image:
+    radial-gradient(circle at 50% 18%, rgba(24, 118, 126, 0.12), transparent 34%),
+    linear-gradient(180deg, #02171d, #031b22 42%, #02171d);
+}
+
+.w1i-manifest-scene,
+.w1i-concept-scene,
+.w1f-figure,
+.w1f-transition,
+.w1f-end-card {
+  background-color: transparent !important;
+}
+
+.w1i-manifest-scene.is-ai {
+  background:
+    radial-gradient(circle at 50% 48%, rgba(111, 176, 255, 0.09), transparent 48%),
+    linear-gradient(180deg, rgba(2, 22, 28, 0.14), rgba(2, 22, 28, 0.03));
+}
+
+.w1i-manifest-scene > div,
+.w1i-concept-scene > div {
+  width: min(1120px, 100%);
+}
+
+.w1i-manifest-scene small,
+.w1i-concept-scene small {
+  display: block;
+  color: #70ded8;
+  font-size: clamp(0.62rem, 0.72vw, 0.76rem);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.w1i-manifest-scene p {
+  margin: 22px auto 0;
+  color: #edf8f7;
+  font-size: clamp(1.25rem, 2.15vw, 2.35rem);
+  font-weight: 320;
+  line-height: 1.38;
+  text-wrap: balance;
+}
+
+.w1i-manifest-scene strong {
+  color: #8be8e1;
+  font-weight: 560;
+}
+
+.w1i-intro {
+  min-height: 92svh !important;
+}
+
+.w1i-intro .w1i-cue {
+  margin-top: clamp(28px, 5vh, 56px);
+  color: #edf8f7;
+  font-size: clamp(1.05rem, 1.7vw, 1.55rem);
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.d1c-master-question {
+  min-height: min(76svh, 800px) !important;
+  padding-block: clamp(72px, 10vh, 130px) !important;
+}
+
+.d1c-master-question h2 {
+  max-width: 1120px !important;
+  font-size: clamp(1.8rem, 3.1vw, 3.8rem) !important;
+  font-weight: 360 !important;
+  line-height: 1.16 !important;
+  text-transform: none !important;
+  text-wrap: balance;
+}
+
+.w1i-concept-scene {
+  min-height: min(72svh, 760px);
+}
+
+.w1i-scene-index {
+  margin: 16px 0 0;
+  color: #e9c75f;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.w1i-concept-scene h3 {
+  margin: 12px 0 0;
+  color: #edf8f7;
+  font-size: clamp(2.25rem, 4.8vw, 5.65rem);
+  font-weight: 420;
+  letter-spacing: -0.045em;
+  line-height: 0.98;
+  text-transform: none;
+}
+
+.w1i-scene-copy {
+  max-width: 970px;
+  margin: 26px auto 0;
+  color: #a8bfbe;
+  font-size: clamp(1rem, 1.45vw, 1.45rem);
+  font-weight: 350;
+  line-height: 1.55;
+  text-wrap: balance;
+}
+
+.w1i-concept-scene strong {
+  display: block;
+  margin-top: 28px;
+  color: #70ded8;
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Sentence case for all seven diagram titles. Small technical labels remain compact. */
+#week-1 .lesson-diagram h3,
+#week-1 .w1f-heading h3,
+#week-1 .d2is-heading h3,
+#week-1 .d3bp-heading h3,
+#week-1 .d4pr-heading h3 {
+  text-transform: none !important;
+}
+
+.w1i-diagram-01 figcaption > span:first-child,
+.w1i-diagram-01 .diagram-caption > span:first-child {
+  display: none !important;
+}
+
+.w1i-diagram-01 figcaption,
+.w1i-diagram-01 .diagram-caption {
+  justify-content: flex-end !important;
+}
+
+@supports (animation-timeline: view()) {
+  .w1i-manifest-scene > div,
+  .w1i-concept-scene > div {
+    animation: w1i-story-arrive both linear;
+    animation-timeline: view();
+    animation-range: entry 12% cover 42%;
+  }
+}
+
+@keyframes w1i-story-arrive {
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 760px) {
+  #home.cover-v2 {
+    overflow-x: clip;
+  }
+
+  #home.cover-v2 .cover-v2__title {
+    max-width: calc(100vw - 28px);
+    font-size: clamp(0.9rem, 4.35vw, 1.25rem);
+    letter-spacing: -0.045em;
+    white-space: nowrap;
+    text-wrap: nowrap;
+  }
+
+  #home.cover-v2 .cover-v2__subtitle {
+    max-width: calc(100vw - 28px);
+    font-size: clamp(0.72rem, 3.2vw, 0.92rem);
+    white-space: nowrap;
+  }
+
+  #home.cover-v2 .cover-v2__people {
+    width: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  #home.cover-v2 .cover-v2__student,
+  #home.cover-v2 .cover-v2__person {
+    box-sizing: border-box;
+    max-width: calc(100vw - 28px);
+    min-width: 0;
+  }
+
+  #home.cover-v2 .cover-v2__progress {
+    max-width: calc(100vw - 24px);
+    font-size: clamp(0.55rem, 2.45vw, 0.68rem);
+  }
+
+  .w1i-manifest-scene,
+  .w1i-concept-scene {
+    min-height: 72svh;
+    padding-inline: 22px;
+  }
+
+  .w1i-manifest-scene p {
+    font-size: clamp(1.08rem, 5vw, 1.45rem);
+  }
+
+  .w1i-concept-scene h3 {
+    font-size: clamp(2rem, 10vw, 3.4rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .w1i-manifest-scene > div,
+  .w1i-concept-scene > div {
+    animation: none !important;
+  }
+}

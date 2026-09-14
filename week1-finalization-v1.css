@@ -53,6 +53,24 @@
 }
 
 /* Shared Week 1 finalization system: compact diagrams, stable base state, full-width canvas. */
+/* The legacy #week-1 palette uses --w1f-ink for dark ink on light cards.
+ * Own the foreground tokens at these dark surfaces, including body-level drawers. */
+#week-1 :is(.w1f-d05, .w1f-d06, .w1f-d07, .w1f-transition, .w1f-end-card),
+.w1f-drawer {
+  --w1f-ink: #edf8f7;
+  --w1f-muted: #b6cbcf;
+  --w1f-ai: #78b9ff;
+  --w1f-blue: #78b9ff;
+  color: var(--w1f-ink);
+}
+
+/* Tall diagrams cannot depend on the old whole-figure reveal threshold.
+ * Restore only the outer surface; AI-only descendants keep their state rules. */
+#week-1 .lesson-diagram:is(.w1f-d05, .w1f-d06, .w1f-d07),
+#week-1 .w1f-end-card {
+  opacity: 1 !important;
+}
+
 .w1f-figure,
 .w1f-transition,
 .w1f-end-card {
@@ -730,12 +748,49 @@
   color: var(--w1f-muted) !important;
 }
 
-.w1f-next {
+#week-1 .w1f-end-card .w1f-next {
+  box-sizing: border-box;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 64px;
   margin-top: 34px;
-  color: var(--w1f-gold);
-  font-size: 0.74rem;
+  padding: 20px clamp(20px, 3vw, 38px);
+  border: 2px solid #78b9ff;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #78b9ff, #b4d9ff);
+  color: #061b2e;
+  box-shadow: 0 0 28px rgba(120, 185, 255, 0.24);
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
   font-weight: 700;
-  letter-spacing: 0.14em;
+  line-height: 1.45;
+  letter-spacing: 0.03em;
+  text-align: center;
+  text-transform: none;
+  text-decoration: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+#week-1 .w1f-end-card a.w1f-next {
+  cursor: pointer;
+}
+
+#week-1 .w1f-end-card a.w1f-next:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 38px rgba(120, 185, 255, 0.38);
+}
+
+#week-1 .w1f-end-card a.w1f-next:focus-visible {
+  outline: 3px solid #edf8f7;
+  outline-offset: 5px;
+}
+
+#week-1 .w1f-end-card a.w1f-next:active {
+  transform: translateY(0);
 }
 
 /* Shared pedagogical drawer for Diagrams 05-07. */
@@ -935,6 +990,7 @@ body.w1f-drawer-open {
 }
 
 @media (max-width: 520px) {
+  #week-1 .w1f-end-card .w1f-next { width: 100%; }
   .w1f-heading h3 { font-size: 2.15rem; }
   .w1f-boundary-core,
   .w1f-d05 .w1f-ai-relations,
@@ -953,6 +1009,13 @@ body.w1f-drawer-open {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  #week-1 .w1f-end-card .w1f-next,
+  #week-1 .w1f-end-card a.w1f-next:hover,
+  #week-1 .w1f-end-card a.w1f-next:active {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
   .w1f-lens-control .w1f-lens-ai,
   .w1f-drawer { animation: none !important; }
   .w1f-ai-node,
@@ -1081,4 +1144,42 @@ body.w1f-drawer-open {
 #week-1 .d2is-stage :is(.d2is-linear-relation, .d2is-tech-bridge)::before,
 #week-1 .d2is-stage :is(.d2is-linear-relation, .d2is-tech-bridge)::after {
   background: var(--w1f-ai) !important;
+}
+
+/* Diagrams 03-04: color the AI meaning consistently, not the activation border.
+ * No opacity/display overrides: BASE and AI visibility remain independently owned. */
+#week-1 :is(.d3bp-stage, .d4pr-stage) {
+  --w1f-ai: #78b9ff;
+}
+
+#week-1 .d3bp-stage :is(.d3bp-ai-relation, .d3bp-ai-hub, .d3bp-ai-rule),
+#week-1 .d3bp-stage.is-ai-lens .d3bp-ai-preview,
+#week-1 .d4pr-stage :is(.d4pr-ai-relation, .d4pr-ai-node),
+#week-1 :is(.d3bp-stage, .d4pr-stage) .atlas-ai-edge {
+  border-color: #78b9ff !important;
+  background: linear-gradient(135deg, rgba(8, 39, 61, 0.96), rgba(6, 29, 48, 0.96)) !important;
+  color: #78b9ff !important;
+  box-shadow: 0 0 24px rgba(120, 185, 255, 0.12) !important;
+  animation: none !important;
+}
+
+#week-1 .d3bp-stage :is(.d3bp-ai-relation, .d3bp-ai-hub, .d3bp-ai-rule, .d3bp-ai-preview) :is(strong, span, small, em, b, i),
+#week-1 .d4pr-stage :is(.d4pr-ai-relation, .d4pr-ai-node) :is(strong, span, small, em, b, i),
+#week-1 .d3bp-stage .d3bp-ai-question,
+#week-1 :is(.d3bp-stage, .d4pr-stage) .atlas-ai-edge :is(strong, span, small, em, b, i) {
+  color: #78b9ff !important;
+}
+
+/* Only the thin connector pseudo-elements receive a solid fill. */
+#week-1 .d3bp-stage :is(.d3bp-ai-relations, .d3bp-ai-relation)::before,
+#week-1 .d3bp-stage :is(.d3bp-ai-relations, .d3bp-ai-relation)::after,
+#week-1 .d4pr-stage :is(.d4pr-ai-relations, .d4pr-ai-relation, .d4pr-ai-column)::before,
+#week-1 .d4pr-stage :is(.d4pr-ai-relations, .d4pr-ai-relation, .d4pr-ai-column)::after {
+  background: #78b9ff !important;
+  border-color: #78b9ff !important;
+  color: #78b9ff !important;
+}
+
+#week-1 :is(.d3bp-stage, .d4pr-stage) :is(.d3bp-ai-path, .d4pr-ai-path, .atlas-ai-wire) {
+  stroke: #78b9ff !important;
 }

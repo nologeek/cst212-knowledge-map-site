@@ -120,21 +120,81 @@
     setNarrativeText(detail.querySelector(".w1i-detail-question"), question);
   };
 
-  const ensureBusinessProcessSummary = (root, figure) => {
+  const ensureBusinessProcessNarrative = (root, figure, scene) => {
     const header = figure.querySelector(".d3bp-heading");
-    const text = root.querySelector(".d2is-transition-out .d2is-transition-inner > p")?.textContent;
-    if (!header || !text) return;
-    let summary = header.querySelector(".w1i-diagram-summary");
-    if (!summary) {
+    if (!header) return;
+    const primary = header.querySelector(".d3bp-primary")?.textContent?.trim();
+    const explanation = header.querySelector(".d3bp-intro")?.textContent?.trim();
+    if (primary) setNarrativeText(scene.querySelector("small"), primary.charAt(0) + primary.slice(1).toLowerCase());
+    if (explanation) setNarrativeText(scene.querySelector(".w1i-scene-copy"), explanation);
+
+    const text = root.querySelector(".d2is-transition-out .d2is-transition-inner > p")?.textContent
+      || header.querySelector(".w1i-diagram-summary")?.textContent;
+    let summary = scene.querySelector(".w1i-scene-summary");
+    if (text && !summary) {
       summary = document.createElement("p");
-      summary.className = "w1i-diagram-summary";
-      header.querySelector("h3").after(summary);
+      summary.className = "w1i-scene-summary";
+      scene.querySelector(".w1i-scene-copy").after(summary);
     }
-    setNarrativeText(summary, text);
+    if (text) setNarrativeText(summary, text);
+  };
+
+  // Existing bilingual bridge copy from week1-learning-v2.js. Keep the original
+  // bridge nodes as sources, even when their presentation is merged or hidden.
+  const bridgeCopy = () => isEn() ? {
+    problem: ["UNDERLYING PROBLEM", "What belongs to the system we can change?"],
+    decision: ["GO · REFRAME · STOP", "The decisions return to one mental model."]
+  } : {
+    problem: ["PROBLEMA SUBYACENTE", "¿Qué pertenece exactamente al sistema que podemos cambiar?"],
+    decision: ["AVANZAR · REFORMULAR · DETENER", "Las decisiones vuelven a un único mapa mental."]
+  };
+
+  const ensureNarrativeBridges = root => {
+    const text = bridgeCopy();
+    const transition = root.querySelector(".d3bp-transition-out .d3bp-transition-inner");
+    root.querySelectorAll(".diagram-bridge").forEach(bridge => {
+      const label = bridge.querySelector(":scope > strong");
+      const paragraph = bridge.querySelector(":scope > p");
+      const title = (label?.textContent || "").replace(/\s+/g, " ").trim().toUpperCase();
+
+      if (["RESULTADO DEL SISTEMA", "SYSTEM OUTCOME"].includes(title)) {
+        bridge.classList.add("w1i-superseded-bridge");
+        bridge.hidden = true;
+      }
+
+      if (["PROBLEMA SUBYACENTE", "UNDERLYING PROBLEM"].includes(title) && transition) {
+        let merged = transition.querySelector(".w1i-underlying-bridge");
+        if (!merged) {
+          merged = document.createElement("div");
+          merged.className = "w1i-underlying-bridge";
+          merged.innerHTML = "<small></small><p></p>";
+          const chain = transition.querySelector(".d3bp-outcome-chain");
+          if (chain) chain.after(merged);
+          else transition.append(merged);
+        }
+        setNarrativeText(merged.querySelector("small"), text.problem[0]);
+        setNarrativeText(merged.querySelector("p"), text.problem[1]);
+        bridge.classList.add("w1i-superseded-bridge");
+        bridge.hidden = true;
+      }
+
+      if (["AVANZAR · REFORMULAR · DETENER", "GO · REFRAME · STOP"].includes(title)) {
+        bridge.classList.add("w1i-decision-bridge");
+        setNarrativeText(label, text.decision[0]);
+        setNarrativeText(paragraph, text.decision[1]);
+      }
+    });
+  };
+
+  const ensureSourceExplanation = (figure, scene) => {
+    const explanation = figure.querySelector(".d4pr-heading > p")?.textContent;
+    if (explanation) {
+      setNarrativeText(scene.querySelector(".w1i-scene-copy"), explanation);
+    }
   };
 
   const ensureDiagramIntros = root => {
-    root.querySelectorAll(".w1f-transition").forEach(node => node.remove());
+    root.querySelectorAll(".w1f-transition").forEach(node => { node.hidden = true; });
     stories().forEach(story => {
       const figure = findFigure(root, story);
       if (!figure) return;
@@ -148,14 +208,16 @@
         scene.dataset.w1iFor = story.number;
         figure.before(scene);
       }
-      const signature = `${isEn() ? "en" : "es"}-${story.number}`;
+      const signature = `${isEn() ? "en" : "es"}-${story.number}-narrative-cleanup`;
       if (scene.dataset.w1iSignature !== signature) {
         scene.dataset.w1iSignature = signature;
-        scene.innerHTML = `<div><small>${story.eyebrow}</small>${["01", "02"].includes(story.number) ? "" : `<p class="w1i-scene-index">${isEn() ? "Diagram" : "Diagrama"} ${Number(story.number)}</p>`}<h3>${story.title}</h3><p class="w1i-scene-copy">${story.text}</p>${story.number === "01" ? `<p class="w1i-cue w1i-scene-cue">${isEn() ? "Now let us see how its parts connect." : "Ahora veamos cómo se conectan sus partes."}</p>` : ""}</div>`;
+        scene.innerHTML = `<div><small>${story.eyebrow}</small><h3>${story.title}</h3><p class="w1i-scene-copy">${story.text}</p>${story.number === "01" ? `<p class="w1i-cue w1i-scene-cue">${isEn() ? "Now let us see how its parts connect." : "Ahora veamos cómo se conectan sus partes."}</p>` : ""}</div>`;
       }
       if (story.number === "02") ensureInformationSystemNarrative(root, figure, scene);
-      if (story.number === "03") ensureBusinessProcessSummary(root, figure);
+      if (story.number === "03") ensureBusinessProcessNarrative(root, figure, scene);
+      if (story.number === "04") ensureSourceExplanation(figure, scene);
     });
+    ensureNarrativeBridges(root);
   };
 
   const render = () => {
@@ -193,5 +255,13 @@
   const boot = () => render();
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot, { once: true });
   else boot();
-  new MutationObserver(() => requestAnimationFrame(render)).observe(document.documentElement, { childList: true, subtree: true });
+  let renderPending = false;
+  new MutationObserver(() => {
+    if (renderPending) return;
+    renderPending = true;
+    requestAnimationFrame(() => {
+      renderPending = false;
+      render();
+    });
+  }).observe(document.documentElement, { childList: true, subtree: true, attributes: true, attributeFilter: ["lang"] });
 })();

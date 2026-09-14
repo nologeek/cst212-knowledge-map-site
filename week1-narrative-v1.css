@@ -318,8 +318,7 @@
 #week-1 .w1i-diagram-02 > .d2is-caption,
 #week-1 .d2is-transition-out .d2is-transition-inner > p,
 #week-1 .d2is-transition-out .d2is-transition-next,
-#week-1 .d3bp-transition-in h4,
-#week-1 .w1i-concept-scene[data-w1i-for="03"] {
+#week-1 .d3bp-transition-in h4 {
   display: none !important;
 }
 
@@ -360,12 +359,135 @@
   text-wrap: balance;
 }
 
-#week-1 .d3bp-heading .w1i-diagram-summary {
+#week-1 .w1i-concept-scene .w1i-scene-summary {
   max-width: 1040px;
   margin: 18px auto 24px;
   color: #c7dddf;
   font-size: clamp(1rem, 1.45vw, 1.4rem);
   line-height: 1.45;
   text-align: center;
+  text-wrap: balance;
+}
+
+/* Concept scenes carry the explanation; diagram headings retain their metadata.
+   Hide only repeated copy, leaving diagram controls and distinct subtitles intact. */
+#week-1 .w1i-concept-scene .w1i-scene-index,
+#week-1 .w1i-diagram-03 .d3bp-heading > h3,
+#week-1 .w1i-diagram-03 .d3bp-heading > .d3bp-primary,
+#week-1 .w1i-diagram-03 .d3bp-heading > .d3bp-intro,
+#week-1 .w1i-diagram-03 .d3bp-heading > .w1i-diagram-summary,
+#week-1 .w1i-diagram-04 .d4pr-heading > h3,
+#week-1 .w1i-diagram-04 .d4pr-heading > p,
+#week-1 :is(.w1i-diagram-05, .w1i-diagram-06, .w1i-diagram-07) .w1f-heading > h3 {
+  display: none !important;
+}
+
+#week-1 .w1i-diagram-03 .d3bp-heading,
+#week-1 .w1i-diagram-04 .d4pr-heading {
+  margin: 0 auto clamp(20px, 3svh, 32px);
+  text-align: center;
+}
+
+#week-1 .w1i-diagram-03 .d3bp-meta-row {
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+#week-1 .w1i-diagram-04 .d4pr-heading > strong {
+  display: block;
+  margin-top: 14px;
+  text-transform: none;
+}
+
+/* References stay stored in the DOM and in the pedagogical drawers. */
+#week-1 .lesson-diagram > figcaption,
+#week-1 .lesson-diagram > .diagram-caption,
+#week-1 .lesson-diagram > .d2is-caption,
+#week-1 .lesson-diagram > .d3bp-caption,
+#week-1 .lesson-diagram > .d4pr-caption,
+#week-1 .lesson-diagram > .w1f-caption,
+#week-1 .lesson-diagram > .week1-source-note,
+#week-1 .lesson-diagram > .w1f-source,
+#week-1 .lesson-diagram > .system-figure-note,
+#week-1 .w1i-superseded-bridge,
+#week-1 .w1f-transition[hidden],
+#week-1 .d3bp-transition-out .d3bp-transition-next {
+  display: none !important;
+}
+
+/* The underlying-problem question belongs to the existing investigation scene. */
+#week-1 .d3bp-transition-out .w1i-underlying-bridge {
+  max-width: 960px;
+  margin: clamp(24px, 4svh, 40px) auto 0;
+  text-align: center;
+}
+
+#week-1 .w1i-underlying-bridge > small {
+  display: block;
+  margin: 0;
+  color: #70ded8;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+#week-1 .w1i-underlying-bridge > p {
+  margin: 12px auto 0;
+  color: #edf8f7;
+  font-size: clamp(1.15rem, 2.1vw, 2rem);
+  font-weight: 400;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+
+/* The existing decision bridge becomes one clear viewport before synthesis. */
+#week-1 .diagram-bridge.w1i-decision-bridge {
+  box-sizing: border-box;
+  position: relative;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4svh, 44px);
+  width: 100%;
+  max-width: none;
+  min-height: 100svh;
+  margin: 0;
+  padding: clamp(48px, 8svh, 96px) clamp(22px, 6vw, 112px);
+  border: 0;
+  border-radius: 0;
+  background: transparent !important;
+  box-shadow: none;
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  text-align: center;
+}
+
+#week-1 .w1i-decision-bridge::before,
+#week-1 .w1i-decision-bridge::after {
+  display: none;
+}
+
+#week-1 .w1i-decision-bridge > strong {
+  display: block;
+  max-width: 1200px;
+  margin: 0;
+  color: #edf8f7;
+  font-size: clamp(1.8rem, 4.1vw, 4.5rem);
+  font-weight: 440;
+  letter-spacing: -0.035em;
+  line-height: 1.16;
+  text-transform: none;
+  text-wrap: balance;
+}
+
+#week-1 .w1i-decision-bridge > p {
+  max-width: 980px;
+  margin: 0;
+  color: #a8bfbe;
+  font-size: clamp(1.15rem, 2.1vw, 2.15rem);
+  font-weight: 350;
+  line-height: 1.45;
   text-wrap: balance;
 }

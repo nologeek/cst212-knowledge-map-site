@@ -215,10 +215,135 @@
     return '<span>' + T(messages[number]) + '</span><span><b>' + (isEnglish() ? 'SOURCE / LAYER' : 'FUENTE / CAPA') + '</b> ' + T(FOUNDATION) + '</span>';
   }
 
+  var aiLinkStates = new WeakMap();
+
+  function prepareAiLinkMap(figure, number) {
+    var stage = figure.querySelector('.w1f-stage');
+    var inner = stage && stage.querySelector('.w1f-stage-inner');
+    var original = inner && inner.querySelector(':scope > .w1f-ai-relations');
+    var control = stage && stage.querySelector('.w1f-lens-control');
+    if (!inner || !original || !control) return;
+    var byKey = function (key) { return '[data-w1f-detail="' + key + '"]'; };
+    var spec = {
+      '05': {
+        root: '.w1f-boundary-label', hub: '.w1f-tech-gateway .w1f-ai-node', source: '.w1f-tech-gateway > .w1f-node:not(.w1f-ai-node)',
+        base: ['.w1f-boundary-layout'],
+        rows: [
+          ['.w1f-boundary-core .is-scope'],
+          ['.w1f-boundary-core > button:nth-child(2)'],
+          ['.w1f-boundary-core > button:nth-child(3)'],
+          [byKey('d05_input'), 'd05_ai_input'],
+          [byKey('d05_interface'), 'd05_ai_interface'],
+          ['[data-w1f-ai="d05_ai_information"]', 'd05_ai_information'],
+          ['.w1f-boundary-core > button:nth-child(5)', 'd05_ai_governance'],
+          ['.w1f-boundary-core > button:nth-child(6)'],
+          [byKey('d05_technology')],
+          [byKey('d05_output')]
+        ]
+      },
+      '06': {
+        root: '.is-candidate', hub: '.w1f-tech-gateway .w1f-ai-node', source: byKey('d06_feasibility'),
+        base: ['.w1f-feasibility-map', '.w1f-tech-gateway', '.w1f-decision-flow', '.w1f-outcomes'],
+        rows: [
+          [byKey('d06_operational')], [byKey('d06_technical'), 'd06_ai_technical'],
+          [byKey('d06_economic'), 'd06_ai_economic'], [byKey('d06_schedule')],
+          [byKey('d06_alternatives'), 'd06_ai_alternatives'], [byKey('d06_risks'), 'd06_ai_risks'],
+          [byKey('d06_business'), 'd06_ai_business']
+        ]
+      },
+      '07': {
+        root: '.w1f-analyst', hub: '.w1f-analyst-rail .w1f-ai-node', source: null,
+        base: ['.w1f-journey', '.w1f-outcomes', '.w1f-analyst-rail'],
+        rows: [
+          [byKey('d07_need'), 'd07_continuous'], [byKey('d07_system')], [byKey('d07_process')],
+          [byKey('d07_signal'), 'd07_ai_signals'], [byKey('d07_investigation'), 'd07_ai_investigation'],
+          [byKey('d07_problem')], [byKey('d07_boundary')],
+          [byKey('d07_alternatives'), 'd07_ai_alternatives'], [byKey('d07_feasibility'), 'd07_ai_feasibility'],
+          [byKey('d07_business'), 'd07_ai_business'], [byKey('d07_decision')]
+        ]
+      }
+    }[number];
+    if (!spec) return;
+    var map = document.createElement('section');
+    map.className = 'w1f-ai-link-map';
+    map.hidden = true;
+    map.setAttribute('aria-label', T(config[number].aiQuestion));
+    map.innerHTML = '<div class="w1f-link-overview"></div><div class="w1f-link-environment"></div><div class="w1f-link-body"><div class="w1f-link-rows"></div><aside class="w1f-link-hub"><div class="w1f-link-source"></div><div class="w1f-link-controls"></div><div class="w1f-link-capability"></div></aside></div><div class="w1f-link-accountability"></div>';
+    var cloneInto = function (selector, destination, extraClass) {
+      var node = inner.querySelector(selector);
+      if (!node) return null;
+      var copy = node.cloneNode(true);
+      copy.removeAttribute('id');
+      if (extraClass) copy.classList.add(extraClass);
+      destination.appendChild(copy);
+      return copy;
+    };
+    cloneInto(spec.root, map.querySelector('.w1f-link-overview'), 'w1f-link-root');
+    if (spec.source) cloneInto(spec.source, map.querySelector('.w1f-link-source'));
+    cloneInto(spec.hub, map.querySelector('.w1f-link-capability'));
+    if (number === '05') {
+      inner.querySelectorAll('.w1f-external-zone').forEach(function (zone) {
+        map.querySelector('.w1f-link-environment').appendChild(zone.cloneNode(true));
+      });
+    }
+    spec.rows.forEach(function (entry) {
+      var node = inner.querySelector(entry[0]);
+      if (!node) return;
+      var row = document.createElement('div');
+      row.className = 'w1f-link-row' + (entry[1] ? ' has-ai-connection' : ' is-foundation-only');
+      row.innerHTML = '<div class="w1f-link-target"></div><div class="w1f-link-route"></div>';
+      cloneInto(entry[0], row.querySelector('.w1f-link-target'));
+      if (entry[1]) {
+        var relationship = original.querySelector(byKey(entry[1]));
+        if (relationship) {
+          var action = relationship.cloneNode(true);
+          action.classList.add('w1f-link-action');
+          var detail = details[entry[1]];
+          var value = detail && T(detail.changes || detail.aiCan || detail.why);
+          if (value) {
+            var explanation = document.createElement('span');
+            explanation.className = 'w1f-link-value';
+            explanation.textContent = value;
+            action.appendChild(explanation);
+          }
+          row.querySelector('.w1f-link-route').appendChild(action);
+          row.dataset.w1fRelation = entry[1];
+        }
+      }
+      map.querySelector('.w1f-link-rows').appendChild(row);
+    });
+    var accountability = map.querySelector('.w1f-link-accountability');
+    if (number === '06') {
+      accountability.appendChild(original.querySelector(byKey('d06_human')).cloneNode(true));
+      cloneInto('.w1f-outcomes', accountability);
+    }
+    if (number === '07') {
+      var analystCopy = inner.querySelector('.w1f-analyst-rail > p');
+      if (analystCopy) map.querySelector('.w1f-link-overview').appendChild(analystCopy.cloneNode(true));
+      accountability.appendChild(original.querySelector('.w1f-ai-decision-chain').cloneNode(true));
+      cloneInto('.w1f-outcomes', accountability);
+    }
+    var anchor = document.createComment('Per-diagram lens control returns here in BASE.');
+    control.before(anchor);
+    spec.base.forEach(function (selector) {
+      var node = inner.querySelector(':scope > ' + selector);
+      if (node) node.classList.add('w1f-base-layout');
+    });
+    original.classList.add('w1f-ai-original');
+    original.before(map);
+    aiLinkStates.set(figure, { map: map, control: control, anchor: anchor });
+  }
+
   function setLens(figure, active) {
     var stage = figure.querySelector('.w1f-stage');
     if (!stage) return;
     stage.classList.toggle('is-ai-lens', !!active);
+    var linkState = aiLinkStates.get(figure);
+    if (linkState) {
+      if (active) linkState.map.querySelector('.w1f-link-controls').appendChild(linkState.control);
+      else linkState.anchor.parentNode.insertBefore(linkState.control, linkState.anchor.nextSibling);
+      linkState.map.hidden = !active;
+    }
     figure.dataset.w1fLens = active ? 'ai' : 'base';
     var base = figure.querySelector('[data-w1fd-lens="base"]');
     var ai = figure.querySelector('[data-w1fd-lens="ai"]');
@@ -230,7 +355,7 @@
       ai.setAttribute('aria-pressed', active ? 'true' : 'false');
       ai.textContent = active ? (isEnglish() ? 'AI LENS ACTIVE' : 'CAPA IA ACTIVA') : (isEnglish() ? 'APPLY AI LENS' : 'APLICAR CAPA IA');
     }
-    figure.querySelectorAll('.w1f-ai-node, .w1f-ai-relations [data-w1f-detail]').forEach(function (node) {
+    figure.querySelectorAll('.w1f-ai-node, .w1f-ai-relations [data-w1f-detail], .w1f-ai-link-map [data-w1f-detail]').forEach(function (node) {
       node.setAttribute('aria-hidden', active ? 'false' : 'true');
       node.tabIndex = active ? 0 : -1;
     });
@@ -417,23 +542,95 @@
     } else {
       figure.insertAdjacentHTML('beforebegin', transitionMarkup(number));
     }
+    prepareAiLinkMap(figure, number);
     setLens(figure, preserveActiveLens);
     bind(figure);
     return true;
+  }
+
+  var nextWeekOpened = window.location.hash === '#week-2';
+
+  function prepareCourseBoundary() {
+    var week = document.getElementById('week-1');
+    var learn = document.getElementById('learnView');
+    var end = week && week.querySelector('.w1f-end-card');
+    if (!week || !learn || !end) return;
+    var hideFollowing = function (node) {
+      for (var following = node.nextElementSibling; following; following = following.nextElementSibling) {
+        if (following.id === 'week-2') continue;
+        if (!following.classList.contains('w1f-legacy-tail')) {
+          following.classList.add('w1f-legacy-tail');
+          following.hidden = true;
+        }
+      }
+    };
+    hideFollowing(end);
+    var branch = week;
+    while (branch && branch !== learn) {
+      hideFollowing(branch);
+      branch = branch.parentElement;
+    }
+    var next = document.getElementById('week-2');
+    if (!next) {
+      next = document.createElement('section');
+      next.id = 'week-2';
+      learn.appendChild(next);
+    }
+    // The old week marker lives inside the hidden legacy journey.
+    // Keep the new entry outside that tree without revealing old lessons.
+    if (next.parentElement !== learn) learn.appendChild(next);
+    next.classList.remove('native-week-marker', 'w1f-legacy-tail');
+    next.classList.add('w1f-next-week');
+    Array.prototype.forEach.call(next.children, function (node) {
+      if (!node.classList.contains('w1f-next-week-start')) {
+        node.classList.add('w1f-legacy-tail');
+        node.hidden = true;
+      }
+    });
+    var start = next.querySelector('.w1f-next-week-start');
+    if (!start) {
+      start = document.createElement('div');
+      start.className = 'w1f-next-week-start';
+      next.appendChild(start);
+    }
+    var language = isEnglish() ? 'en' : 'es';
+    if (start.dataset.language !== language) {
+      start.dataset.language = language;
+      start.innerHTML = '<small>' + (isEnglish() ? 'WEEK 2' : 'SEMANA 2') + '</small><h2 tabindex="-1">' + (isEnglish() ? 'Systems development with project management' : 'Desarrollo de sistemas con gestión de proyectos') + '</h2><p>' + (isEnglish() ? 'Content in preparation.' : 'Contenido en preparación.') + '</p><a class="w1f-next-week-back" href="#week-1">' + (isEnglish() ? 'Back to Week 1' : 'Volver a la semana 1') + '</a>';
+    }
+    if (next.hidden === nextWeekOpened) next.hidden = !nextWeekOpened;
+    var cta = end.querySelector('.w1f-next');
+    if (cta) cta.onclick = function (event) {
+      event.preventDefault();
+      nextWeekOpened = true;
+      next.hidden = false;
+      window.history.replaceState(null, '', '#week-2');
+      next.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      start.querySelector('h2').focus({ preventScroll: true });
+    };
+    start.querySelector('.w1f-next-week-back').onclick = function (event) {
+      event.preventDefault();
+      nextWeekOpened = false;
+      next.hidden = true;
+      window.history.replaceState(null, '', '#week-1');
+      end.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (cta) cta.focus({ preventScroll: true });
+    };
   }
 
   function mountEndCard(force) {
     var figure = findFigure('07');
     if (!figure) return;
     var existing = document.querySelector('#week-1 .w1f-end-card');
-    if (existing && !force) return;
+    if (existing && !force) { prepareCourseBoundary(); return; }
     var en = isEnglish();
-    var markup = '<section class="w1f-end-card"><div><small>' + (en ? 'WEEK 1 COMPLETE' : 'SEMANA 1 COMPLETADA') + '</small><h3>' + (en ? 'Systems planning' : 'Planeación de sistemas') + '</h3><p>' + (en ? 'Before designing a solution, we learned to understand the system, investigate the problem, assess alternatives and justify a decision.' : 'Antes de diseñar una solución, aprendimos a comprender el sistema, investigar el problema, evaluar alternativas y justificar una decisión.') + '</p><p class="w1f-end-ai">' + (en ? 'With AI we can expand our capacity to investigate and compare, but evidence, context and human accountability remain essential.' : 'Con IA podemos ampliar la capacidad de investigar y comparar, pero la evidencia, el contexto y la responsabilidad humana siguen siendo fundamentales.') + '</p><div class="w1f-next">' + (en ? 'NEXT · WEEK 2 · SYSTEMS DEVELOPMENT WITH PROJECT MANAGEMENT' : 'SIGUIENTE · SEMANA 2 · DESARROLLO DE SISTEMAS CON GESTIÓN DE PROYECTOS') + '</div></div></section>';
+    var markup = '<section class="w1f-end-card"><div><small>' + (en ? 'WEEK 1 COMPLETE' : 'SEMANA 1 COMPLETADA') + '</small><h3>' + (en ? 'Systems planning' : 'Planeación de sistemas') + '</h3><p>' + (en ? 'Before designing a solution, we learned to understand the system, investigate the problem, assess alternatives and justify a decision.' : 'Antes de diseñar una solución, aprendimos a comprender el sistema, investigar el problema, evaluar alternativas y justificar una decisión.') + '</p><p class="w1f-end-ai">' + (en ? 'With AI we can expand our capacity to investigate and compare, but evidence, context and human accountability remain essential.' : 'Con IA podemos ampliar la capacidad de investigar y comparar, pero la evidencia, el contexto y la responsabilidad humana siguen siendo fundamentales.') + '</p><a class="w1f-next" href="#week-2">' + (en ? 'Next: Week 2 · Systems development with project management' : 'Siguiente: Semana 2 · Desarrollo de sistemas con gestión de proyectos') + '</a></div></section>';
     if (existing) {
       var holder = document.createElement('div');
       holder.innerHTML = markup;
       existing.replaceWith(holder.firstElementChild);
     } else figure.insertAdjacentHTML('afterend', markup);
+    prepareCourseBoundary();
   }
 
   var mounting = false;
@@ -481,8 +678,9 @@
       timer = window.setTimeout(function () {
         if (!document.querySelector('#week-1 .w1f-stage[data-w1f-stage="05"]') || !document.querySelector('#week-1 .w1f-stage[data-w1f-stage="06"]') || !document.querySelector('#week-1 .w1f-stage[data-w1f-stage="07"]')) mountAll(true, true);
         else validateWeek1();
+        prepareCourseBoundary();
       }, 90);
-    }).observe(week, { childList: true, subtree: true });
+    }).observe(document.getElementById('learnView') || week, { childList: true, subtree: true });
     var languageObserver = new MutationObserver(refreshLanguage);
     languageObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['lang', 'class'] });
     if (document.body) languageObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });

@@ -1,0 +1,340 @@
+:root {
+  --atlas-max-width: 1520px;
+  --atlas-diagram-height: clamp(590px, 80vh, 820px);
+  --atlas-node-h: clamp(56px, 6.2vh, 76px);
+  --atlas-node-gap: clamp(8px, .8vw, 14px);
+  --atlas-section-gap: clamp(28px, 4.5vh, 52px);
+  --atlas-title-size: clamp(42px, 4.5vw, 72px);
+  --atlas-body-size: clamp(16px, 1.2vw, 20px);
+  --atlas-micro-size: clamp(11px, .72vw, 13px);
+  --atlas-line: rgba(112, 222, 216, .3);
+  --atlas-canvas: #031820;
+}
+
+html,
+body,
+#learnView,
+#atlasEditorial,
+#week-1.week1-final {
+  width: 100% !important;
+  max-width: none !important;
+  overflow-x: clip !important;
+}
+
+#week-1.week1-final {
+  background:
+    radial-gradient(circle at 50% 22%, rgba(84, 211, 203, .075), transparent 32%),
+    linear-gradient(180deg, #02141b 0%, #041d25 46%, #02151c 100%) !important;
+  background-attachment: local;
+}
+
+#week-1.week1-final .lesson-diagram,
+.d2is-transition-in,
+.d2is-transition-out,
+.d3bp-transition-in,
+.d3bp-transition-out {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#week-1.week1-final .lesson-diagram {
+  min-height: 0 !important;
+  isolation: isolate;
+}
+
+#week-1.week1-final .lesson-diagram::after {
+  bottom: calc(-1 * var(--atlas-section-gap)) !important;
+  height: calc(var(--atlas-section-gap) * 2) !important;
+  opacity: .46 !important;
+  background: linear-gradient(transparent, rgba(112,222,216,.5) 42%, rgba(240,195,77,.42) 58%, transparent) !important;
+}
+
+/* Shared scale: readable typography without oversized slide titles. */
+.d2is-heading h3,
+.d3bp-heading h3,
+.d4pr-heading h3 {
+  font-size: var(--atlas-title-size) !important;
+}
+
+.d1l-heading p:last-child,
+.d2is-heading p,
+.d3bp-intro,
+.d4pr-heading p {
+  font-size: var(--atlas-body-size) !important;
+}
+
+.d1l-kicker,
+.d2is-kicker,
+.d3bp-kicker,
+.d4pr-kicker,
+.d1l-component span,
+.d2is-component small,
+.d3bp-step small,
+.d4pr-node small {
+  font-size: var(--atlas-micro-size) !important;
+}
+
+/* Diagram 01: compact hierarchy with the AI gateway kept beside Technology. */
+.d1l-stage {
+  min-height: var(--atlas-diagram-height) !important;
+  padding: clamp(22px, 2.8vh, 34px) max(24px, calc((100vw - var(--atlas-max-width)) / 2)) clamp(28px, 3.5vh, 42px) !important;
+  background: transparent !important;
+}
+
+.d1l-heading {
+  width: min(var(--atlas-max-width), 100%) !important;
+  margin-bottom: 17px !important;
+}
+
+.d1l-heading h3 {
+  font-size: clamp(25px, 2vw, 36px) !important;
+}
+
+.d1l-map {
+  width: min(var(--atlas-max-width), 100%) !important;
+  min-height: 0 !important;
+  grid-template-columns: minmax(190px,.82fr) 48px minmax(250px,1fr) minmax(195px,.78fr) minmax(205px,.8fr) !important;
+  grid-template-rows: repeat(7, 60px) !important;
+  gap: 8px var(--atlas-node-gap) !important;
+}
+
+.d1l-components,
+.d1l-ai-relations {
+  grid-template-rows: repeat(7, 60px) !important;
+  gap: 8px !important;
+}
+
+.d1l-system {
+  min-height: 138px !important;
+  padding: 21px 23px !important;
+}
+
+.d1l-system strong,
+.d1l-ai strong {
+  font-size: clamp(22px, 1.7vw, 29px) !important;
+}
+
+.d1l-component {
+  min-height: var(--atlas-node-h) !important;
+  padding: 0 15px !important;
+  border-radius: 18px !important;
+}
+
+.d1l-component strong { font-size: clamp(14px, 1vw, 16px) !important; }
+.d1l-relation { min-height: 40px !important; padding: 6px 10px !important; }
+.d1l-ai { min-height: 102px !important; padding: 14px 16px !important; }
+.d1l-lens-control.d1l-lens-inline { min-height: 44px !important; }
+.d1l-impacts-wrap { width: min(1320px, calc(100% - 8vw)) !important; margin-top: 24px !important; }
+.d1l-impacts { gap: 10px !important; padding-top: 18px !important; }
+.d1l-impact { min-height: 66px !important; padding: 13px 15px !important; }
+.d1l-state { margin-top: 14px !important; }
+
+/* Diagram 02: one balanced component row and a compact Technology interior. */
+.d2is-figure {
+  min-height: 0 !important;
+  padding: clamp(36px, 4.5vh, 54px) max(24px, calc((100vw - var(--atlas-max-width)) / 2)) clamp(42px, 5vh, 62px) !important;
+}
+
+.d2is-heading,
+.d2is-stage,
+.d2is-caption { width: min(var(--atlas-max-width), 100%) !important; }
+.d2is-heading { margin-bottom: 22px !important; }
+.d2is-purpose { margin-bottom: 15px !important; padding: 11px 18px !important; }
+.d2is-system { min-height: 84px !important; margin-bottom: 40px !important; padding: 17px 20px !important; }
+.d2is-system::after { height: 41px !important; }
+.d2is-components { gap: var(--atlas-node-gap) !important; }
+.d2is-components::before { top: -21px !important; }
+.d2is-component { min-height: 112px !important; padding: 15px 16px !important; border-radius: 19px !important; }
+.d2is-component::before { height: 22px !important; }
+.d2is-component small { margin-bottom: 6px !important; }
+.d2is-component span { margin-top: 6px !important; }
+.d2is-technology { display: grid !important; grid-template-columns: repeat(2,minmax(0,1fr)); align-content: start; padding: 0 7px 7px !important; }
+.d2is-technology > .d2is-component,
+.d2is-technology > .d2is-technology-label,
+.d2is-technology > .d2is-lens-control { grid-column: 1 / -1; }
+.d2is-technology > .d2is-component { min-height: 58px !important; padding: 11px !important; }
+.d2is-technology-label { padding: 0 9px 5px !important; }
+.d2is-software,
+.d2is-ai-entry { width: calc(100% - 6px) !important; min-height: 42px !important; margin: 0 3px 7px !important; padding: 8px 9px !important; }
+.d2is-technology > .d2is-lens-control.d2is-lens-inline { margin: 2px auto 0 !important; }
+.d2is-rules { margin: 25px auto 21px !important; padding: 12px 19px !important; }
+.d2is-rules::before,
+.d2is-rules::after { height: 22px !important; }
+.d2is-outcome { padding: 15px 20px !important; }
+.d2is-deepening { margin-top: 18px !important; padding: 11px 16px !important; }
+.d2is-caption { margin-top: 22px !important; padding-top: 12px !important; }
+
+/* AI is an overlay in Diagram 02, never an extra vertical section. */
+.d2is-stage { position: relative; padding-bottom: 128px; }
+.d2is-ai-layer {
+  position: absolute !important;
+  right: 4% !important;
+  bottom: 0 !important;
+  left: 4% !important;
+  z-index: 8;
+  width: auto !important;
+  margin: 0 !important;
+  padding: 13px 15px !important;
+  border-radius: 20px !important;
+  background: rgba(4,25,32,.95) !important;
+  backdrop-filter: blur(16px);
+}
+.d2is-ai-question { margin-bottom: 9px !important; font-size: clamp(14px,1.1vw,17px) !important; }
+.d2is-ai-relations { gap: 8px !important; }
+.d2is-ai-relation { min-height: 58px !important; padding: 10px 12px !important; }
+
+/* Diagram 03: process remains primary; support and AI remain secondary. */
+.d3bp-figure {
+  min-height: 0 !important;
+  padding: clamp(38px, 4.8vh, 58px) 0 clamp(46px, 5.6vh, 68px) !important;
+}
+.d3bp-heading,
+.d3bp-stage,
+.d3bp-caption,
+.d3bp-transition-inner { width: min(var(--atlas-max-width), calc(100% - 48px)) !important; }
+.d3bp-meta-row { margin-bottom: 14px !important; }
+.d3bp-primary { margin-top: 9px !important; }
+.d3bp-intro { margin-top: 12px !important; }
+.d3bp-stage { position: relative; margin-top: 25px !important; padding-bottom: 132px; }
+.d3bp-toolrow { margin-bottom: 17px !important; }
+.d3bp-process-concept { min-width: 265px !important; padding: 11px 16px !important; }
+.d3bp-action { min-height: 44px !important; padding: 0 15px !important; }
+.d3bp-flow-wrap { padding: 17px 0 !important; }
+.d3bp-flow { gap: var(--atlas-node-gap) !important; }
+.d3bp-step { min-height: 104px !important; padding: 15px 13px !important; border-radius: 18px !important; }
+.d3bp-step small { margin-bottom: 7px !important; }
+.d3bp-step span { margin-top: 6px !important; }
+.d3bp-support-label { margin: 11px 0 8px !important; }
+.d3bp-support { gap: 9px !important; }
+.d3bp-support-node { min-height: 66px !important; padding: 11px 13px !important; border-radius: 16px !important; }
+.d3bp-support-node small { margin-bottom: 4px !important; }
+.d3bp-support-node span { margin-top: 3px !important; }
+.d3bp-principle { margin-top: 20px !important; padding: 13px 18px !important; }
+.d3bp-lens-gateway { margin: 15px auto 17px !important; }
+.d3bp-ai-preview { min-height: 48px !important; padding: 8px 14px !important; }
+.d3bp-status { margin-top: 12px !important; }
+.d3bp-caption { margin-top: 21px !important; padding-top: 12px !important; }
+
+/* AI is a shallow overlay in Diagram 03, inside the existing composition. */
+.d3bp-ai-layer {
+  position: absolute !important;
+  right: 2% !important;
+  bottom: 0 !important;
+  left: 2% !important;
+  z-index: 8;
+  margin: 0 !important;
+  padding: 12px 15px !important;
+  border: 1px solid rgba(112,222,216,.2) !important;
+  border-radius: 20px;
+  background: rgba(3,24,30,.95);
+  backdrop-filter: blur(16px);
+}
+.d3bp-ai-question { display: none !important; }
+.d3bp-ai-map { grid-template-columns: minmax(190px,.45fr) minmax(0,2fr) !important; gap: 12px !important; }
+.d3bp-ai-hub { min-height: 72px !important; padding: 12px 15px !important; }
+.d3bp-ai-hub small { margin-bottom: 5px !important; }
+.d3bp-ai-hub span { margin-top: 5px !important; }
+.d3bp-ai-relations { grid-template-columns: repeat(4,minmax(0,1fr)) !important; gap: 8px !important; }
+.d3bp-ai-relation { min-height: 64px !important; padding: 9px 11px !important; border-radius: 15px !important; }
+.d3bp-ai-rule { display: none !important; }
+
+/* Diagram 04: the path, not the card size, dominates. */
+.d4pr-figure {
+  min-height: 0 !important;
+  padding: clamp(36px,4.5vh,54px) 0 clamp(44px,5.2vh,62px) !important;
+}
+.d4pr-heading,
+.d4pr-stage,
+.d4pr-caption { width: min(var(--atlas-max-width), calc(100% - 5vw)) !important; }
+.d4pr-heading p { margin-top: 10px !important; }
+.d4pr-stage { margin-top: 20px !important; }
+.d4pr-flow-canvas { height: clamp(500px,58vh,620px) !important; min-height: 500px !important; }
+.d4pr-node { min-height: var(--atlas-node-h) !important; padding: 11px 14px !important; border-radius: 17px !important; }
+.d4pr-tech-rail { padding-left: 18px !important; }
+.d4pr-technology,
+.d4pr-ai-node { min-height: 64px !important; padding: 11px 13px !important; }
+.d4pr-tech-prompt { margin: 8px 0 !important; }
+.d4pr-lens-control { padding: 3px !important; }
+.d4pr-lens-control button { min-height: 36px !important; }
+.d4pr-touchpoints { margin-top: 9px !important; padding: 10px 12px !important; }
+.d4pr-review { margin-top: -18px !important; }
+.d4pr-caption { margin-top: 17px !important; padding-top: 11px !important; }
+
+/* Continuous hand-offs: compact transitions preserve the surviving concept. */
+.d2is-transition-in,
+.d2is-transition-out,
+.d3bp-transition-in,
+.d3bp-transition-out {
+  min-height: clamp(250px, 34vh, 360px) !important;
+  padding: clamp(34px, 5vh, 56px) 24px !important;
+}
+.d2is-transition-flow { gap: 16px !important; grid-template-columns: minmax(150px,1fr) 42px minmax(150px,1fr) 42px minmax(150px,1fr) !important; }
+.d2is-transition-node { min-height: 70px !important; padding: 15px !important; }
+.d2is-transition-in p,
+.d2is-transition-out p,
+.d3bp-transition-inner > p { margin-bottom: 16px !important; font-size: clamp(15px,1.3vw,19px) !important; }
+.d2is-transition-out h4,
+.d3bp-transition-inner > h4 { font-size: clamp(25px,3vw,42px) !important; }
+.d2is-transition-next,
+.d3bp-transition-next { margin-top: 18px !important; }
+.d3bp-component-field { margin-top: 22px !important; }
+.d3bp-process-expands { margin-top: 17px !important; }
+.d3bp-outcome-chain { margin-top: 20px !important; }
+.d3bp-outcome-chain span { min-width: 130px !important; padding: 11px 15px !important; }
+
+@media (max-width: 1100px) {
+  :root { --atlas-section-gap: 32px; }
+  .d1l-stage,
+  .d2is-figure,
+  .d3bp-figure,
+  .d4pr-figure { padding-inline: 20px !important; }
+  .d1l-stage,
+  .d2is-stage,
+  .d3bp-stage { padding-bottom: 42px; }
+  .d2is-ai-layer,
+  .d3bp-ai-layer { position: relative !important; right: auto !important; bottom: auto !important; left: auto !important; width: 100% !important; margin-top: 18px !important; }
+  .d3bp-ai-relations { grid-template-columns: repeat(2,minmax(0,1fr)) !important; }
+  .d4pr-flow-canvas { height: auto !important; min-height: 0 !important; }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --atlas-title-size: clamp(31px,10vw,48px);
+    --atlas-body-size: 15px;
+    --atlas-node-h: 62px;
+    --atlas-node-gap: 10px;
+  }
+  #week-1.week1-final .lesson-diagram::after { display: none; }
+  .d1l-stage,
+  .d2is-figure,
+  .d3bp-figure,
+  .d4pr-figure { min-height: 0 !important; padding: 42px 13px !important; }
+  .d1l-map { display: flex !important; gap: 10px !important; }
+  .d1l-impacts-wrap { width: 100% !important; }
+  .d2is-technology { grid-template-columns: 1fr; }
+  .d2is-technology > * { grid-column: 1 !important; }
+  .d2is-components,
+  .d3bp-flow { grid-template-columns: 1fr !important; }
+  .d3bp-stage { padding-bottom: 28px; }
+  .d3bp-ai-map,
+  .d3bp-ai-relations { grid-template-columns: 1fr !important; }
+  .d2is-transition-in,
+  .d2is-transition-out,
+  .d3bp-transition-in,
+  .d3bp-transition-out { min-height: 0 !important; padding: 42px 16px !important; }
+  .d2is-transition-flow { grid-template-columns: 1fr !important; }
+  .d2is-transition-arrow { transform: rotate(90deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #week-1.week1-final *,
+  #week-1.week1-final *::before,
+  #week-1.week1-final *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

@@ -202,15 +202,24 @@
   function setLens(active) {
     var stage = document.querySelector('.d1l-stage');
     if (!stage) return;
-    stage.classList.toggle('is-ai-lens', !!active);
+    if (active) stage.classList.add('is-ai-lens');
+    else stage.classList.remove('is-ai-lens');
+    stage.dataset.d1lLens = active ? 'ai' : 'base';
     var baseButton = stage.querySelector('[data-d1l-lens="base"]');
     var aiButton = stage.querySelector('[data-d1l-lens="ai"]');
+    var aiNode = stage.querySelector('.d1l-ai');
     if (baseButton) baseButton.setAttribute('aria-pressed', active ? 'false' : 'true');
     if (aiButton) {
       aiButton.setAttribute('aria-pressed', active ? 'true' : 'false');
       aiButton.textContent = T(active ? diagramConfig.aiLensState.active : diagramConfig.aiLensState.inactive);
     }
-    if (currentDetail) renderModal(currentDetail);
+    if (aiNode) aiNode.dataset.aiState = active ? 'on' : 'off';
+    stage.querySelectorAll('.d1l-ai-only:not(.d1l-ai)').forEach(function (node) {
+      node.setAttribute('aria-hidden', active ? 'false' : 'true');
+      if (node.matches('button')) node.tabIndex = active ? 0 : -1;
+    });
+    if (currentDetail && !active && details[currentDetail] && details[currentDetail].aiFirst) closeModal();
+    else if (currentDetail) renderModal(currentDetail);
   }
   function mount() {
     var oldStage = document.querySelector('.d1l-stage, .d1c-stage, .d1-stage');
@@ -219,6 +228,7 @@
     holder.innerHTML = markup();
     oldStage.replaceWith(holder.firstElementChild);
     setLens(false);
+    bindDirectControls(document.querySelector('.d1l-stage'));
     window.requestAnimationFrame(initFluidMotion);
     return true;
   }
@@ -256,10 +266,23 @@
     holder.innerHTML = modalMarkup(key);
     while (holder.firstChild) document.body.appendChild(holder.firstChild);
     var close = document.querySelector('.d1l-modal-close');
+    document.querySelectorAll('[data-d1l-close="true"]').forEach(function (node) {
+      node.onclick = function (event) { event.preventDefault(); closeModal(); };
+    });
     if (close) close.focus({ preventScroll: true });
   }
 
-  document.addEventListener('click', function (event) {
+  function bindDirectControls(root) {
+    if (!root) return;
+    root.querySelectorAll('.d1l-open[data-detail]').forEach(function (node) {
+      node.onclick = function (event) { event.preventDefault(); renderModal(node.getAttribute('data-detail')); };
+    });
+    root.querySelectorAll('[data-d1l-lens]').forEach(function (node) {
+      node.onclick = function (event) { event.preventDefault(); setLens(node.getAttribute('data-d1l-lens') === 'ai'); };
+    });
+  }
+
+  window.addEventListener('click', function (event) {
     var lensButton = event.target.closest('[data-d1l-lens]');
     if (lensButton) {
       event.preventDefault();

@@ -15,8 +15,8 @@
     id: "diagram03-business-processes",
     baseState: B("BASE · CÓMO FLUYE EL TRABAJO", "BASE · HOW WORK FLOWS"),
     aiLensState: {
-      inactive: B("✦ APLICAR CAPA IA", "✦ APPLY AI LENS"),
-      active: B("✦ CAPA IA ACTIVA", "✦ AI LENS ACTIVE")
+      inactive: B("APLICAR CAPA IA", "APPLY AI LENS"),
+      active: B("CAPA IA ACTIVA", "AI LENS ACTIVE")
     },
     aiRelationships: [
       { key: "ai-input", action: B("CLASIFICAR", "CLASSIFY") },
@@ -188,11 +188,11 @@
   }
 
   function flowButton(key, label, hint, hka, step, extra) {
-    return '<button type="button" class="d3bp-step d3bp-open ' + (extra || '') + '" style="--step:' + step + '" data-d3bp-detail="' + key + '"><small>0' + (step + 1) + ' · CST212</small><strong class="d3bp-base-copy">' + label + '</strong><strong class="d3bp-hka-copy">' + hka + '</strong><span>' + hint + '</span></button>';
+    return '<button type="button" class="d3bp-step d3bp-open ' + (extra || '') + '" style="--step:' + step + '" data-d3bp-detail="' + key + '"><strong class="d3bp-base-copy">' + label + '</strong><strong class="d3bp-hka-copy">' + hka + '</strong><span>' + hint + '</span></button>';
   }
 
   function supportButton(key, label, hint, extra) {
-    return '<button type="button" class="d3bp-support-node d3bp-open ' + (extra || '') + '" data-d3bp-detail="' + key + '"><small>CST212 FOUNDATION</small><strong>' + label + '</strong><span>' + hint + '</span></button>';
+    return '<button type="button" class="d3bp-support-node d3bp-open ' + (extra || '') + '" data-d3bp-detail="' + key + '"><strong>' + label + '</strong><span>' + hint + '</span></button>';
   }
 
   function headingMarkup() {
@@ -202,24 +202,25 @@
 
   function stageMarkup() {
     var en = isEnglish();
+    var relationRows = { "ai-input": 1, "ai-information": 2, "ai-decision": 3, "ai-activity": 4 };
     var relations = diagramConfig.aiRelationships.map(function (item) {
       var gate = item.key === "ai-decision" ? '<em>' + (en ? 'HUMAN GATE' : 'VALIDACIÓN HUMANA') + '</em>' : '';
-      return '<button type="button" class="d3bp-ai-relation d3bp-open" data-d3bp-detail="' + item.key + '"><small>AI-FIRST EXTENSION</small><strong>' + T(details[item.key].title) + '</strong><span>' + T(item.action) + '</span>' + gate + '</button>';
+      return '<button type="button" class="d3bp-ai-relation d3bp-open" data-ai-row="' + relationRows[item.key] + '" data-d3bp-detail="' + item.key + '"><strong>' + T(details[item.key].title) + '</strong><span>' + T(item.action) + '</span>' + gate + '</button>';
     }).join('');
-    return '<div class="d3bp-stage" data-diagram03="true"><div class="d3bp-toolrow"><button type="button" class="d3bp-process-concept d3bp-open" data-d3bp-detail="process"><small>CST212 FOUNDATION</small><strong>' + (en ? 'BUSINESS PROCESS' : 'PROCESO DE NEGOCIO') + '</strong></button><div class="d3bp-actions"><button type="button" class="d3bp-action" data-d3bp-follow="true">▶ ' + (en ? 'FOLLOW THE PROCESS' : 'SEGUIR EL PROCESO') + '</button><button type="button" class="d3bp-action" data-d3bp-hka="true" aria-pressed="false">▶ ' + (en ? 'VIEW HKA EXAMPLE' : 'VER EJEMPLO HKA') + '</button></div></div><div class="d3bp-flow-wrap"><div class="d3bp-work-unit" aria-hidden="true"></div><div class="d3bp-flow">' +
+    return '<div class="d3bp-stage" data-diagram03="true"><div class="d3bp-toolrow"><div class="d3bp-actions"><button type="button" class="d3bp-action" data-d3bp-follow="true">▶ ' + (en ? 'FOLLOW THE PROCESS' : 'SEGUIR EL PROCESO') + '</button><button type="button" class="d3bp-action" data-d3bp-hka="true" aria-pressed="false">▶ ' + (en ? 'VIEW HKA EXAMPLE' : 'VER EJEMPLO HKA') + '</button></div></div><div class="d3bp-linear-map"><button type="button" class="d3bp-process-concept d3bp-open" data-d3bp-detail="process"><strong>' + (en ? 'BUSINESS PROCESS' : 'PROCESO DE NEGOCIO') + '</strong><span>' + (en ? 'WORK → OUTCOME → VALUE' : 'TRABAJO → RESULTADO → VALOR') + '</span></button><div class="d3bp-process-link" aria-hidden="true"></div><div class="d3bp-flow-wrap"><div class="d3bp-work-unit" aria-hidden="true"></div><div class="d3bp-flow">' +
       flowButton('input', en ? 'INPUT' : 'ENTRADA', en ? 'Starts the work' : 'Inicia el trabajo', en ? 'Customer request' : 'Solicitud del cliente', 0, 'is-input') +
       flowButton('activity', en ? 'ACTIVITY' : 'ACTIVIDAD', en ? 'Transforms' : 'Transforma', en ? 'Register request' : 'Registrar solicitud', 1, 'is-activity') +
       flowButton('decision', en ? 'DECISION' : 'DECISIÓN', en ? 'Opens a path' : 'Abre un camino', en ? 'Kayak available?' : '¿Kayak disponible?', 2, 'is-decision') +
       flowButton('activity', en ? 'ACTIVITY' : 'ACTIVIDAD', en ? 'Advances the work' : 'Avanza el trabajo', en ? 'Assign kayak' : 'Asignar kayak', 3, 'is-activity') +
       flowButton('outcome', en ? 'OUTCOME' : 'RESULTADO', en ? 'What was produced?' : '¿Qué se produjo?', en ? 'Reservation confirmed' : 'Reserva confirmada', 4, 'is-outcome') +
       flowButton('value', en ? 'VALUE' : 'VALOR', en ? 'Why does it matter?' : '¿Por qué importa?', en ? 'Reliable reservation' : 'Reserva confiable', 5, 'is-value') +
-      '</div></div><p class="d3bp-support-label">' + (en ? 'ELEMENTS THAT SUPPORT AND GOVERN THE FLOW' : 'ELEMENTOS QUE APOYAN Y GOBIERNAN EL FLUJO') + '</p><div class="d3bp-support">' +
+      '</div></div><div class="d3bp-ai-relations">' + relations + '</div><div class="d3bp-ai-column"><div class="d3bp-lens-gateway"><div class="d3bp-ai-preview"><small>TECHNOLOGY → AI</small><strong><span class="is-off">IA · OFF</span><span class="is-on">IA · ON</span></strong></div></div><button type="button" class="d3bp-ai-hub d3bp-open d3bp-ai-only" data-d3bp-detail="ai-overview"><strong>' + (en ? 'ARTIFICIAL INTELLIGENCE' : 'INTELIGENCIA ARTIFICIAL') + '</strong><span>' + (en ? 'ADDITIONAL TECHNOLOGICAL CAPABILITY' : 'CAPACIDAD TECNOLÓGICA ADICIONAL') + '</span></button><button type="button" class="d3bp-ai-rule d3bp-open d3bp-ai-only" data-d3bp-detail="ai-deepening">' + (en ? 'PROCESS FIRST · AI SECOND · REVIEW CANDIDATE INTERVENTION POINTS' : 'PROCESO PRIMERO · IA DESPUÉS · REVISAR PUNTOS CANDIDATOS DE INTERVENCIÓN') + '</button></div></div><p class="d3bp-ai-question d3bp-ai-only">' + (en ? 'WHERE CAN AI ADD VALUE INSIDE THE PROCESS?' : '¿EN QUÉ PARTES DEL PROCESO PUEDE LA IA APORTAR VALOR?') + '</p><p class="d3bp-support-label">' + (en ? 'ELEMENTS THAT SUPPORT AND GOVERN THE FLOW' : 'ELEMENTOS QUE APOYAN Y GOBIERNAN EL FLUJO') + '</p><div class="d3bp-support">' +
       supportButton('people', en ? 'People / Roles' : 'Personas / Roles', en ? 'Who does what?' : '¿Quién hace qué?') +
       supportButton('information', en ? 'Information' : 'Información', en ? 'What must be known?' : '¿Qué debemos saber?') +
       supportButton('rules', en ? 'Rules' : 'Reglas', en ? 'What must be met?' : '¿Qué debe cumplirse?') +
       supportButton('resources', en ? 'Resources' : 'Recursos', en ? 'What is needed?' : '¿Qué se necesita?') +
       supportButton('technology', en ? 'Technology' : 'Tecnología', en ? 'What supports the work?' : '¿Qué apoya el trabajo?', 'is-technology') +
-      '</div><button type="button" class="d3bp-principle d3bp-open" data-d3bp-detail="modeling"><strong>' + (en ? 'PROCESS ≠ SOFTWARE.' : 'PROCESO ≠ SOFTWARE.') + '</strong> ' + (en ? 'If we do not understand the current process, we may end up automating a bad process.' : 'Si no entendemos el proceso actual, podemos terminar automatizando un proceso deficiente.') + '</button><section class="d3bp-ai-layer" aria-label="' + (en ? 'Diagram 03 AI Lens' : 'Capa IA del Diagrama 03') + '"><p class="d3bp-ai-question">' + (en ? 'WHERE CAN AI ADD VALUE INSIDE THE PROCESS?' : '¿EN QUÉ PARTES DEL PROCESO PUEDE LA IA APORTAR VALOR?') + '</p><div class="d3bp-ai-map"><button type="button" class="d3bp-ai-hub d3bp-open" data-d3bp-detail="ai-overview"><small>AI-FIRST EXTENSION</small><strong>' + (en ? 'ARTIFICIAL INTELLIGENCE' : 'INTELIGENCIA ARTIFICIAL') + '</strong><span>' + (en ? 'ADDITIONAL TECHNOLOGICAL CAPABILITY' : 'CAPACIDAD TECNOLÓGICA ADICIONAL') + '</span></button><div class="d3bp-ai-relations">' + relations + '</div></div><button type="button" class="d3bp-ai-rule d3bp-open" data-d3bp-detail="ai-deepening">' + (en ? 'PROCESS FIRST · AI SECOND · REVIEW CANDIDATE INTERVENTION POINTS' : 'PROCESO PRIMERO · IA DESPUÉS · REVISAR PUNTOS CANDIDATOS DE INTERVENCIÓN') + '</button></section><p class="d3bp-status" role="status" aria-live="polite"></p></div>';
+      '</div><button type="button" class="d3bp-principle d3bp-open" data-d3bp-detail="modeling"><strong>' + (en ? 'PROCESS ≠ SOFTWARE.' : 'PROCESO ≠ SOFTWARE.') + '</strong> ' + (en ? 'If we do not understand the current process, we may end up automating a bad process.' : 'Si no entendemos el proceso actual, podemos terminar automatizando un proceso deficiente.') + '</button><p class="d3bp-status" role="status" aria-live="polite"></p></div>';
   }
 
   function getFigure() {
@@ -325,6 +326,7 @@
     caption.innerHTML = '<span>' + (isEnglish() ? 'A process connects work to a useful outcome. Technology may support it, but it does not define it.' : 'Un proceso conecta el trabajo con un resultado útil. La tecnología puede apoyarlo, pero no lo define.') + '</span><span><b>' + (isEnglish() ? 'SOURCE' : 'FUENTE') + '</b> ' + FOUNDATION_SOURCE + '</span>';
     prepareTransitions(figure);
     setLens(false);
+    bindDirectControls(figure.querySelector('.d3bp-stage'));
     return true;
   }
 
@@ -355,7 +357,7 @@
     grid += section(en ? 'IMPORTANT' : 'IMPORTANTE', paragraph(d.important), d.layer === 'ai' ? 'is-ai' : 'is-important');
     grid += section(en ? 'MEMORY HOOK' : 'REGLA PARA RECORDAR', paragraph(d.memory), d.layer === 'ai' ? 'is-ai' : 'is-important');
     grid += section(en ? 'SOURCE / LAYER' : 'FUENTE / CAPA', '<p>' + layerSource(d.layer) + '</p>');
-    return '<div class="d3bp-backdrop" data-d3bp-close="true"></div><article class="d3bp-modal" role="dialog" aria-modal="true" aria-labelledby="d3bp-modal-title"><button type="button" class="d3bp-modal-close" data-d3bp-close="true" aria-label="' + (en ? 'Close' : 'Cerrar') + '">×</button><header class="d3bp-modal-head"><span class="d3bp-badge' + badgeClass + '">' + T(layerBadge(d.layer)) + '</span><h4 id="d3bp-modal-title">' + T(d.title) + '</h4></header><div class="d3bp-modal-grid">' + grid + '</div></article>';
+    return '<div class="d3bp-backdrop" data-d3bp-close="true"></div><article class="d3bp-modal" role="dialog" aria-modal="true" aria-labelledby="d3bp-modal-title"><button type="button" class="d3bp-modal-close" data-d3bp-close="true" aria-label="' + (en ? 'Close' : 'Cerrar') + '">×</button><header class="d3bp-modal-head"><h4 id="d3bp-modal-title">' + T(d.title) + '</h4></header><div class="d3bp-modal-grid">' + grid + '</div></article>';
   }
 
   function closeModal() {
@@ -370,10 +372,27 @@
     holder.innerHTML = modalMarkup(key);
     while (holder.firstChild) document.body.appendChild(holder.firstChild);
     var close = document.querySelector('.d3bp-modal-close');
+    document.querySelectorAll('[data-d3bp-close="true"]').forEach(function (node) {
+      node.onclick = function (event) { event.preventDefault(); closeModal(); };
+    });
     if (close) close.focus({ preventScroll: true });
   }
 
-  document.addEventListener('click', function (event) {
+  function bindDirectControls(root) {
+    if (!root) return;
+    root.querySelectorAll('.d3bp-open[data-d3bp-detail]').forEach(function (node) {
+      node.onclick = function (event) { event.preventDefault(); renderModal(node.getAttribute('data-d3bp-detail')); };
+    });
+    root.querySelectorAll('[data-d3bp-lens]').forEach(function (node) {
+      node.onclick = function (event) { event.preventDefault(); setLens(node.getAttribute('data-d3bp-lens') === 'ai'); };
+    });
+    var follow = root.querySelector('[data-d3bp-follow]');
+    if (follow) follow.onclick = function (event) { event.preventDefault(); runProcess(); };
+    var hka = root.querySelector('[data-d3bp-hka]');
+    if (hka) hka.onclick = function (event) { event.preventDefault(); toggleHka(); };
+  }
+
+  window.addEventListener('click', function (event) {
     var lens = event.target.closest('[data-d3bp-lens]');
     if (lens) {
       event.preventDefault();

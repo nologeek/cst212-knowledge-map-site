@@ -18,7 +18,7 @@
             <span class="cover-v2__identity"><span class="cover-v2__identity-label">Estudiante</span><strong>Víctor Manuel Ayala Vargas</strong></span>
           </div>
         </div>
-        <p class="cover-v2__progress"><strong>2026</strong><span class="cover-v2__progress-dot" aria-hidden="true"></span><strong>Progreso actual: Semana 3 de 7</strong></p>
+        <p class="cover-v2__progress"><strong>2026</strong><span class="cover-v2__progress-dot" aria-hidden="true"></span><strong>Progreso actual: Semana 4 de 7</strong></p>
       </div>`;
   };
 

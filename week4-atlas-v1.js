@@ -206,6 +206,7 @@
     }
     return host;
   }
+  let initialLanding = /^#(?:week-4|w4-diagram-)/.test(location.hash);
   function route() {
     const hash = location.hash;
     if (hash === '#week-4' || hash.startsWith('#w4-diagram-')) {
@@ -219,7 +220,20 @@
     new MutationObserver(() => {
       if (scheduled) return;
       scheduled = true;
-      requestAnimationFrame(() => { scheduled = false; const host = ensure(); if (host && location.hash === '#week-4') showWeek4(false); });
+      requestAnimationFrame(() => {
+        scheduled = false;
+        const host = ensure();
+        if (host && (location.hash === '#week-4' || location.hash.startsWith('#w4-diagram-'))) {
+          showWeek4(false);
+          if (initialLanding) {
+            initialLanding = false;
+            window.setTimeout(() => {
+              const target = location.hash.startsWith('#w4-diagram-') ? document.getElementById(location.hash.slice(1)) : host;
+              target?.scrollIntoView({ behavior:'auto', block:'start' });
+            }, 150);
+          }
+        }
+      });
     }).observe(document.body,{childList:true,subtree:true});
     window.addEventListener('hashchange',route);
     window.addEventListener('resize', () => document.querySelectorAll('#week-4-journey .w4-figure[data-lens="ai"]').forEach(drawSoon), { passive:true });

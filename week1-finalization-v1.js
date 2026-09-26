@@ -600,7 +600,11 @@
       start.dataset.language = language;
       start.innerHTML = '<small>' + (isEnglish() ? 'WEEK 2' : 'SEMANA 2') + '</small><h2 tabindex="-1">' + (isEnglish() ? 'Systems development with project management' : 'Desarrollo de sistemas con gestión de proyectos') + '</h2><p>' + (isEnglish() ? 'Content in preparation.' : 'Contenido en preparación.') + '</p><a class="w1f-next-week-back" href="#week-1">' + (isEnglish() ? 'Back to Week 1' : 'Volver a la semana 1') + '</a>';
     }
-    if (next.hidden === nextWeekOpened) next.hidden = !nextWeekOpened;
+    // Week 4 owns its view: do not let the Week 1 boundary reopen Week 2.
+    // Reopening it changes the page height while the learner uses Week 4 controls.
+    if (/^#(?:week-4|w4-diagram-)/.test(window.location.hash)) {
+      if (!next.hidden) next.hidden = true;
+    } else if (next.hidden === nextWeekOpened) next.hidden = !nextWeekOpened;
     var cta = end.querySelector('.w1f-next');
     if (cta) cta.onclick = function (event) {
       event.preventDefault();

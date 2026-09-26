@@ -358,6 +358,7 @@
     return host;
   }
 
+  let initialLanding = /^#(?:week-3|w3-diagram-)/.test(location.hash);
   function route() {
     if (location.hash === '#week-3' || location.hash.indexOf('#w3-diagram-') === 0) {
       showWeek3(false);
@@ -373,7 +374,16 @@
       requestAnimationFrame(() => {
         scheduled = false;
         const host = ensure();
-        if (host && location.hash === '#week-3' && host.hidden) { host.hidden = false; scrollToElement(host); }
+        if (host && (location.hash === '#week-3' || location.hash.indexOf('#w3-diagram-') === 0)) {
+          if (host.hidden) host.hidden = false;
+          if (initialLanding) {
+            initialLanding = false;
+            window.setTimeout(() => {
+              const target = location.hash.indexOf('#w3-diagram-') === 0 ? document.getElementById(location.hash.slice(1)) : host;
+              target?.scrollIntoView({ behavior: 'auto', block: 'start' });
+            }, 150);
+          }
+        }
       });
     }).observe(document.body, { childList: true, subtree: true });
     window.addEventListener('hashchange', route);

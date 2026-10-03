@@ -1,0 +1,46 @@
+/* CST212 visual system: polish the existing editorial learning journey. */
+:root {
+  --visual-focus: #ffe39a;
+  --visual-ink: #eaf8f8;
+  --visual-muted: #b4ccd0;
+  --visual-rule: rgba(92, 211, 205, .35);
+}
+
+html { scroll-behavior: smooth; }
+body { color: var(--visual-ink); text-rendering: optimizeLegibility; }
+button, input, a, [role="button"] { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, [role="button"]:focus-visible {
+  outline: 3px solid var(--visual-focus);
+  outline-offset: 4px;
+}
+
+.view-pane.is-active { scrollbar-color: rgba(92, 211, 205, .55) transparent; }
+.topbar { border-bottom-color: var(--visual-rule); }
+.topbar .view-tab { transition: border-color .18s ease, background-color .18s ease; }
+.topbar .view-tab:not(.is-active):hover { background: rgba(57, 208, 200, .17); }
+.eyebrow, .region-number { letter-spacing: .12em; }
+.journey-intro h2, .architecture-head h2, .region-heading h2 { text-wrap: balance; }
+.journey-intro p, .architecture-head p, .region-heading p { color: var(--visual-muted); line-height: 1.6; }
+.canvas-node, .feasibility-node, .industry-source-node, .signal-source {
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.canvas-node:focus-visible, .feasibility-node:focus-visible, .industry-source-node:focus-visible {
+  border-color: var(--visual-focus);
+  box-shadow: 0 0 0 4px rgba(255, 227, 154, .18);
+}
+.detail-panel { border-left-color: var(--visual-rule); }
+.detail-panel dt { color: #8ce5df; }
+.detail-panel dd { color: var(--visual-ink); }
+
+@media (max-width: 760px) {
+  html { scroll-behavior: auto; }
+  .topbar { gap: 1rem; padding: 1rem; }
+  .topbar-actions { flex-wrap: wrap; }
+  .topbar .view-tab { min-height: 44px; }
+  .learning-view, .system-view, .universe-view { padding-inline: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

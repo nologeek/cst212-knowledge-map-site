@@ -557,7 +557,7 @@
     if (!week || !learn || !end) return;
     var hideFollowing = function (node) {
       for (var following = node.nextElementSibling; following; following = following.nextElementSibling) {
-        if (following.id === 'week-2' || following.id === 'week-3-journey' || following.id === 'week-4-journey') continue;
+        if (['week-2', 'week-3-journey', 'week-4-journey', 'week-5-journey', 'week-6-journey'].includes(following.id)) continue;
         if (!following.classList.contains('w1f-legacy-tail')) {
           following.classList.add('w1f-legacy-tail');
           following.hidden = true;
@@ -602,7 +602,7 @@
     }
     // Week 4 owns its view: do not let the Week 1 boundary reopen Week 2.
     // Reopening it changes the page height while the learner uses Week 4 controls.
-    if (/^#(?:week-4|w4-diagram-)/.test(window.location.hash)) {
+    if (/^#(?:week-[4567]|w[4567]-diagram-)/.test(window.location.hash) || window.location.hash === '#week-1') {
       if (!next.hidden) next.hidden = true;
     } else if (next.hidden === nextWeekOpened) next.hidden = !nextWeekOpened;
     var cta = end.querySelector('.w1f-next');

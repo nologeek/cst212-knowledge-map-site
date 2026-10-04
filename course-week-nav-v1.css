@@ -1,0 +1,58 @@
+.course-week-nav {
+  position: fixed;
+  z-index: 200;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  max-width: calc(100vw - 24px);
+  padding: 8px 10px 8px 18px;
+  border: 1px solid rgba(112, 213, 208, .32);
+  border-radius: 24px;
+  background: rgba(2, 20, 27, .92);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, .35), inset 0 1px rgba(255, 255, 255, .07);
+  backdrop-filter: blur(18px);
+  color: #e9f4f2;
+  font-family: sans-serif;
+}
+.course-week-nav-title {
+  flex: none;
+  color: #70d5d0;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+.course-week-nav-list { display: flex; gap: 3px; overflow-x: auto; scrollbar-width: none; }
+.course-week-nav-list::-webkit-scrollbar { display: none; }
+.course-week-nav-list button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: none;
+  padding: 10px 11px;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  background: transparent;
+  color: #b6c9cb;
+  font: inherit;
+  font-size: .75rem;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.course-week-nav-list button:hover:not(:disabled),
+.course-week-nav-list button:focus-visible { color: #fff; border-color: rgba(112, 213, 208, .5); background: rgba(112, 213, 208, .1); }
+.course-week-nav-list button[aria-current="page"] { color: #021b22; background: #70d5d0; font-weight: 700; }
+.course-week-nav-list button:disabled { opacity: .34; cursor: not-allowed; }
+.course-week-nav-number { font-variant-numeric: tabular-nums; }
+#learnView { padding-bottom: 96px; }
+@media (max-width: 880px) {
+  .course-week-nav { width: max-content; padding: 7px; border-radius: 19px; }
+  .course-week-nav-title, .course-week-nav-name { display: none; }
+  .course-week-nav-list button { min-width: 43px; justify-content: center; padding: 10px 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .course-week-nav-list button { transition: none; }
+}
